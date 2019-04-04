@@ -14,10 +14,28 @@
  * limitations under the License.
  */
 
-provider "google" {}
+provider "google" {
+  version = "~> 2.0"
+  region  = "${var.region}"
+}
 
-module "vpc-service-controls" {
-  source      = "../../"
-  project_id  = "${var.project_id}"
-  bucket_name = "${var.bucket_name}"
+module "org-policy" {
+  source      = "../../modules/policy"
+  parent_id   = "111111"
+  policy_name = "org-policy"
+}
+
+module "regular-service-perimeter-1" {
+  source         = "../../modules/regular_service_perimeter"
+  policy         = "${module.org-policy.policy_name}"
+  perimeter_name = "regular-perimeter-1"
+  description    = "Some description"
+  resources      = []
+
+  #restricted_services = [*]
+  #access_levels = ["${module.access-level-device-lock.link}”, "${module.access_level_2.link}”]
+  shared_resources = {
+    all     = ["protected-project-id-3", "protected-project-3"]
+    special = ["protected-project-4"]
+  }
 }
