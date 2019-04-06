@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
-output "bucket_name" {
-  value = "${module.vpc-service-controls.default_bucket_name}"
+output "parent_id" {
+  value = "${var.parent_id}"
+}
+output "policy_name" {
+  value = "${var.policy_name}"
 }

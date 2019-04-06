@@ -17,6 +17,11 @@
 // These outputs are used to test the module with inspec
 // They do not need to be included in real-world uses of this module
 
-output "project_id" {
-  value = "${var.project_id}"
+
+output "parent_id" {
+  value = "${var.parent_id}"
 }
+output "policy_name" {
+  value = "${var.policy_name}"
+}
+

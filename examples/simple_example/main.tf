@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 2.0"
-  region  = "${var.region}"
+provider "google-beta" {
+  version = "~> 2.3"
+  #region  = "${var.region}"
+  credentials = "${file("./credentials.json")}"
 }
 
 module "org-policy" {
   source      = "../../modules/policy"
-  parent_id   = "111111"
-  policy_name = "org-policy"
+  parent_id   = "${var.parent_id}"
+  policy_name = "${var.policy_name}"
 }
 
 module "regular-service-perimeter-1" {
   source         = "../../modules/regular_service_perimeter"
-  policy         = "${module.org-policy.policy_name}"
-  perimeter_name = "regular-perimeter-1"
+  policy         = "${module.org-policy.policy_id}"
+  perimeter_name = "regular_perimeter_1"
   description    = "Some description"
-  resources      = []
+  resources      = ["743286545054"]
 
-  #restricted_services = [*]
+  restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
   #access_levels = ["${module.access-level-device-lock.link}”, "${module.access_level_2.link}”]
   shared_resources = {
-    all     = ["protected-project-id-3", "protected-project-3"]
-    special = ["protected-project-4"]
+    all     = ["743286545054"]
   }
 }
