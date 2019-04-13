@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-variable "project_id" {
-  description = "The project ID to deploy to"
+variable "parent_id" {
+  description = "(Required) The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent."
 }
 
-variable "bucket_name" {
-  description = "The name of the bucket to create"
+variable "policy_name" {
+  description = "The policy's name."
 }
