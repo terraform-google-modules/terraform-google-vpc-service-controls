@@ -16,6 +16,7 @@
 
 provider "google-beta" {
   version = "~> 2.3"
+
   #region  = "${var.region}"
   credentials = "${file("./credentials.json")}"
 }
@@ -34,8 +35,9 @@ module "regular-service-perimeter-1" {
   resources      = ["743286545054"]
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
+
   #access_levels = ["${module.access-level-device-lock.link}”, "${module.access_level_2.link}”]
   shared_resources = {
-    all     = ["743286545054"]
+    all = ["743286545054"]
   }
 }

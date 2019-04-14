@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- resource "google_access_context_manager_service_perimeter" "service-perimeter" {
-  provider = "google-beta"
-  parent = "accessPolicies/${var.policy}"
+resource "google_access_context_manager_service_perimeter" "service-perimeter" {
+  provider       = "google-beta"
+  parent         = "accessPolicies/${var.policy}"
   perimeter_type = "PERIMETER_TYPE_BRIDGE"
-  name   = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
-  title  = "${var.perimeter_name}"
+  name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
+  title          = "${var.perimeter_name}"
 }

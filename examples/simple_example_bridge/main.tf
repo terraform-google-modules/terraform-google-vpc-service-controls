@@ -1,5 +1,6 @@
 provider "google-beta" {
   version = "~> 2.3"
+
   #region  = "${var.region}"
   credentials = "${file("./credentials.json")}"
 }
@@ -18,9 +19,10 @@ module "regular-service-perimeter-1" {
   resources      = ["743286545054"]
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
+
   #access_levels = ["${module.access-level-device-lock.link}”, "${module.access_level_2.link}”]
   shared_resources = {
-    all     = ["743286545054"]
+    all = ["743286545054"]
   }
 }
 
@@ -32,17 +34,21 @@ module "regular-service-perimeter-2" {
   resources      = ["743286545054"]
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
+
   #access_levels = ["${module.access-level-device-lock.link}”, "${module.access_level_2.link}”]
   shared_resources = {
-    all     = ["743286545054"]
+    all = ["743286545054"]
   }
 }
 
 module "bridge-service-perimeter-1" {
-    source = "../../modules/bridge_service_perimeter"
-    policy         = "${module.org-policy.policy_id}"
-    perimeter_name = "bridge_perimeter_1"
-    description    = "Some description"
-    resources      = ["${module.regular-service-perimeter-1.shared_resources["all"]}", 
-    "${module.regular-service-perimeter-2.shared_resources["all"]}"]
+  source         = "../../modules/bridge_service_perimeter"
+  policy         = "${module.org-policy.policy_id}"
+  perimeter_name = "bridge_perimeter_1"
+  description    = "Some description"
+
+  resources = [
+    "${module.regular-service-perimeter-1.shared_resources["all"]}",
+    "${module.regular-service-perimeter-2.shared_resources["all"]}",
+  ]
 }

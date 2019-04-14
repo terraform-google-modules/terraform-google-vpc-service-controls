@@ -30,10 +30,10 @@ variable "resources" {
 
 variable "access_levels" {
   description = "(Optional) A list of AccessLevel resource names that allow resources within the ServicePerimeter to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel is a syntax error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via GCP calls with request origins within the perimeter. "
-  default = [""]
+  default     = [""]
 }
 
 variable "shared_resources" {
   description = "(Optional) A map of lists of resources to share in a Bridge perimeter module. Each list should contain all or a subset of the perimeters resources"
-  default       = {}
+  default     = {}
 }
