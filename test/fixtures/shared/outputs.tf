@@ -13,12 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-output "project_id" {
-  value = "${var.project_id}"
+output "parent_id" {
+  value = "${var.parent_id}"
 }
 
-output "bucket_name" {
-  description = "Bucket name"
-  value       = "${module.example.bucket_name}"
+output "policy_name" {
+  value = "${var.policy_name}"
 }
+
+output "protected_project_id" {
+  value = "${var.protected_project_ids["id"]}"
+}
+
+output "public_project_id" {
+  value = "${var.public_project_ids["id"]}"
+}
+
+output "dataset_id" {
+  value = "${module.example.dataset_id}"
+}
+
+output "table_id" {
+  value = "${module.example.table_id}"
+}
+

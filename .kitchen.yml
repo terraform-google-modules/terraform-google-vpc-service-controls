@@ -36,11 +36,6 @@ suites:
         - name: simple_example
           backend: local
           controls:
-            - gcloud
-        - name: simple_example
-          backend: gcp
-          shell: true
-          controls:
-            - gcp
+            - vpcsc_bq
     provisioner:
       name: terraform

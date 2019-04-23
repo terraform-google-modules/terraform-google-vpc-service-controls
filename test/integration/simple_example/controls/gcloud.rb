@@ -12,32 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project_id = attribute('project_id')
 
-control "gcloud" do
-  title "gcloud configuration"
-  describe command("gcloud --project=#{project_id} services list --available --format=json") do
-    its(:exit_status) { should eq 0 }
+protected_project_id       = attribute('protected_project_id')
+dataset_id       = attribute('dataset_id')
+table_id         = attribute('table_id')
+public_project_id       = attribute('public_project_id')
+
+control "big_query_vpc_positive_test" do
+  describe command("bq query --use_legacy=false \'select * from `#{protected_project_id}.sample_dataset.example_table` limit 10\'" ) do
+    its(:exit_status) { should be 0 }
     its(:stderr) { should eq '' }
+    its(:stdout) { should include "Current status: DONE" }
+  end
+end
 
-    let(:data) do
-      if subject.exit_status == 0
-        JSON.parse(subject.stdout)
-      else
-        {}
-      end
-    end
-
-    describe "enabled services" do
-      it "includes storage-api" do
-        expect(data).to include(
-          including(
-            "config" => including(
-              "name" => "storage-api.googleapis.com",
-            ),
-          ),
-        )
-      end
-    end
+control "big_query_vpc_negative_test" do
+  describe command("bq query --use_legacy=false \'select * from `#{public_project_id}.sample_dataset.example_table` limit 10\'" ) do
+    its(:exit_status) { should be 0 }
+    its(:stderr) { should eq '' }
+    its(:stdout) { should include "VPC Service Controls:" }
+    its(:stdout) { should include "Request is prohibited by organization's policy." }
   end
 end

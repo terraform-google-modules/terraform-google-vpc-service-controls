@@ -21,3 +21,19 @@ output "parent_id" {
 output "policy_name" {
   value = "${var.policy_name}"
 }
+
+output "protected_project_id" {
+  value = "${var.protected_project_ids["id"]}"
+}
+
+output "public_project_id" {
+  value = "${var.public_project_ids["id"]}"
+}
+
+output "dataset_id" {
+  value = "${module.bigquery.dataset_id}"
+}
+
+output "table_id" {
+  value = "${module.bigquery.table_id}"
+}

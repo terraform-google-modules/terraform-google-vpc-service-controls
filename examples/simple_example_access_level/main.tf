@@ -18,7 +18,7 @@ provider "google-beta" {
   version = "~> 2.3"
 
   #region  = "${var.region}"
-  credentials = "${file("./credentials.json")}"
+  credentials = "${file("credentials.json")}"
 }
 
 module "org-policy" {
@@ -31,16 +31,13 @@ module "access-level-1" {
   source         = "../../modules/access_level"
   policy      = "${module.org-policy.policy_id}"
   name        = "device_policy"
-  conditions =  {
-     conditions  = [{
-       device_policy = [{
-        require_screen_lock = false
-        os_constraints = [{
-          os_type = "DESKTOP_CHROME_OS"
-         }]
-       }]
-     }]
+  enable_device_policy = "true"
+  require_screen_lock = "false"
+  os_constraints = {
+    os_type = "DESKTOP_CHROME_OS"
   }
+  
+
 }
 
 module "regular-service-perimeter-1" {

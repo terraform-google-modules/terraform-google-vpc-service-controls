@@ -19,4 +19,7 @@ resource "google_access_context_manager_service_perimeter" "service-perimeter" {
   perimeter_type = "PERIMETER_TYPE_BRIDGE"
   name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
   title          = "${var.perimeter_name}"
+  status {
+    resources             = "${formatlist("projects/%s", var.resources)}"
+  }
 }

@@ -49,7 +49,8 @@ The [project factory](https://github.com/terraform-google-modules/terraform-goog
 ### Configure a Service Account
 In order to execute this module you must have a Service Account with the
 following project roles:
-- roles/storage.admin
+- roles/accessContext.Admin
+- bigquery.jobs.create
 
 ### Enable APIs
 In order to operate with the Service Account you must activate the following APIs on the project where the Service Account was created:

@@ -43,6 +43,7 @@ crash.log
 #
 # example.tfvars
 test/fixtures/shared/terraform.tfvars
+test/fixtures/simple_example/terraform.tfvars
 examples/simple_example/terraform.tfvars
 
 credentials.json

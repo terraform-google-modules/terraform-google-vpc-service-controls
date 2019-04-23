@@ -15,10 +15,10 @@
  */
 
 provider "google-beta" {
-  version = "~> 2.3"
+  version = "<= 2.0"
 
   #region  = "${var.region}"
-  credentials = "${file("./credentials.json")}"
+  credentials = "${file("credentials.json")}"
 }
 
 module "org-policy" {
@@ -27,17 +27,50 @@ module "org-policy" {
   policy_name = "${var.policy_name}"
 }
 
+module "access-level-members" {
+  source         = "../../modules/access_level"
+  policy      = "${module.org-policy.policy_id}"
+  name        = "terraform_members"
+  members  = [ "serviceAccount:terraform-vpcsc@tfmenard-vpcsc-bq.iam.gserviceaccount.com" ]
+}
+
 module "regular-service-perimeter-1" {
   source         = "../../modules/regular_service_perimeter"
   policy         = "${module.org-policy.policy_id}"
   perimeter_name = "regular_perimeter_1"
-  description    = "Some description"
+  description    = "Perimeter shielding bigquery project ${module.bigquery.dataset_project}"
   resources      = ["743286545054"]
 
+  access_levels = ["${module.access-level-members.name}"]
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
-  #access_levels = ["${module.access-level-device-lock.link}”, "${module.access_level_2.link}”]
   shared_resources = {
     all = ["743286545054"]
+  }
+}
+
+
+module "bigquery" {
+  source  = "terraform-google-modules/bigquery/google"
+  version = "0.1.0"
+
+  dataset_id        = "sample_dataset"
+  dataset_name      = "sample_dataset"
+  description       = "Dataset with a single table with one field"
+  expiration        = "3600000"
+  project_id        = "${var.protected_project_ids["id"]}"
+  location          = "US"
+  table_id          = "example_table"
+  time_partitioning = "DAY"
+  schema_file       = "sample_bq_schema.json"
+  dataset_labels = {
+    env   = "dev"
+    billable   = "true"
+    owner = "janesmith"
+  }
+  table_labels = {
+    env   = "dev"
+    billable   = "true"
+    owner = "joedoe"
   }
 }

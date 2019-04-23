@@ -1,0 +1,8 @@
+[
+    {
+      "description": "Example Field",
+      "mode": "NULLABLE",
+      "name": "name",
+      "type": "STRING"
+    }
+]
