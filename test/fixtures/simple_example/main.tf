@@ -13,18 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-resource "random_string" "random_suffix" {
-  length  = 4
-  upper   = "false"
-  lower   = "true"
-  number  = "false"
-  special = "false"
-}
-
 module "example" {
   source = "../../../examples/simple_example"
-
-  project_id  = "${var.project_id}"
-  bucket_name = "simple-example-${random_string.random_suffix.result}"
+  parent_id   = "${var.parent_id}"
+  policy_name = "${var.policy_name}"
+  protected_project_ids = "${var.protected_project_ids}"
+  public_project_ids = "${var.public_project_ids}"
 }
