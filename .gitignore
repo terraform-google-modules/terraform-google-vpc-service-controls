@@ -45,5 +45,8 @@ crash.log
 test/fixtures/shared/terraform.tfvars
 test/fixtures/simple_example/terraform.tfvars
 examples/simple_example/terraform.tfvars
+examples/simple_example_bridge/terraform.tfvars
+examples/simple_example_access_level/terraform.tfvars
+terraform.tfvars
 
 credentials.json
