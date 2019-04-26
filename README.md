@@ -7,7 +7,7 @@ The root module only handles the configuration of the [access_context_manager_po
 
 ```hcl
 module "org-policy" {
-  source      = "../.."
+  source      = "terraform-google-modules/vpc-service-controls/google"
   parent_id   = "${var.parent_id}"
   policy_name = "${var.policy_name}"
 }

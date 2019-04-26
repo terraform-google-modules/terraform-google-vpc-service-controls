@@ -1,6 +1,9 @@
 # Simple Example
 
-This example illustrates how to use the `vpc-service-controls` module.
+This example illustrates how to use the `vpc-service-controls` module to configure an org policy, an access level, a regular regular perimeter and a BigQuery resource inside the regular perimeter.
+
+# Requirements
+Make sure you've gone through the root [Requirement Section](../../#requirements)
 
 [^]: (autogen_docs_start)
 
