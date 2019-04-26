@@ -23,7 +23,7 @@ variable "policy_name" {
 }
 
 variable "protected_project_ids" {
-  description = "Project id and number of the project within the regular service perimeter"
+  description = "Project id and number of the project INSIDE the regular service perimeter"
   type = "map"
   default  {
     id = "sample-project-id"
@@ -32,7 +32,7 @@ variable "protected_project_ids" {
 }
 
 variable "public_project_ids" {
-  description = "Project is and number of the project outside of the regular service perimeter"
+  description = "Project is and number of the project OUTSIDE of the regular service perimeter"
   type = "map"
   default = {
     id = "sample-project-id"
@@ -41,6 +41,7 @@ variable "public_project_ids" {
 }
 
 variable "members"  {
+    description = "An allowed list of members (users, groups, service accounts). The signed-in user originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, not present in any groups, etc.). Formats: user:{emailid}, group:{emailid}, serviceAccount:{emailid}"
     type = "list"
     default = [""]
 }

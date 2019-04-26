@@ -1,5 +1,5 @@
 output "policy_id" {
-  description = "The policy's name."
+  description = "Resource name of the AccessPolicy."
   value       = "${google_access_context_manager_access_policy.access-policy.name}"
 }
 

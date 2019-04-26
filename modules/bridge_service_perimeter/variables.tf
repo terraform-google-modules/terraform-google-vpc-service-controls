@@ -1,5 +1,5 @@
 variable "policy" {
-  description = "(Required) Name of the parent policy"
+  description = "Name of the parent policy"
 }
 
 variable "description" {
@@ -11,7 +11,7 @@ variable "perimeter_name" {
 }
 
 variable "resources" {
-  description = "(Optional) A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed."
+  description = "A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed."
   type        = "list"
   default     = [""]
 }

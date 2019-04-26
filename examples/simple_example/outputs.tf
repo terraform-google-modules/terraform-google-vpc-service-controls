@@ -15,18 +15,22 @@
  */
 
 output "parent_id" {
+  description = "The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent."
   value = "${var.parent_id}"
 }
 
 output "policy_name" {
+  description = "Name of the parent policy"
   value = "${var.policy_name}"
 }
 
 output "protected_project_id" {
+  description = "Project id of the project INSIDE the regular service perimeter"
   value = "${var.protected_project_ids["id"]}"
 }
 
 output "public_project_id" {
+  description = "Project id of the project OUTSIDE of the regular service perimeter"
   value = "${var.public_project_ids["id"]}"
 }
 
