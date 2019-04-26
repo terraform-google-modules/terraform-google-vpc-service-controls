@@ -1,7 +1,3 @@
-locals {
-  #device_policy_map = "${var.conditions["device_policy"]}"
-  #device_policy_list = ["${var.conditions["device_policy"]}"]
-}
 resource "google_access_context_manager_access_level" "access-level" {
   provider       = "google-beta"
   parent         = "accessPolicies/${var.policy}"

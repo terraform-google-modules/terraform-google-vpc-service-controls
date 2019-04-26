@@ -23,7 +23,7 @@ provider "google-beta" {
 
 
 module "org-policy" {
-  source      = "../../modules/policy"
+  source      = "../.."
   parent_id   = "${var.parent_id}"
   policy_name = "${var.policy_name}"
 }

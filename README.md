@@ -1,21 +1,38 @@
-<<<<<<< HEAD
-# terraform-google-vpc-service-controls
-=======
 # terraform-google-vpc-service-controls
 
-This module was generated from [terraform-google-module-template](https://github.com/terraform-google-modules/terraform-google-module-template/), which by default generates a module that simply creates a GCS bucket. As the module develops, this README should be updated.
-
-The resources/services/activations/deletions that this module will create/trigger are:
-- Create a GCS bucket with the provided name
+This module handles opiniated VPC Service Controls and Access Context Manager configuration and deployments.
 
 ## Usage
-There are examples included in the [examples](./examples/) folder but simple usage is as follows:
+The root module only handles the configuration of the [access_context_manager_policy resource](https://www.terraform.io/docs/providers/google/r/access_context_manager_access_policy.html). For examples on how to use the root module with along with other submodules to configure all of VPC Service Controls and Access Context Manager resources, see the [examples](./examples/) folder and the [modules](./modules/)
 
 ```hcl
-module "bucket" {
-  source                     = "terraform-google-modules/vpc-service-controls/google"
-  project_id                 = "<PROJECT ID>"
-  bucket_name                = "gcs-test-bucket"
+module "org-policy" {
+  source      = "../.."
+  parent_id   = "${var.parent_id}"
+  policy_name = "${var.policy_name}"
+}
+
+module "access-level-members" {
+  source         = "../../modules/access_level"
+  policy      = "${module.org-policy.policy_id}"
+  name        = "terraform_members"
+  members  = "${var.members}"
+}
+
+module "regular-service-perimeter-1" {
+  source         = "../../modules/regular_service_perimeter"
+  policy         = "${module.org-policy.policy_id}"
+  perimeter_name = "regular_perimeter_1"
+
+  description    = "Perimeter shielding projects"
+  resources      = ["1111111"]
+
+  access_levels = ["${module.access-level-members.name}"]
+  restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
+
+  shared_resources = {
+    all = ["11111111"]
+  }
 }
 ```
 
@@ -43,37 +60,28 @@ The [project factory](https://github.com/terraform-google-modules/terraform-goog
 
 ### Software Dependencies
 ### Terraform
-- [Terraform](https://www.terraform.io/downloads.html) 0.10.x
-- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v1.8.0
+- [Terraform](https://www.terraform.io/downloads.html) 0.11.x
+- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v2.0.0
 
 ### Configure a Service Account
 In order to execute this module you must have a Service Account with the
 following project roles:
 - roles/accessContext.Admin
-- bigquery.jobs.create
+- roles/bigquery.dataOwner
+- roles/bigquery.jobUser
 
 ### Enable APIs
 In order to operate with the Service Account you must activate the following APIs on the project where the Service Account was created:
 
 - Storage JSON API - storage-api.googleapis.com
+- Big Query API - bigquery.googleapis.com
 
 ## Install
 
 ### Terraform
-Be sure you have the correct Terraform version (0.10.x), you can choose the binary here:
+Be sure you have the correct Terraform version (0.11.x), you can choose the binary here:
 - https://releases.hashicorp.com/terraform/
 
-## File structure
-The project has the following folders and files:
-
-- /: root folder
-- /examples: examples for using this module
-- /helpers: Helper scripts
-- /test: Folders with files for testing the module (see Testing section on this file)
-- /main.tf: main file for this module, contains all the resources to create
-- /variables.tf: all the variables for the module
-- /output.tf: the outputs of the module
-- /README.md: this file
 
 ## Testing
 
@@ -172,4 +180,3 @@ is a compiled language so there is no standard linter.
 * Terraform - terraform has a built-in linter in the 'terraform validate'
 command.
 * Dockerfiles - hadolint. Can be found in homebrew
->>>>>>> First commit
