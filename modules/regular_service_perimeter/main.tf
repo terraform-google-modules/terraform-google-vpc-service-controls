@@ -7,7 +7,7 @@ resource "google_access_context_manager_service_perimeter" "service-perimeter" {
 
   status {
     restricted_services   = "${var.restricted_services}"
-    unrestricted_services = "${var.unrestricted_services}"
+    #unrestricted_services = "${var.unrestricted_services}"
     resources             = "${formatlist("projects/%s", var.resources)}"
     access_levels         = ["${formatlist("accessPolicies/${var.policy}/accessLevels/%s", var.access_levels)}"]
   }

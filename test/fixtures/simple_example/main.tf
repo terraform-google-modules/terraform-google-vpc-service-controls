@@ -19,4 +19,5 @@ module "example" {
   policy_name = "${var.policy_name}"
   protected_project_ids = "${var.protected_project_ids}"
   public_project_ids = "${var.public_project_ids}"
+  members =  "${var.members}"
 }

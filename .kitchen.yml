@@ -36,6 +36,7 @@ suites:
         - name: simple_example
           backend: local
           controls:
-            - vpcsc_bq
+            - big_query_vpc_positive_test
+            - big_query_vpc_negative_test
     provisioner:
       name: terraform

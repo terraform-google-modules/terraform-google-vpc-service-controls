@@ -39,3 +39,8 @@ variable "public_project_ids" {
     number = "01010101"
   }
 }
+
+variable "members"  {
+    type = "list"
+    default = [""]
+}

@@ -2,7 +2,7 @@ name: simple_example
 depends:
   - name: inspec-gcp
     git: https://github.com/inspec/inspec-gcp.git
-    version: ~> 0.9.0
+    version: ~> 0.10.0
 attributes:
   - name: protected_project_id
     required: true

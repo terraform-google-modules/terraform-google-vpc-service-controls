@@ -15,11 +15,12 @@
  */
 
 provider "google-beta" {
-  version = "<= 2.0"
+  version = "~> 2.0"
 
   #region  = "${var.region}"
   credentials = "${file("credentials.json")}"
 }
+
 
 module "org-policy" {
   source      = "../../modules/policy"
@@ -31,13 +32,15 @@ module "access-level-members" {
   source         = "../../modules/access_level"
   policy      = "${module.org-policy.policy_id}"
   name        = "terraform_members"
-  members  = [ "serviceAccount:terraform-vpcsc@tfmenard-vpcsc-bq.iam.gserviceaccount.com" ]
+  members  = "${var.members}"
 }
 
 module "regular-service-perimeter-1" {
   source         = "../../modules/regular_service_perimeter"
   policy         = "${module.org-policy.policy_id}"
   perimeter_name = "regular_perimeter_1"
+
+  ## TODO make sure take out interpolation and test again.
   description    = "Perimeter shielding bigquery project ${module.bigquery.dataset_project}"
   resources      = ["743286545054"]
 
