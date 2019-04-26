@@ -28,10 +28,11 @@ module "org-policy" {
 }
 
 module "access-level-1" {
-  source         = "../../modules/access_level"
-  policy      = "${module.org-policy.policy_id}"
-  name        = "device_policy"
+  source              = "../../modules/access_level"
+  policy              = "${module.org-policy.policy_id}"
+  name                = "device_policy"
   require_screen_lock = "false"
+
   os_constraints = {
     os_type = "DESKTOP_CHROME_OS"
   }
@@ -47,6 +48,7 @@ module "regular-service-perimeter-1" {
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
   access_levels = ["${module.access-level-1.name}"]
+
   shared_resources = {
     all = ["743286545054"]
   }

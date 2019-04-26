@@ -21,7 +21,6 @@ provider "google-beta" {
   credentials = "${file("credentials.json")}"
 }
 
-
 module "org-policy" {
   source      = "../.."
   parent_id   = "${var.parent_id}"
@@ -29,10 +28,10 @@ module "org-policy" {
 }
 
 module "access-level-members" {
-  source         = "../../modules/access_level"
-  policy      = "${module.org-policy.policy_id}"
-  name        = "terraform_members"
-  members  = "${var.members}"
+  source  = "../../modules/access_level"
+  policy  = "${module.org-policy.policy_id}"
+  name    = "terraform_members"
+  members = "${var.members}"
 }
 
 module "regular-service-perimeter-1" {
@@ -41,17 +40,16 @@ module "regular-service-perimeter-1" {
   perimeter_name = "regular_perimeter_1"
 
   ## TODO make sure take out interpolation and test again.
-  description    = "Perimeter shielding bigquery project ${module.bigquery.dataset_project}"
-  resources      = ["743286545054"]
+  description = "Perimeter shielding bigquery project ${module.bigquery.dataset_project}"
+  resources   = ["743286545054"]
 
-  access_levels = ["${module.access-level-members.name}"]
+  access_levels       = ["${module.access-level-members.name}"]
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
   shared_resources = {
     all = ["743286545054"]
   }
 }
-
 
 module "bigquery" {
   source  = "terraform-google-modules/bigquery/google"
@@ -66,14 +64,16 @@ module "bigquery" {
   table_id          = "example_table"
   time_partitioning = "DAY"
   schema_file       = "sample_bq_schema.json"
+
   dataset_labels = {
-    env   = "dev"
-    billable   = "true"
-    owner = "janesmith"
+    env      = "dev"
+    billable = "true"
+    owner    = "janesmith"
   }
+
   table_labels = {
-    env   = "dev"
-    billable   = "true"
-    owner = "joedoe"
+    env      = "dev"
+    billable = "true"
+    owner    = "joedoe"
   }
 }

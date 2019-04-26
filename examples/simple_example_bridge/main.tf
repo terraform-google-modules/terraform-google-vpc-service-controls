@@ -1,5 +1,5 @@
 provider "google-beta" {
-  version = "~> 2.3"
+  version     = "~> 2.3"
   credentials = "${file("./credentials.json")}"
 }
 
@@ -50,5 +50,3 @@ module "regular-service-perimeter-2" {
     all = ["906072986431"]
   }
 }
-
-

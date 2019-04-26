@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 module "example" {
-  source = "../../../examples/simple_example"
-  parent_id   = "${var.parent_id}"
-  policy_name = "${var.policy_name}"
+  source                = "../../../examples/simple_example"
+  parent_id             = "${var.parent_id}"
+  policy_name           = "${var.policy_name}"
   protected_project_ids = "${var.protected_project_ids}"
-  public_project_ids = "${var.public_project_ids}"
-  members =  "${var.members}"
+  public_project_ids    = "${var.public_project_ids}"
+  members               = "${var.members}"
 }

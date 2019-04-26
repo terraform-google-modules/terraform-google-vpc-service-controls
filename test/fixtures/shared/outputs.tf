@@ -36,4 +36,3 @@ output "dataset_id" {
 output "table_id" {
   value = "${module.example.table_id}"
 }
-

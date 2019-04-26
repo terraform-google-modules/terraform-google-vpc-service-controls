@@ -24,24 +24,26 @@ variable "policy_name" {
 
 variable "protected_project_ids" {
   description = "Project id and number of the project INSIDE the regular service perimeter"
-  type = "map"
-  default  {
-    id = "sample-project-id"
+  type        = "map"
+
+  default {
+    id     = "sample-project-id"
     number = "01010101"
   }
 }
 
 variable "public_project_ids" {
   description = "Project is and number of the project OUTSIDE of the regular service perimeter"
-  type = "map"
+  type        = "map"
+
   default = {
-    id = "sample-project-id"
+    id     = "sample-project-id"
     number = "01010101"
   }
 }
 
-variable "members"  {
-    description = "An allowed list of members (users, groups, service accounts). The signed-in user originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, not present in any groups, etc.). Formats: user:{emailid}, group:{emailid}, serviceAccount:{emailid}"
-    type = "list"
-    default = [""]
+variable "members" {
+  description = "An allowed list of members (users, groups, service accounts). The signed-in user originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, not present in any groups, etc.). Formats: user:{emailid}, group:{emailid}, serviceAccount:{emailid}"
+  type        = "list"
+  default     = [""]
 }
