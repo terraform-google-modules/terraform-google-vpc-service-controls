@@ -16,8 +16,6 @@
 
 provider "google-beta" {
   version = "~> 2.0"
-
-  #region  = "${var.region}"
   credentials = "${file("credentials.json")}"
 }
 
@@ -41,13 +39,13 @@ module "regular-service-perimeter-1" {
 
   ## TODO make sure take out interpolation and test again.
   description = "Perimeter shielding bigquery project ${module.bigquery.dataset_project}"
-  resources   = ["743286545054"]
+  resources   = ["${var.protected_project_ids["number"]}"]
 
   access_levels       = ["${module.access-level-members.name}"]
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
   shared_resources = {
-    all = ["743286545054"]
+    all = ["${var.protected_project_ids["number"]}"]
   }
 }
 

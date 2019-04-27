@@ -88,7 +88,10 @@ You may use the following command:
   --member="user:example@customer.org" \
   --role="roles/accesscontextmanager.policyAdmin"`
 
-  For more information see the [Access Context Manager ACL Page](https://cloud.google.com/access-context-manager/docs/access-control)
+### Configure user permission
+To view VPC Service Controls and Access Context Manger using the Google Cloud Platform Console, your user accounts will need the Resource Manager Organization Viewer (roles/resourcemanager.organizationViewer) role is required.
+
+For more information see the [Access Context Manager ACL Page](https://cloud.google.com/access-context-manager/docs/access-control)
 
 
 ### Enable APIs

@@ -4,7 +4,7 @@ provider "google-beta" {
 }
 
 module "org-policy" {
-  source      = "../../modules/policy"
+  source      = "../.."
   parent_id   = "${var.parent_id}"
   policy_name = "${var.policy_name}"
 }
@@ -26,12 +26,12 @@ module "regular-service-perimeter-1" {
   policy         = "${module.org-policy.policy_id}"
   perimeter_name = "regular_perimeter_1"
   description    = "Some description"
-  resources      = ["743286545054"]
+  resources      = ["${var.protected_project_ids["number"]}"]
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
   shared_resources = {
-    all = ["743286545054"]
+    all = ["${var.protected_project_ids["number"]}"]
   }
 }
 
@@ -40,11 +40,11 @@ module "regular-service-perimeter-2" {
   policy         = "${module.org-policy.policy_id}"
   perimeter_name = "regular_perimeter_2"
   description    = "Some description"
-  resources      = ["906072986431"]
+  resources      = ["${var.public_project_ids["number"]}"]
 
   restricted_services = ["storage.googleapis.com"]
 
   shared_resources = {
-    all = ["906072986431"]
+    all = ["${var.public_project_ids["number"]}"]
   }
 }
