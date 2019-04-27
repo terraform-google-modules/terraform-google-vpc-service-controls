@@ -43,6 +43,10 @@ Then perform the following commands on the root folder:
 - `terraform apply` to apply the infrastructure build
 - `terraform destroy` to destroy the built infrastructure
 
+### Known limitations
+
+The [Access Context Manager API](https://cloud.google.com/access-context-manager/docs/) guarantees that resources will be created, but there may be a delay between a successful response and the change taking effect. For example, ["after you create a service perimeter, it may take up to 30 minutes for the changes to propagate and take effect.](https://cloud.google.com/vpc-service-controls/docs/create-service-perimeters)
+Because of these limitations in the API, you may first get an error when running `terraform apply` for the first time. However, for the [examples](./examples/) you should be able to succesfully deploy all resources by running `terraform apply` a second about 15 seconds after running it for the first time.
 
 [^]: (autogen_docs_start)
 
