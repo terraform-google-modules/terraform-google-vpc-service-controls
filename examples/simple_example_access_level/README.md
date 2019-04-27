@@ -1,12 +1,7 @@
-## Permissions 
-Add service account to public project as a BigQuery JobUser
-gcloud projects add-iam-policy-binding <public-project-id> --member=serviceAccount:<service-account-email> --role=roles/bigquery.jobUser
---role=roles/bigquery.dataOwner
+# Simple Example Access Level
 
-##TODO Fix issues
-## Issues 
-Need to enable BigQuery API on both projects.
-Kitchen problems:
-credentials.json not passed to env vars GOOGLE_APPLICATION_CREDENTIALS and others
+## Requirements
 
-## Add member access
+
+[^]: (autogen_docs_start)
+[^]: (autogen_docs_end)

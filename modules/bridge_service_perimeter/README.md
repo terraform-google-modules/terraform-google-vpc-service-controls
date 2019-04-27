@@ -1,4 +1,4 @@
-# Access Level Submodule
+# Access Bridge Submodule
 
 This module handles opiniated configuration and deployment of a [access_context_manager_service_perimeter](https://www.terraform.io/docs/providers/google/r/access_context_manager_service_perimeter.html) resource for bridge service perimeter types.
 
@@ -52,5 +52,20 @@ module "regular-service-perimeter-2" {
 ```
 
 [^]: (autogen_docs_start)
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| description | Description of the bridge perimeter | string | n/a | yes |
+| perimeter\_name | Name of the perimeter. Should be one unified string. Must only be letters, numbers and underscores | string | n/a | yes |
+| policy | Name of the parent policy | string | n/a | yes |
+| resources | A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed. | list | `<list>` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| resources | A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed. |
 
 [^]: (autogen_docs_end)

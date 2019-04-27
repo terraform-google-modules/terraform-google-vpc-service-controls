@@ -46,6 +46,20 @@ Then perform the following commands on the root folder:
 
 [^]: (autogen_docs_start)
 
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| parent\_id | The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent. | string | n/a | yes |
+| policy\_name | The policy's name. | string | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| policy\_id | Resource name of the AccessPolicy. |
+| policy\_name | The policy's name. |
+
 [^]: (autogen_docs_end)
 
 ## Requirements
@@ -64,11 +78,18 @@ The [project factory](https://github.com/terraform-google-modules/terraform-goog
 - [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v2.0.0
 
 ### Configure a Service Account
-In order to execute this module you must have a Service Account with the
-following project roles:
-- roles/accessContext.Admin
-- roles/bigquery.dataOwner
-- roles/bigquery.jobUser
+
+#### Organization level permissions
+In order to create a policy, you need to grant your service account the Access Context Manager Admin role at the organization level:
+- roles/accesscontextmanager.policyAdmin
+
+You may use the following command:
+`gcloud organizations add-iam-policy-binding ORGANIZATION_ID \
+  --member="user:example@customer.org" \
+  --role="roles/accesscontextmanager.policyAdmin"`
+
+  For more information see the [Access Context Manager ACL Page](https://cloud.google.com/access-context-manager/docs/access-control)
+
 
 ### Enable APIs
 In order to operate with the Service Account you must activate the following APIs on the project where the Service Account was created:
@@ -126,6 +147,10 @@ Integration tests are run though [test-kitchen](https://github.com/test-kitchen/
   4. `kitchen destroy` tears down the underlying resources created by `kitchen converge`. Run `kitchen destroy <INSTANCE_NAME>` to tear down resources for a specific test case.
 
 Alternatively, you can simply run `make test_integration_docker` to run all the test steps non-interactively.
+
+#### Known Issues when running tests inside container
+When running the example using the interactive shell (`make docker_run`) kitchen fails to read :
+credentials.json. The $GOOGLE_APPLICATION_CREDENTIALS variable is set to a tmp dir (i.e `/tmp/tmp.NFHS144`)
 
 #### Test configuration
 
