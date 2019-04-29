@@ -3,7 +3,7 @@
 This module handles opiniated VPC Service Controls and Access Context Manager configuration and deployments.
 
 ## Usage
-The root module only handles the configuration of the [access_context_manager_policy resource](https://www.terraform.io/docs/providers/google/r/access_context_manager_access_policy.html). For examples on how to use the root module with along with other submodules to configure all of VPC Service Controls and Access Context Manager resources, see the [examples](./examples/) folder and the [modules](./modules/)
+The root module only handles the configuration of the [access_context_manager_policy resource](https://www.terraform.io/docs/providers/google/r/access_context_manager_access_policy.html). For examples on how to use the root module with along with other submodules to configure all of VPC Service Controls and Access Context Manager resources, see the [examples](./examples/) folder and the [modules](./modules/) folder
 
 ```hcl
 module "org-policy" {
@@ -13,14 +13,14 @@ module "org-policy" {
 }
 
 module "access-level-members" {
-  source         = "../../modules/access_level"
+  source   = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
   policy      = "${module.org-policy.policy_id}"
   name        = "terraform_members"
   members  = "${var.members}"
 }
 
 module "regular-service-perimeter-1" {
-  source         = "../../modules/regular_service_perimeter"
+   source         = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
   policy         = "${module.org-policy.policy_id}"
   perimeter_name = "regular_perimeter_1"
 

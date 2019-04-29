@@ -2,7 +2,7 @@
 
 This module handles opiniated configuration and deployment of a [access_context_manager_service_perimeter](https://www.terraform.io/docs/providers/google/r/access_context_manager_service_perimeter.html) resource for regular service perimeter types.
 
-# Usage 
+## Usage 
 ```hcl
 module "org-policy" {
   source      = "terraform-google-modules/vpc-service-controls/google/modules/policy"
