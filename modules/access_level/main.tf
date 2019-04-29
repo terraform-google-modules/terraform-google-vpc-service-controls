@@ -8,7 +8,7 @@ resource "google_access_context_manager_access_level" "access-level" {
   basic = [
     {
       conditions = [{
-        ip_subnetworks         = ["${var.ip_subnetworks}"]
+        ip_subnetworks         = "${var.ip_subnetworks}"
         required_access_levels = "${var.required_access_levels}"
         members                = "${var.members}"
         negate                 = "${var.negate}"
