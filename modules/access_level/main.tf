@@ -19,8 +19,8 @@ resource "google_access_context_manager_access_level" "access-level" {
           allowed_device_management_levels = "${var.allowed_device_management_levels}"
 
           os_constraints = [{
-            minimum_version = "${lookup(var.os_constraints, "minimum_version", "")}"
-            os_type         = "${lookup(var.os_constraints, "os_type", "")}"
+            minimum_version = "${var.minimum_version}"
+            os_type         = "${var.os_type}"
           }]
         }
       }]

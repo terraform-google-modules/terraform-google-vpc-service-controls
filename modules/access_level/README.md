@@ -32,9 +32,10 @@ module "access-level-members" {
 | description | Description of the access level | string | `""` | no |
 | ip\_subnetworks | Condition - A list of CIDR block IP subnetwork specification. May be IPv4 or IPv6. Note that for a CIDR IP address block, the specified IP address portion must be properly truncated (i.e. all the host bits must be zero) or the input is considered malformed. For example, "192.0.2.0/24" is accepted but "192.0.2.1/24" is not. Similarly, for IPv6, "2001:db8::/32" is accepted whereas "2001:db8::1/32" is not. The originating IP of a request must be in one of the listed subnets in order for this Condition to be true. If empty, all IP addresses are allowed. | list | `<list>` | no |
 | members | Condition - An allowed list of members (users, groups, service accounts). The signed-in user originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, not present in any groups, etc.). Formats: user:{emailid}, group:{emailid}, serviceAccount:{emailid} | list | `<list>` | no |
+| minimum\_version | The minimum allowed OS version. If not set, any version of this OS satisfies the constraint. Format: "major.minor.patch" such as "10.5.301", "9.2.1". | string | `""` | no |
 | name | Description of the AccessLevel and its use. Does not affect behavior. | string | n/a | yes |
 | negate | Whether to negate the Condition. If true, the Condition becomes a NAND over its non-empty fields, each field must be false for the Condition overall to be satisfied. | string | `"false"` | no |
-| os\_constraints | Condition - A list of allowed OS versions. An empty list allows all types and all versions. | map | `<map>` | no |
+| os\_type | The operating system type of the device. | string | `""` | no |
 | policy | Name of the parent policy | string | n/a | yes |
 | require\_screen\_lock | Condition - Whether or not screenlock is required for the DevicePolicy to be true. | string | `"false"` | no |
 | required\_access\_levels | Condition - A list of other access levels defined in the same Policy, referenced by resource name. Referencing an AccessLevel which does not exist is an error. All access levels listed must be granted for the Condition to be true. | list | `<list>` | no |

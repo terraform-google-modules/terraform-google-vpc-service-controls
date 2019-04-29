@@ -62,8 +62,12 @@ variable "allowed_device_management_levels" {
   default     = [""]
 }
 
-variable "os_constraints" {
-  description = "Condition - A list of allowed OS versions. An empty list allows all types and all versions."
-  type        = "map"
-  default     = {}
+variable "minimum_version" {
+  description = "The minimum allowed OS version. If not set, any version of this OS satisfies the constraint. Format: \"major.minor.patch\" such as \"10.5.301\", \"9.2.1\"."
+  default     = ""
+}
+
+variable "os_type" {
+  description = "The operating system type of the device."
+  default     = ""
 }
