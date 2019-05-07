@@ -11,12 +11,6 @@ variable "combining_function" {
   default     = "AND"
 }
 
-variable "conditions" {
-  description = "A set of requirements for the AccessLevel to be granted."
-  type        = "map"
-  default     = {}
-}
-
 variable "description" {
   description = "Description of the access level"
   default     = ""
