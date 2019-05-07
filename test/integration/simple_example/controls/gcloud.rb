@@ -22,7 +22,6 @@ control "big_query_vpc_positive_test" do
   describe command("bq query --use_legacy=false --project_id=#{protected_project_id} \'select * from `#{protected_project_id}.sample_dataset.example_table` limit 10\'" ) do
     its(:exit_status) { should be 0 }
 
-    ## Suprisingly the DONE status shows up in stderr even though it should be in stdout.
     its(:stderr) { should include "Current status: DONE" }
   end
 end
