@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 output "parent_id" {
   value = "${var.parent_id}"
 }

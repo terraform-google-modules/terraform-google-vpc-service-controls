@@ -36,3 +36,7 @@ variable "members" {
   type    = "list"
   default = []
 }
+
+variable "credentials_path" {
+  description = "Path to credentials.json key for service account deploying resources"
+}

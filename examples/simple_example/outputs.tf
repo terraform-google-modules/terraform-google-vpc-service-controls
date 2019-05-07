@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 output "policy_name" {
   description = "Name of the parent policy"
   value       = "${var.policy_name}"

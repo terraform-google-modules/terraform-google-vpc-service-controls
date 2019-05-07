@@ -37,7 +37,6 @@ module "regular-service-perimeter-1" {
   policy         = "${module.org-policy.policy_id}"
   perimeter_name = "regular_perimeter_1"
 
-  ## TODO make sure take out interpolation and test again.
   description = "Perimeter shielding bigquery project"
   resources   = ["${var.protected_project_ids["number"]}"]
 
