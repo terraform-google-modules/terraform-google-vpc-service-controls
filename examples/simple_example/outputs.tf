@@ -29,15 +29,12 @@ output "protected_project_id" {
   value       = "${var.protected_project_ids["id"]}"
 }
 
-output "public_project_id" {
-  description = "Project id of the project OUTSIDE of the regular service perimeter"
-  value       = "${var.public_project_ids["id"]}"
-}
-
 output "dataset_id" {
-  value = "${module.bigquery.dataset_id}"
+  description = "Unique id for the BigQuery dataset being provisioned"
+  value       = "${module.bigquery.dataset_id}"
 }
 
 output "table_id" {
-  value = "${module.bigquery.table_id}"
+  description = "Unique id for the BigQuery table being provisioned"
+  value       = "${module.bigquery.table_id}"
 }

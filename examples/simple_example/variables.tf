@@ -32,13 +32,12 @@ variable "protected_project_ids" {
   }
 }
 
-variable "public_project_ids" {
-  description = "Project id and number of the project OUTSIDE of the regular service perimeter. This variable is only necessary for running integration tests. This map variable expects an \"id\" for the project id and \"number\" key for the project number."
-  type        = "map"
-}
-
 variable "members" {
   description = "An allowed list of members (users, groups, service accounts). The signed-in user originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, not present in any groups, etc.). Formats: user:{emailid}, group:{emailid}, serviceAccount:{emailid}"
   type        = "list"
   default     = []
+}
+
+variable "credentials_path" {
+  description = "Path to credentials.json key for service account deploying resources"
 }

@@ -16,7 +16,7 @@
 
 provider "google-beta" {
   version     = "~> 2.0"
-  credentials = "${file("credentials.json")}"
+  credentials = "${file("${var.credentials_path}")}"
 }
 
 module "org-policy" {
@@ -38,7 +38,7 @@ module "regular-service-perimeter-1" {
   perimeter_name = "regular_perimeter_1"
 
   ## TODO make sure take out interpolation and test again.
-  description = "Perimeter shielding bigquery project ${module.bigquery.dataset_project}"
+  description = "Perimeter shielding bigquery project"
   resources   = ["${var.protected_project_ids["number"]}"]
 
   access_levels       = ["${module.access-level-members.name}"]
