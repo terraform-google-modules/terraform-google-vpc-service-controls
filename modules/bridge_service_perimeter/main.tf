@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-resource "google_access_context_manager_service_perimeter" "service-perimeter" {
+resource "google_access_context_manager_service_perimeter" "bridge_service_perimeter" {
   provider       = "google-beta"
   parent         = "accessPolicies/${var.policy}"
   perimeter_type = "PERIMETER_TYPE_BRIDGE"
