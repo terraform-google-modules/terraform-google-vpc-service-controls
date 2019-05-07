@@ -44,5 +44,5 @@ variable "public_project_ids" {
 
 variable "members" {
   type    = "list"
-  default = [""]
+  default = []
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 variable "policy" {
   description = "Name of the parent policy"
 }
@@ -29,5 +29,5 @@ variable "perimeter_name" {
 variable "resources" {
   description = "A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed."
   type        = "list"
-  default     = [""]
+  default     = []
 }

@@ -45,5 +45,5 @@ variable "public_project_ids" {
 variable "members" {
   description = "An allowed list of members (users, groups, service accounts). The signed-in user originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, not present in any groups, etc.). Formats: user:{emailid}, group:{emailid}, serviceAccount:{emailid}"
   type        = "list"
-  default     = [""]
+  default     = []
 }
