@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-output "parent_id" {
-  description = "The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent."
-  value       = "${var.parent_id}"
-}
 
 output "policy_name" {
   description = "Name of the parent policy"
