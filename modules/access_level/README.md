@@ -18,7 +18,6 @@ module "access-level-members" {
 }
 ```
 
-!!! Watchout `make generate_docs` does not currently work on this directory !!!
 [^]: (autogen_docs_start)
 
 ## Inputs
@@ -28,7 +27,6 @@ module "access-level-members" {
 | allowed\_device\_management\_levels | Condition - A list of allowed device management levels. An empty list allows all management levels. | list | `<list>` | no |
 | allowed\_encryption\_statuses | Condition - A list of allowed encryptions statuses. An empty list allows all statuses. | list | `<list>` | no |
 | combining\_function | How the conditions list should be combined to determine if a request is granted this AccessLevel. If AND is used, each Condition must be satisfied for the AccessLevel to be applied. If OR is used, at least one Condition must be satisfied for the AccessLevel to be applied. | string | `"AND"` | no |
-| conditions | A set of requirements for the AccessLevel to be granted. | map | `<map>` | no |
 | description | Description of the access level | string | `""` | no |
 | ip\_subnetworks | Condition - A list of CIDR block IP subnetwork specification. May be IPv4 or IPv6. Note that for a CIDR IP address block, the specified IP address portion must be properly truncated (i.e. all the host bits must be zero) or the input is considered malformed. For example, "192.0.2.0/24" is accepted but "192.0.2.1/24" is not. Similarly, for IPv6, "2001:db8::/32" is accepted whereas "2001:db8::1/32" is not. The originating IP of a request must be in one of the listed subnets in order for this Condition to be true. If empty, all IP addresses are allowed. | list | `<list>` | no |
 | members | Condition - An allowed list of members (users, groups, service accounts). The signed-in user originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, not present in any groups, etc.). Formats: user:{emailid}, group:{emailid}, serviceAccount:{emailid} | list | `<list>` | no |

@@ -8,6 +8,7 @@ This example illustrates how to use the `vpc-service-controls` module to configu
 3. Enable the BigQuery API on both projects
 
 [^]: (autogen_docs_start)
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |

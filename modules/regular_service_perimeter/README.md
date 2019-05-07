@@ -25,7 +25,6 @@ module "regular-service-perimeter-1" {
 }
 ```
 
-!!! Watchout `make generate_docs` does not currently work on this directory !!!
 [^]: (autogen_docs_start)
 
 ## Inputs
@@ -45,6 +44,5 @@ module "regular-service-perimeter-1" {
 | Name | Description |
 |------|-------------|
 | shared\_resources | A map of lists of resources to share in a Bridge perimeter module. Each list should contain all or a subset of the perimeters resources |
-
 
 [^]: (autogen_docs_end)
