@@ -29,7 +29,7 @@ end
 control "big_query_vpc_negative_test" do
   describe command("bq query --use_legacy=false --project_id=#{public_project_id} \'select * from `#{protected_project_id}.sample_dataset.example_table` limit 10\'" ) do
 
-    # exit_status should be 1 as this is intentionally trigerring an errror by accesing the BigQuery data from otuside the perimeter.
+    # exit_status should be 1 as this is intentionally trigerring an errror by accesing the BigQuery data from outside the perimeter.
     its(:exit_status) { should be 1 }
     its(:stderr) { should eq '' }
     its(:stdout) { should include "Request is prohibited by organization's policy." }
