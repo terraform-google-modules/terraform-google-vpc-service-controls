@@ -1,21 +1,21 @@
 # Simple Example
 
-This example illustrates how to use the `vpc-service-controls` module to configure an org policy, an access level, a regular regular perimeter and a BigQuery resource inside the regular perimeter.
+This example illustrates how to use the `vpc-service-controls` module to configure an org policy, an access level, a regular perimeter and a BigQuery resource inside the regular perimeter.
 
 # Requirements
 
-1. Make sure you've gone through the root [Requirement Section](../../#requirements) on any project in your organization.
-2. Select a second project in your organization. The project you already configured project will be referred as the protected project that will be inside of the regualr service perimeter. The second project will be the public project, which will outside the regular service perimeter.
-4. Grant the service account the following permissions on the protected and public projects:
-- roles/bigquery.dataOwner
-- roles/bigquery.jobUser
+1. Make sure you've gone through the root [Requirement Section](../../README.md#requirements) on any project in your organization.
+2. Select a second project in your organization. The project you already configured will be referred as the protected project that will be inside of the regular service perimeter. The second project will be the public project, which will outside of the regular service perimeter.
+3. Grant the service account the following permissions on the protected and public projects:
+ - roles/bigquery.dataOwner
+ - roles/bigquery.jobUser
 
-You may use the following gcloud:
-`gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<service-account-email> --role=roles/bigquery.jobUser`
-`gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<service-account-email> --role=roles/bigquery.dataOwner`
+You may use the following gcloud commands:
+   `gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<service-account-email> --role=roles/bigquery.jobUser`
+   `gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<service-account-email> --role=roles/bigquery.dataOwner`
 
-5. Enable BigQuery API on the protected project.
-6. If you want to run the integration tests for this example, repeat step #4 and #5 on the public project.
+4. Enable BigQuery API on the protected project.
+5. If you want to run the integration tests for this example, repeat step #4 and #5 on the public project.
 
 
 

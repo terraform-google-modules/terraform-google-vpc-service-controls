@@ -89,11 +89,17 @@ In order to create a policy, you need to grant your service account the Access C
 
 You may use the following command:
 `gcloud organizations add-iam-policy-binding ORGANIZATION_ID \
-  --member="user:example@customer.org" \
+  --member="serviceAccount:example@project_id.iam.gserviceaccount.com" \
   --role="roles/accesscontextmanager.policyAdmin"`
 
 ### Configure user permission
-To view VPC Service Controls and Access Context Manger using the Google Cloud Platform Console, your user accounts will need the Resource Manager Organization Viewer (roles/resourcemanager.organizationViewer) role is required.
+In order to view VPC Service Controls and Access Context Manger using the Google Cloud Platform Console, your user accounts will need to be granted the Resource Manager Organization Viewer:
+- roles/resourcemanager.organizationViewer
+
+You may use the following command:
+`gcloud projects add-iam-policy-binding <my project id> \
+  --member="user:example@domain.com" \
+  --role="roles/resourcemanager.organizationViewer"`
 
 For more information see the [Access Context Manager ACL Page](https://cloud.google.com/access-context-manager/docs/access-control)
 
@@ -106,7 +112,6 @@ In order to operate with the Service Account you must activate the following API
 
 ## Install
 
-### Terraform
 Be sure you have the correct Terraform version (0.11.x), you can choose the binary here:
 - https://releases.hashicorp.com/terraform/
 
