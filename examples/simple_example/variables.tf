@@ -33,13 +33,8 @@ variable "protected_project_ids" {
 }
 
 variable "public_project_ids" {
-  description = "Project id and number of the project OUTSIDE of the regular service perimeter. This variable is only necessary for running integration tests."
+  description = "Project id and number of the project OUTSIDE of the regular service perimeter. This variable is only necessary for running integration tests. This map variable expects an \"id\" for the project id and \"number\" key for the project number."
   type        = "map"
-
-  default = {
-    id     = "sample-project-id"
-    number = "01010101"
-  }
 }
 
 variable "members" {
