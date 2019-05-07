@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 resource "google_access_context_manager_service_perimeter" "service-perimeter" {
   provider       = "google-beta"
   parent         = "accessPolicies/${var.policy}"

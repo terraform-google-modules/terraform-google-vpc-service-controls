@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 output "name" {
   description = "Description of the AccessLevel and its use. Does not affect behavior."
   value       = "${var.name}"

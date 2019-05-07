@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 output "resources" {
   description = "A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed."
   value       = "${var.resources}"
