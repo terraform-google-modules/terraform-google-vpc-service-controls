@@ -23,7 +23,7 @@ variable "policy_name" {
 }
 
 variable "protected_project_ids" {
-  description = "Project id and number of the project INSIDE the regular service perimeter"
+  description = "Project id and number of the project INSIDE the regular service perimeter. This map variable expects an \"id\" for the project id and \"number\" key for the project number."
   type        = "map"
 }
 
