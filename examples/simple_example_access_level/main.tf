@@ -26,9 +26,9 @@ module "org-policy" {
 }
 
 module "access-level-1" {
-  source        = "../../modules/access_level"
-  policy        = "${module.org-policy.policy_id}"
-  name          = "single_ip_policy"
+  source         = "../../modules/access_level"
+  policy         = "${module.org-policy.policy_id}"
+  name           = "single_ip_policy"
   ip_subnetworks = "${var.ip_subnetworks}"
 }
 
