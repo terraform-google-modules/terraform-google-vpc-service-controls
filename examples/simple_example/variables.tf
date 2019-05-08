@@ -25,11 +25,6 @@ variable "policy_name" {
 variable "protected_project_ids" {
   description = "Project id and number of the project INSIDE the regular service perimeter"
   type        = "map"
-
-  default {
-    id     = "sample-project-id"
-    number = "01010101"
-  }
 }
 
 variable "members" {

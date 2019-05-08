@@ -15,8 +15,8 @@
  */
 
 provider "google-beta" {
-  version     = "~> 2.3"
-  credentials = "${file("credentials.json")}"
+  version     = "~> 2.5"
+  credentials = "${file("${var.credentials_path}")}"
 }
 
 module "org-policy" {
@@ -26,11 +26,10 @@ module "org-policy" {
 }
 
 module "access-level-1" {
-  source              = "../../modules/access_level"
-  policy              = "${module.org-policy.policy_id}"
-  name                = "device_policy"
-  require_screen_lock = "false"
-  os_type             = "DESKTOP_CHROME_OS"
+  source        = "../../modules/access_level"
+  policy        = "${module.org-policy.policy_id}"
+  name          = "single_ip_policy"
+  ip_subnetworks = "${var.ip_subnetworks}"
 }
 
 module "regular-service-perimeter-1" {

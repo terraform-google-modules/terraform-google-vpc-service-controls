@@ -16,7 +16,7 @@
 
 provider "google-beta" {
   version     = "~> 2.3"
-  credentials = "${file("./credentials.json")}"
+  credentials = "${file("${var.credentials_path}")}"
 }
 
 module "org-policy" {

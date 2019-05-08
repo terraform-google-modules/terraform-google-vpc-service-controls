@@ -6,6 +6,13 @@ This example illustrates how to use the `vpc-service-controls` module to configu
 1. Make sure you've gone through the root [Requirement Section](../../#requirements)
 2. Select 2 projects in your organization that will part of 2 different regular service perimeters.
 3. Enable the BigQuery API on both projects
+4. Grant the service account the following permissions on both projects:
+ - roles/bigquery.dataOwner
+ - roles/bigquery.jobUser
+
+You may use the following gcloud commands:
+   `gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<service-account-email> --role=roles/bigquery.jobUser`
+   `gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<service-account-email> --role=roles/bigquery.dataOwner`
 
 [^]: (autogen_docs_start)
 

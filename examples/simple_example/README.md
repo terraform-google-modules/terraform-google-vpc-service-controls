@@ -5,8 +5,8 @@ This example illustrates how to use the `vpc-service-controls` module to configu
 # Requirements
 
 1. Make sure you've gone through the root [Requirement Section](../../README.md#requirements) on any project in your organization.
-2. Select a second project in your organization. The project you already configured will be referred as the protected project that will be inside of the regular service perimeter. The second project will be the public project, which will outside of the regular service perimeter.
-3. Grant the service account the following permissions on the protected and public projects:
+2. If you need to run integration tests for this example, select a second project in your organization. The project you already configured will be referred as the protected project that will be inside of the regular service perimeter. The second project will be the public project, which will be outside of the regular service perimeter.
+3. Grant the service account the following permissions on the protected project:
  - roles/bigquery.dataOwner
  - roles/bigquery.jobUser
 
@@ -15,7 +15,7 @@ You may use the following gcloud commands:
    `gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<service-account-email> --role=roles/bigquery.dataOwner`
 
 4. Enable BigQuery API on the protected project.
-5. If you want to run the integration tests for this example, repeat step #4 and #5 on the public project.
+5. If you want to run the integration tests for this example, repeat step #3 and #4 on the public project.
 
 
 

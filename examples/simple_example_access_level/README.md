@@ -4,10 +4,6 @@ This example illustrates how to use the `vpc-service-controls` module to configu
 
 # Requirements
 1. Make sure you've gone through the root [Requirement Section](../../#requirements)
-2. Select 2 projects in your organization that will part of 2 different regular service perimeters.
-3. Enable the BigQuery API on both projects
-4. Copy your credentials.json key in this directory. 
-(Warning: this repo already has .gitignore configure to not track credentials.json files. If you are copying this example in a different repo, make sure to configure your .gitignore in the same fashion.)
 
 
 
