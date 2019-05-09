@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-provider "google-beta" {
+provider "google_beta" {
   version     = "~> 2.5"
   credentials = "${file("${var.credentials_path}")}"
 }

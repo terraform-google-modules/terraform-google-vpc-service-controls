@@ -15,7 +15,7 @@
  */
 
 resource "google_access_context_manager_service_perimeter" "regular_service_perimeter" {
-  provider       = "google-beta"
+  provider       = "google_beta"
   parent         = "accessPolicies/${var.policy}"
   perimeter_type = "PERIMETER_TYPE_REGULAR"
   name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
