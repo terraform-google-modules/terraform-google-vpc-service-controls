@@ -32,7 +32,7 @@ module "access_level_members" {
   members = "${var.members}"
 }
 
-module "regular-service-perimeter-1" {
+module "regular_service_perimeter_1" {
   source         = "../../modules/regular_service_perimeter"
   policy         = "${module.org_policy.policy_id}"
   perimeter_name = "regular_perimeter_1"

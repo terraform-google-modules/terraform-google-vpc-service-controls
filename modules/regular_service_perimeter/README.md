@@ -10,7 +10,7 @@ module "org_policy" {
   policy_name = "${var.policy_name}"
 }
 
-module "regular-service-perimeter-1" {
+module "regular_service_perimeter_1" {
   source         = "terraform-google-modules/vpc-service-controls/google/modules/regular_service_perimeter"
   policy         = "${module.org_policy.policy_id}"
   perimeter_name = "regular_perimeter_1"

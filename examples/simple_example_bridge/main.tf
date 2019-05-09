@@ -32,12 +32,12 @@ module "bridge-service-perimeter-1" {
   description    = "Some description"
 
   resources = [
-    "${module.regular-service-perimeter-1.shared_resources["all"]}",
+    "${module.regular_service_perimeter_1.shared_resources["all"]}",
     "${module.regular-service-perimeter-2.shared_resources["all"]}",
   ]
 }
 
-module "regular-service-perimeter-1" {
+module "regular_service_perimeter_1" {
   source         = "../../modules/regular_service_perimeter"
   policy         = "${module.org_policy.policy_id}"
   perimeter_name = "regular_perimeter_1"
