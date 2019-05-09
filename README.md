@@ -12,7 +12,7 @@ module "org_policy" {
   policy_name = "${var.policy_name}"
 }
 
-module "access-level-members" {
+module "access_level_members" {
   source   = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
   policy      = "${module.org_policy.policy_id}"
   name        = "terraform_members"
@@ -27,7 +27,7 @@ module "regular-service-perimeter-1" {
   description    = "Perimeter shielding projects"
   resources      = ["1111111"]
 
-  access_levels = ["${module.access-level-members.name}"]
+  access_levels = ["${module.access_level_members.name}"]
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
   shared_resources = {

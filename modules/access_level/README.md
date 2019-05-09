@@ -10,7 +10,7 @@ module "org_policy" {
   policy_name = "${var.policy_name}"
 }
 
-module "access-level-members" {
+module "access_level_members" {
   source         = "terraform-google-modules/vpc-service-controls/google/modules/access_level"
   policy      = "${module.org_policy.policy_id}"
   name        = "terraform_members"
