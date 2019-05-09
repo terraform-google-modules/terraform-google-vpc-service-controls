@@ -10,7 +10,7 @@ module "org_policy" {
   policy_name = "${var.policy_name}"
 }
 
-module "bridge-service-perimeter-1" {
+module "bridge_service_perimeter_1" {
   source         = "terraform-google-modules/vpc-service-controls/google//modules/bridge_service_perimeter"
   policy         = "${module.org_policy.policy_id}"
   perimeter_name = "bridge_perimeter_1"
@@ -18,7 +18,7 @@ module "bridge-service-perimeter-1" {
 
   resources = [
     "${module.regular_service_perimeter_1.shared_resources["all"]}",
-    "${module.regular-service-perimeter-2.shared_resources["all"]}",
+    "${module.regular_service_perimeter_2.shared_resources["all"]}",
   ]
 }
 
@@ -36,7 +36,7 @@ module "regular_service_perimeter_1" {
   }
 }
 
-module "regular-service-perimeter-2" {
+module "regular_service_perimeter_2" {
   source         = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
   policy         = "${module.org_policy.policy_id}"
   perimeter_name = "regular_perimeter_2"

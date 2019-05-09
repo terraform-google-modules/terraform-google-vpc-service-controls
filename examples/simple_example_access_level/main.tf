@@ -25,7 +25,7 @@ module "org_policy" {
   policy_name = "${var.policy_name}"
 }
 
-module "access-level-1" {
+module "access_level_1" {
   source         = "../../modules/access_level"
   policy         = "${module.org_policy.policy_id}"
   name           = "single_ip_policy"
@@ -41,7 +41,7 @@ module "regular_service_perimeter_1" {
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
-  access_levels = ["${module.access-level-1.name}"]
+  access_levels = ["${module.access_level_1.name}"]
 
   shared_resources = {
     all = ["${var.protected_project_ids["number"]}"]
