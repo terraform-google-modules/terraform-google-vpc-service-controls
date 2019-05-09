@@ -4,7 +4,7 @@ This module handles opiniated configuration and deployment of a [access_context_
 
 ## Usage 
 ```hcl
-module "org-policy" {
+module "org_policy" {
   source      = "terraform-google-modules/vpc-service-controls/google/modules/policy"
   parent_id   = "${var.parent_id}"
   policy_name = "${var.policy_name}"
@@ -12,7 +12,7 @@ module "org-policy" {
 
 module "regular-service-perimeter-1" {
   source         = "terraform-google-modules/vpc-service-controls/google/modules/regular_service_perimeter"
-  policy         = "${module.org-policy.policy_id}"
+  policy         = "${module.org_policy.policy_id}"
   perimeter_name = "regular_perimeter_1"
   description    = "Some description"
   resources      = ["1111111111"]

@@ -19,7 +19,7 @@ provider "google_beta" {
   credentials = "${file("${var.credentials_path}")}"
 }
 
-module "org-policy" {
+module "org_policy" {
   source      = "../.."
   parent_id   = "${var.parent_id}"
   policy_name = "${var.policy_name}"
@@ -27,7 +27,7 @@ module "org-policy" {
 
 module "bridge-service-perimeter-1" {
   source         = "../../modules/bridge_service_perimeter"
-  policy         = "${module.org-policy.policy_id}"
+  policy         = "${module.org_policy.policy_id}"
   perimeter_name = "bridge_perimeter_1"
   description    = "Some description"
 
@@ -39,7 +39,7 @@ module "bridge-service-perimeter-1" {
 
 module "regular-service-perimeter-1" {
   source         = "../../modules/regular_service_perimeter"
-  policy         = "${module.org-policy.policy_id}"
+  policy         = "${module.org_policy.policy_id}"
   perimeter_name = "regular_perimeter_1"
   description    = "Some description"
   resources      = ["${var.protected_project_ids["number"]}"]
@@ -53,7 +53,7 @@ module "regular-service-perimeter-1" {
 
 module "regular-service-perimeter-2" {
   source         = "../../modules/regular_service_perimeter"
-  policy         = "${module.org-policy.policy_id}"
+  policy         = "${module.org_policy.policy_id}"
   perimeter_name = "regular_perimeter_2"
   description    = "Some description"
   resources      = ["${var.public_project_ids["number"]}"]

@@ -4,7 +4,7 @@ This module handles opiniated configuration and deployment of [access_context_ma
 
 ## Usage 
 ```hcl
-module "org-policy" {
+module "org_policy" {
   source      = "terraform-google-modules/vpc-service-controls/google"
   parent_id   = "${var.parent_id}"
   policy_name = "${var.policy_name}"
@@ -12,7 +12,7 @@ module "org-policy" {
 
 module "access-level-members" {
   source         = "terraform-google-modules/vpc-service-controls/google/modules/access_level"
-  policy      = "${module.org-policy.policy_id}"
+  policy      = "${module.org_policy.policy_id}"
   name        = "terraform_members"
   members = ["serviceAccount:<service-account-email>", "user:<user-email>"]
 }
