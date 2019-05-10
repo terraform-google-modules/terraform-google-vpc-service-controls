@@ -15,7 +15,7 @@
  */
 
 resource "google_access_context_manager_service_perimeter" "bridge_service_perimeter" {
-  provider       = "google_beta"
+  provider       = "google"
   parent         = "accessPolicies/${var.policy}"
   perimeter_type = "PERIMETER_TYPE_BRIDGE"
   name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"

@@ -4,6 +4,11 @@ This module handles opiniated configuration and deployment of a [access_context_
 
 ## Usage 
 ```hcl
+provider "google" {
+  version     = "~> 2.5.0"
+  credentials = "${file("${var.credentials_path}")}"
+}
+
 module "org_policy" {
   source      = "terraform-google-modules/vpc-service-controls/google//modules/policy"
   parent_id   = "${var.parent_id}"

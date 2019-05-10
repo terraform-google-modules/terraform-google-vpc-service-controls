@@ -6,6 +6,11 @@ This module handles opiniated VPC Service Controls and Access Context Manager co
 The root module only handles the configuration of the [access_context_manager_policy resource](https://www.terraform.io/docs/providers/google/r/access_context_manager_access_policy.html). For examples on how to use the root module with along with other submodules to configure all of VPC Service Controls and Access Context Manager resources, see the [examples](./examples/) folder and the [modules](./modules/) folder
 
 ```hcl
+provider "google" {
+  version     = "~> 2.5.0"
+  credentials = "${file("${var.credentials_path}")}"
+}
+
 module "org_policy" {
   source      = "terraform-google-modules/vpc-service-controls/google"
   parent_id   = "${var.parent_id}"
