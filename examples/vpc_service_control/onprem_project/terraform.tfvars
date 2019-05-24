@@ -1,0 +1,7 @@
+project_id = ""
+service_account_file = ".json"
+organization_id = ""
+billing_account_id = ""
+cloud_router_region = "us-west1"
+shared_secret_string_for_vpn_connection = ""
+ip_addr_of_cloud_vpn_router = ""
