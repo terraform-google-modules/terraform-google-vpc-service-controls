@@ -213,6 +213,7 @@ resource "google_compute_instance" "windows_jumphost" {
     }
 
     network            = "default"
+    network_ip         = "10.138.0.3"
   }
 
   project = "${google_project.on_prem_network_project.project_id}"
