@@ -16,7 +16,7 @@ This is a demo of a GCP project protected from internet access using [VPC Servic
 
 You can optionally enable VPC SC using the Cloud Console instead of Terraform if you'd like to poke around at some of the features.
 
-The resources in this demo cost approx $14/day (or $0.58/hour) if you leave them up and running.  Luckily, Terraform makes it easy to spin the resources up and down on-demand.
+The resources in this demo cost approx $14/day (or $0.58/hour) if you leave them up and running.  Fortunately, Terraform makes it easy to spin the resources up and down on-demand.
 
 ## An important note about security
 If you're going to modify this code and check it in to your code repo:
@@ -40,7 +40,7 @@ To complete this demo, you'll need:
     - Go to the Billing section of the Cloud Console.  Select the billing account you want to charge for the projects you create.  (If you're using your credit card, the default limit is 5 projects mapped to a billing account, in case project creation fails for you in the steps below).  On the right side of the screen, there's a "Permissions" section for your billing account.  Click "Add members," and paste the email address of the service account you created.  Grant the service account Billing Admin privileges, so that it can map the projects it creates to your billing account.  **Note the billing account ID** (the alphanumeric text separated by hyphens), as we'll use it below.
 
 1. Create the on-prem project.
-    - In your favorite text editor, edit and save the following variables in `**onprem_project**/terraform.tfvars`:
+    - In your favorite text editor, edit and save the following variables in `onprem_project/terraform.tfvars`:
         - `project_id`: the unique ID for the on-prem project that is going to be created.  Use lowercase letters and a 6 digit random number only (no spaces).
         - `service_account_file`: the name of the service account secret key file you downloaded.  Relative path is fine if you saved it in the `onprem_project` directory.
         - `organization_id`: run `gcloud organizations list` to get this **number**.
@@ -56,7 +56,7 @@ To complete this demo, you'll need:
         - You will get an error message saying the Compute Engine API isn't enabled.  There will be a URL in the error message.  Copy and paste the URL into a browser, and then enable the Compute Engine API (takes a few minutes; be patient, let the spinner spin).  Once it's enabled, run `terraform apply` again - it should succeed.
 
 2. Create the project that will be protected by VPC Service Controls.
-    - Edit and save the following variables in `**vpc_sc_project**/terraform.tfvars`:
+    - Edit and save the following variables in `vpc_sc_project/terraform.tfvars`:
         - `project_id`: create a *different* project ID from the one in step 1
         - `service_account_file`
         - `organization_id`: should be *same* as in step 1
@@ -82,12 +82,12 @@ To complete this demo, you'll need:
     - `terraform plan` and make sure it says it's going to reserve an IP address
     - `terraform apply`
     - Write down the public IP address that is printed on the terminal when the command succeeds.
-    - **Important:**  Insert the public IP address into `**vpc_sc_project**/terraform.tfvars` under `ip_addr_of_onprem_vpn_router`.
+    - **Important:**  Insert the public IP address into `vpc_sc_project/terraform.tfvars` under `ip_addr_of_onprem_vpn_router`.
 
 4. Reserve a public IP for your VPC Service Control project's VPN router.
     - Follow all the steps in step 3, but instead do it in `vpc_sc_project/main.tf` and search for `STEP 2A` and `STEP 2B`.
     - Write down the public IP address that is printed on the terminal when the command succeeds.
-    - **Important:**  Insert the public IP address into `**onprem_project**/terraform.tfvars` under `ip_addr_of_cloud_vpn_router`.
+    - **Important:**  Insert the public IP address into `onprem_project/terraform.tfvars` under `ip_addr_of_cloud_vpn_router`.
     - Now the two VPN routers in each project will know how to find each other.
     
 5. Spin up the VPN router, Cloud Router, and VPN tunnel in on-prem project.
