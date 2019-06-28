@@ -14,17 +14,23 @@
  * limitations under the License.
  */
 
-
+// The ID of the GCP project that is going to be created
 variable "project_id" {}
 
-variable "service_account_file" {}
+// Path to the service account .json file
+variable "credentials_path" {}
 
+// Organization ID, which can be found at `gcloud organizations list`
 variable "organization_id" {}
 
+// Billing account ID to which the new project should be associated
 variable "billing_account_id" {}
 
-variable "cloud_router_region" {}
+// GCP Region (like us-west1, us-central1, etc)
+variable "region" {}
 
+// IP address that is reserved for the VPC SC project's VPN router
 variable "ip_addr_of_cloud_vpn_router" {}
 
-variable "shared_secret_string_for_vpn_connection" {}
+// Shared secret string for VPN connection
+variable "vpn_shared_secret" {}

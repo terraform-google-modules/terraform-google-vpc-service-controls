@@ -15,17 +15,16 @@
  */
 
 provider "google" {
-  credentials = "${file("${var.service_account_file}")}"
+  credentials = "${file("${var.credentials_path}")}"
 }
 
 resource "google_project" "on_prem_network_project" {
-  name = "On Prem Network"
-  project_id = "${var.project_id}"
-  org_id     = "${var.organization_id}"
-  billing_account	= "${var.billing_account_id}"
+  name                = "On Prem Network"
+  project_id          = "${var.project_id}"
+  org_id              = "${var.organization_id}"
+  billing_account     = "${var.billing_account_id}"
   auto_create_network = true
 }
-
 
 /* STEP 1A: DELETE THIS COMMENT LINE TO RESERVE STATIC IP (costs ~$0.24/day) 
 resource "google_compute_address" "onprem_vpn_ip" {
@@ -33,14 +32,13 @@ resource "google_compute_address" "onprem_vpn_ip" {
   name         = "onprem-vpn-ip"
   network_tier = "PREMIUM"
   project      = "${google_project.on_prem_network_project.project_id}"
-  region       = "${var.cloud_router_region}"
+  region       = "${var.region}"
 } 
 
 output "ip_addr_of_onprem_vpn_router" {
   value = "${google_compute_address.onprem_vpn_ip.address}"
 }
 STEP 1B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
-
 
 /* STEP 3A: DELETE THIS COMMENT LINE TO CREATE ONPREM VPN ROUTER (costs ~$1.80/day)
 resource "google_compute_router" "onprem_cloud_router" {
@@ -52,14 +50,14 @@ resource "google_compute_router" "onprem_cloud_router" {
   name    = "onprem-cloud-router"
   network = "default"
   project = "${google_project.on_prem_network_project.project_id}"
-  region  = "${var.cloud_router_region}"
+  region  = "${var.region}"
 }
 
 resource "google_compute_vpn_gateway" "target_gateway" {
   name    = "target-vpn-gateway"
   network = "default"
   project = "${google_project.on_prem_network_project.project_id}"
-  region  = "${var.cloud_router_region}"
+  region  = "${var.region}"
 }
 
 resource "google_compute_forwarding_rule" "fr_for_vpn_gateway" {
@@ -68,7 +66,7 @@ resource "google_compute_forwarding_rule" "fr_for_vpn_gateway" {
   ip_address  = "${google_compute_address.onprem_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
   project = "${google_project.on_prem_network_project.project_id}"
-  region = "${var.cloud_router_region}"
+  region = "${var.region}"
 }
 
 resource "google_compute_forwarding_rule" "fr_udp500" {
@@ -78,7 +76,7 @@ resource "google_compute_forwarding_rule" "fr_udp500" {
   ip_address  = "${google_compute_address.onprem_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
   project = "${google_project.on_prem_network_project.project_id}"
-  region = "${var.cloud_router_region}"
+  region = "${var.region}"
 }
 
 resource "google_compute_forwarding_rule" "fr_udp4500" {
@@ -88,7 +86,7 @@ resource "google_compute_forwarding_rule" "fr_udp4500" {
   ip_address  = "${google_compute_address.onprem_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
   project = "${google_project.on_prem_network_project.project_id}"
-  region = "${var.cloud_router_region}"
+  region = "${var.region}"
 }
 
 resource "google_compute_vpn_tunnel" "onprem_vpn_tunnel" {
@@ -96,16 +94,16 @@ resource "google_compute_vpn_tunnel" "onprem_vpn_tunnel" {
   name                    = "onprem-vpn-tunnel"
   peer_ip                 = "${var.ip_addr_of_cloud_vpn_router}"
   project                 = "${google_project.on_prem_network_project.project_id}"
-  region                  = "${var.cloud_router_region}"
+  region                  = "${var.region}"
   router                  = "${google_compute_router.onprem_cloud_router.self_link}"
   target_vpn_gateway      = "${google_compute_vpn_gateway.target_gateway.name}"
-  shared_secret           = "${var.shared_secret_string_for_vpn_connection}"
+  shared_secret           = "${var.vpn_shared_secret}"
 }
 
 resource "google_compute_router_interface" "onprem_router_interface" {
   name       = "onprem-router-interface"
   router     = "${google_compute_router.onprem_cloud_router.name}"
-  region     = "${var.cloud_router_region}"
+  region     = "${var.region}"
   ip_range   = "169.254.1.1/30"
   vpn_tunnel = "${google_compute_vpn_tunnel.onprem_vpn_tunnel.self_link}"
   project                 = "${google_project.on_prem_network_project.project_id}"
@@ -114,7 +112,7 @@ resource "google_compute_router_interface" "onprem_router_interface" {
 resource "google_compute_router_peer" "onprem_router_peer" {
   name                      = "peer-1"
   router                    = "${google_compute_router.onprem_cloud_router.name}"
-  region                    = "${var.cloud_router_region}"
+  region                    = "${var.region}"
   peer_ip_address           = "169.254.1.2"
   peer_asn                  = 64513
   advertised_route_priority = 100
@@ -131,8 +129,6 @@ resource "google_compute_route" "onprem_to_vpn_route" {
   next_hop_vpn_tunnel = "${google_compute_vpn_tunnel.onprem_vpn_tunnel.self_link}"
 }
  STEP 3B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
-
-
 
 /**********************************************/
 /***** BEGIN JUMPHOST AND FWD PROXY VM'S ******/
@@ -183,7 +179,7 @@ resource "google_compute_instance" "forward_proxy_instance" {
   }
 
   tags = ["forward-proxy"]
-  zone = "${var.cloud_router_region}-b"
+  zone = "${var.region}-b"
 }
 
 resource "google_compute_instance" "windows_jumphost" {
@@ -213,6 +209,7 @@ resource "google_compute_instance" "windows_jumphost" {
     }
 
     network            = "default"
+    network_ip         = "10.138.0.3"
   }
 
   project = "${google_project.on_prem_network_project.project_id}"
@@ -228,14 +225,10 @@ resource "google_compute_instance" "windows_jumphost" {
   }
 
   tags = ["forward-proxy"]
-  zone = "${var.cloud_router_region}-b"
+  zone = "${var.region}-b"
 }
 
  STEP 5B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
-
-
-
-
 
 /*********************************/
 /***** BEGIN FIREWALL RULES ******/
@@ -255,10 +248,6 @@ resource "google_compute_firewall" "allow_all_from_internal" {
   source_ranges = ["10.0.0.0/8"]
   target_tags   = ["forward-proxy"]
 }
-
-
-
-
 
 /*************************/
 /***** BEGIN ROUTES ******/

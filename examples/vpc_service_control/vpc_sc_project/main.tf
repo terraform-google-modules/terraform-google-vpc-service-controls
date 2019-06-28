@@ -15,7 +15,7 @@
  */
 
 provider "google" {
-  credentials = "${file("${var.service_account_file}")}"
+  credentials = "${file("${var.credentials_path}")}"
 }
 
 resource "google_project" "vpc_sc_network_project" {
@@ -43,7 +43,7 @@ resource "google_compute_subnetwork" "vpc_subnet" {
   network                  = "${google_compute_network.test-vpc.self_link}"
   private_ip_google_access = true
   project                  = "${google_project.vpc_sc_network_project.project_id}"
-  region                   = "${var.cloud_router_region}"
+  region                   = "${var.region}"
 }
 
 
@@ -55,7 +55,7 @@ resource "google_compute_address" "vpc_sc_vpn_ip" {
   name         = "vpc-sc-vpn-ip"
   network_tier = "PREMIUM"
   project      = "${google_project.vpc_sc_network_project.project_id}"
-  region       = "${var.cloud_router_region}"
+  region       = "${var.region}"
 }
 
 output "ip_addr_of_cloud_vpn_router" {
@@ -74,14 +74,14 @@ resource "google_compute_router" "vpc_sc_cloud_router" {
   name    = "vpc-sc-cloud-router"
   network = "${google_compute_network.test-vpc.self_link}"
   project = "${google_project.vpc_sc_network_project.project_id}"
-  region  = "${var.cloud_router_region}"
+  region  = "${var.region}"
 }
 
 resource "google_compute_vpn_gateway" "target_gateway" {
   name    = "target-vpn-gateway"
   network = "${google_compute_network.test-vpc.self_link}"
   project = "${google_project.vpc_sc_network_project.project_id}"
-  region  = "${var.cloud_router_region}"
+  region  = "${var.region}"
 }
 
 resource "google_compute_forwarding_rule" "fr_for_vpn_gateway" {
@@ -90,7 +90,7 @@ resource "google_compute_forwarding_rule" "fr_for_vpn_gateway" {
   ip_address  = "${google_compute_address.vpc_sc_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
   project = "${google_project.vpc_sc_network_project.project_id}"
-  region = "${var.cloud_router_region}"
+  region = "${var.region}"
 }
 
 resource "google_compute_forwarding_rule" "fr_udp500" {
@@ -100,7 +100,7 @@ resource "google_compute_forwarding_rule" "fr_udp500" {
   ip_address  = "${google_compute_address.vpc_sc_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
   project = "${google_project.vpc_sc_network_project.project_id}"
-  region = "${var.cloud_router_region}"
+  region = "${var.region}"
 }
 
 resource "google_compute_forwarding_rule" "fr_udp4500" {
@@ -110,7 +110,7 @@ resource "google_compute_forwarding_rule" "fr_udp4500" {
   ip_address  = "${google_compute_address.vpc_sc_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
   project = "${google_project.vpc_sc_network_project.project_id}"
-  region = "${var.cloud_router_region}"
+  region = "${var.region}"
 }
 
 resource "google_compute_vpn_tunnel" "vpc_sc_vpn_tunnel" {
@@ -118,16 +118,16 @@ resource "google_compute_vpn_tunnel" "vpc_sc_vpn_tunnel" {
   name                    = "vpc-sc-vpn-tunnel"
   peer_ip                 = "${var.ip_addr_of_onprem_vpn_router}"
   project                 = "${google_project.vpc_sc_network_project.project_id}"
-  region                  = "${var.cloud_router_region}"
+  region                  = "${var.region}"
   router                  = "${google_compute_router.vpc_sc_cloud_router.self_link}"
   target_vpn_gateway      = "${google_compute_vpn_gateway.target_gateway.name}"
-  shared_secret           = "${var.shared_secret_string_for_vpn_connection}"
+  shared_secret           = "${var.vpn_shared_secret}"
 }
 
 resource "google_compute_router_interface" "vpc_sc_router_interface" {
   name       = "vpc-sc-router-interface"
   router     = "${google_compute_router.vpc_sc_cloud_router.name}"
-  region     = "${var.cloud_router_region}"
+  region     = "${var.region}"
   ip_range   = "169.254.1.2/30"
   vpn_tunnel = "${google_compute_vpn_tunnel.vpc_sc_vpn_tunnel.self_link}"
   project = "${google_project.vpc_sc_network_project.project_id}"
@@ -136,7 +136,7 @@ resource "google_compute_router_interface" "vpc_sc_router_interface" {
 resource "google_compute_router_peer" "vpc_sc_router_peer" {
   name                      = "peer-1"
   router                    = "${google_compute_router.vpc_sc_cloud_router.name}"
-  region                    = "${var.cloud_router_region}"
+  region                    = "${var.region}"
   peer_ip_address           = "169.254.1.1"
   peer_asn                  = 64512
   advertised_route_priority = 100
@@ -200,7 +200,7 @@ resource "google_compute_instance" "vpc_sc_windows_instance" {
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
 
-  zone = "${var.cloud_router_region}-b"
+  zone = "${var.region}-b"
 }
 
 
