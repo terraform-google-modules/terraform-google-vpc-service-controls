@@ -25,7 +25,7 @@ If you're going to modify this code and check it in to your code repo:
 
 We recommend that you delete the service account .json file and delete the service account altogether when you've completed running through this demo.
 
-## Prerequisites
+## Requirements
 To complete this demo, you'll need:
 - A Google Cloud [organization](https://cloud.google.com/resource-manager/docs/quickstart-organizations) mapped to a domain that you own with at least one project already created.
 - A valid billing account where you have Billing Account Admin privileges.
