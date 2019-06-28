@@ -28,7 +28,7 @@ We recommend that you delete the service account .json file and delete the servi
 ## Requirements
 To complete this demo, you'll need:
 - A Google Cloud [organization](https://cloud.google.com/resource-manager/docs/quickstart-organizations) mapped to a domain that you own with at least one project already created.
-- A valid billing account where you have Billing Account Admin privileges.
+- A valid billing account where you have Billing Account User privileges.
 - A service account with Project Creator privileges.  Steps for provisioning this are included below, but those steps assume you have Organization Admin privileges.
 - Terraform v0.11.13 with provider.google v2.6.0 (the only versions I've tested; run `terraform version` to see what you've got).
 
@@ -104,8 +104,6 @@ To complete this demo, you'll need:
 7.  Continue bouncing back and forth between the two `main.tf` files, uncommenting code blocks in numeric order for `STEP 5A`, `6A`, `7A`, and running `terraform apply` after uncommenting each code block.
     - `7A` is in `vpc_sc_project/main.tf`.  It will prompt you to enable the Cloud DNS API.  Enable it.
 
-TODO: Complete the remaining instructions with more detail.
-
 8.  `STEP 8A` enables VPC Service Controls.  You can do this in Terraform; or you can go to the Security -> VPC Service Controls section of the Cloud Console and point and click around to explore this feature.
 
 To gain access to a VM in the VPC Service Control protected environment:
@@ -118,12 +116,3 @@ To gain access to a VM in the VPC Service Control protected environment:
 - Remember to delete all resources when done.  Easiest way to do this is to revert the two main.tf files, such that the resources that cost money are commented out again.
 
 When you're done with this demo and you're happy, delete the service account keys and delete the service account altogether from the Cloud Console.
-
-
-
-
-
-
-
-        
-        
