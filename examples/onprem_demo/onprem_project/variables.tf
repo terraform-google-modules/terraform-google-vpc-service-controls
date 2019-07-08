@@ -17,9 +17,6 @@
 // The ID of the GCP project that is going to be created
 variable "project_id" {}
 
-// Path to the service account .json file
-variable "credentials_path" {}
-
 // Organization ID, which can be found at `gcloud organizations list`
 variable "organization_id" {}
 

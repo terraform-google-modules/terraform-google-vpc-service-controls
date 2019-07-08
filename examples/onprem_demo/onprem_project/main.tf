@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-provider "google" {
-  credentials = "${file("${var.credentials_path}")}"
-}
-
 resource "google_project" "on_prem_network_project" {
   name                = "On Prem Network"
   project_id          = "${var.project_id}"
@@ -26,21 +22,19 @@ resource "google_project" "on_prem_network_project" {
   auto_create_network = true
 }
 
-/* STEP 1A: DELETE THIS COMMENT LINE TO RESERVE STATIC IP (costs ~$0.24/day) 
+resource "google_project_service" "gce_service" {
+  project = "${google_project.on_prem_network_project.project_id}"
+  service = "compute.googleapis.com"
+}
+
 resource "google_compute_address" "onprem_vpn_ip" {
   address_type = "EXTERNAL"
   name         = "onprem-vpn-ip"
   network_tier = "PREMIUM"
   project      = "${google_project.on_prem_network_project.project_id}"
   region       = "${var.region}"
-} 
-
-output "ip_addr_of_onprem_vpn_router" {
-  value = "${google_compute_address.onprem_vpn_ip.address}"
 }
-STEP 1B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
 
-/* STEP 3A: DELETE THIS COMMENT LINE TO CREATE ONPREM VPN ROUTER (costs ~$1.80/day)
 resource "google_compute_router" "onprem_cloud_router" {
   bgp {
     advertise_mode = "DEFAULT"
@@ -65,39 +59,39 @@ resource "google_compute_forwarding_rule" "fr_for_vpn_gateway" {
   ip_protocol = "ESP"
   ip_address  = "${google_compute_address.onprem_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
-  project = "${google_project.on_prem_network_project.project_id}"
-  region = "${var.region}"
+  project     = "${google_project.on_prem_network_project.project_id}"
+  region      = "${var.region}"
 }
 
 resource "google_compute_forwarding_rule" "fr_udp500" {
   name        = "frforvpngatewayudp500"
   ip_protocol = "UDP"
-  port_range = "500"
+  port_range  = "500"
   ip_address  = "${google_compute_address.onprem_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
-  project = "${google_project.on_prem_network_project.project_id}"
-  region = "${var.region}"
+  project     = "${google_project.on_prem_network_project.project_id}"
+  region      = "${var.region}"
 }
 
 resource "google_compute_forwarding_rule" "fr_udp4500" {
   name        = "frforvpngatewayudp4500"
   ip_protocol = "UDP"
-  port_range = "4500"
+  port_range  = "4500"
   ip_address  = "${google_compute_address.onprem_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
-  project = "${google_project.on_prem_network_project.project_id}"
-  region = "${var.region}"
+  project     = "${google_project.on_prem_network_project.project_id}"
+  region      = "${var.region}"
 }
 
 resource "google_compute_vpn_tunnel" "onprem_vpn_tunnel" {
-  ike_version             = "2"
-  name                    = "onprem-vpn-tunnel"
-  peer_ip                 = "${var.ip_addr_of_cloud_vpn_router}"
-  project                 = "${google_project.on_prem_network_project.project_id}"
-  region                  = "${var.region}"
-  router                  = "${google_compute_router.onprem_cloud_router.self_link}"
-  target_vpn_gateway      = "${google_compute_vpn_gateway.target_gateway.name}"
-  shared_secret           = "${var.vpn_shared_secret}"
+  ike_version        = "2"
+  name               = "onprem-vpn-tunnel"
+  peer_ip            = "${var.ip_addr_of_cloud_vpn_router}"
+  project            = "${google_project.on_prem_network_project.project_id}"
+  region             = "${var.region}"
+  router             = "${google_compute_router.onprem_cloud_router.self_link}"
+  target_vpn_gateway = "${google_compute_vpn_gateway.target_gateway.name}"
+  shared_secret      = "${var.vpn_shared_secret}"
 }
 
 resource "google_compute_router_interface" "onprem_router_interface" {
@@ -106,7 +100,7 @@ resource "google_compute_router_interface" "onprem_router_interface" {
   region     = "${var.region}"
   ip_range   = "169.254.1.1/30"
   vpn_tunnel = "${google_compute_vpn_tunnel.onprem_vpn_tunnel.self_link}"
-  project                 = "${google_project.on_prem_network_project.project_id}"
+  project    = "${google_project.on_prem_network_project.project_id}"
 }
 
 resource "google_compute_router_peer" "onprem_router_peer" {
@@ -117,24 +111,21 @@ resource "google_compute_router_peer" "onprem_router_peer" {
   peer_asn                  = 64513
   advertised_route_priority = 100
   interface                 = "${google_compute_router_interface.onprem_router_interface.name}"
-  project                 = "${google_project.on_prem_network_project.project_id}"
+  project                   = "${google_project.on_prem_network_project.project_id}"
 }
 
 resource "google_compute_route" "onprem_to_vpn_route" {
-  name       = "onprem-to-vpn-route"
-  network    = "default"
-  dest_range = "10.7.0.0/16"
-  priority   = 1000
-  project                 = "${google_project.on_prem_network_project.project_id}"
+  name                = "onprem-to-vpn-route"
+  network             = "default"
+  dest_range          = "10.7.0.0/16"
+  priority            = 1000
+  project             = "${google_project.on_prem_network_project.project_id}"
   next_hop_vpn_tunnel = "${google_compute_vpn_tunnel.onprem_vpn_tunnel.self_link}"
 }
- STEP 3B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
 
 /**********************************************/
 /***** BEGIN JUMPHOST AND FWD PROXY VM'S ******/
 /**********************************************/
-/* STEP 5A: DELETE THIS COMMENT LINE TO CREATE ONPREM FORWARD PROXY AND WINDOWS JUMPHOST (costs ~$4.61/day) 
-
 resource "google_compute_instance" "forward_proxy_instance" {
   boot_disk {
     auto_delete = true
@@ -145,14 +136,13 @@ resource "google_compute_instance" "forward_proxy_instance" {
       size  = "10"
       type  = "pd-standard"
     }
-
   }
 
   can_ip_forward      = true
   deletion_protection = false
-  labels              {}
+  labels              = {}
   machine_type        = "n1-standard-1"
-  metadata            {}
+  metadata            = {}
   name                = "forward-proxy-instance"
 
   network_interface {
@@ -160,8 +150,8 @@ resource "google_compute_instance" "forward_proxy_instance" {
       network_tier = "PREMIUM"
     }
 
-    network            = "default"
-    network_ip         = "10.138.0.2"
+    network    = "default"
+    network_ip = "10.138.0.2"
   }
 
   project = "${google_project.on_prem_network_project.project_id}"
@@ -192,14 +182,12 @@ resource "google_compute_instance" "windows_jumphost" {
       size  = "50"
       type  = "pd-ssd"
     }
-
   }
 
   can_ip_forward      = false
   deletion_protection = false
-  labels              {}
+  labels              = {}
   machine_type        = "n1-standard-2"
-
 
   name = "windows-jumphost"
 
@@ -208,8 +196,8 @@ resource "google_compute_instance" "windows_jumphost" {
       network_tier = "PREMIUM"
     }
 
-    network            = "default"
-    network_ip         = "10.138.0.3"
+    network    = "default"
+    network_ip = "10.138.0.3"
   }
 
   project = "${google_project.on_prem_network_project.project_id}"
@@ -227,8 +215,6 @@ resource "google_compute_instance" "windows_jumphost" {
   tags = ["forward-proxy"]
   zone = "${var.region}-b"
 }
-
- STEP 5B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
 
 /*********************************/
 /***** BEGIN FIREWALL RULES ******/

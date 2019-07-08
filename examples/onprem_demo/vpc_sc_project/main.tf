@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-provider "google" {
-  credentials = "${file("${var.credentials_path}")}"
-}
-
 resource "google_project" "vpc_sc_network_project" {
-  name = "VPC SC Network"
-  project_id = "${var.project_id}"
-  org_id     = "${var.organization_id}"
-  billing_account = "${var.billing_account_id}"
+  name                = "VPC SC Network"
+  project_id          = "${var.project_id}"
+  org_id              = "${var.organization_id}"
+  billing_account     = "${var.billing_account_id}"
   auto_create_network = false
 }
 
+resource "google_project_service" "gce_service" {
+  project = "${google_project.vpc_sc_network_project.project_id}"
+  service = "compute.googleapis.com"
+}
+
+resource "google_project_service" "dns_service" {
+  project = "${google_project.vpc_sc_network_project.project_id}"
+  service = "dns.googleapis.com"
+}
 
 resource "google_compute_network" "test-vpc" {
   auto_create_subnetworks         = false
@@ -34,7 +39,6 @@ resource "google_compute_network" "test-vpc" {
   project                         = "${google_project.vpc_sc_network_project.project_id}"
   routing_mode                    = "REGIONAL"
 }
-
 
 resource "google_compute_subnetwork" "vpc_subnet" {
   enable_flow_logs         = false
@@ -46,10 +50,6 @@ resource "google_compute_subnetwork" "vpc_subnet" {
   region                   = "${var.region}"
 }
 
-
-
-
-/* STEP 2A: DELETE THIS COMMENT LINE TO RESERVE STATIC IP (costs ~$0.24/day) 
 resource "google_compute_address" "vpc_sc_vpn_ip" {
   address_type = "EXTERNAL"
   name         = "vpc-sc-vpn-ip"
@@ -58,13 +58,6 @@ resource "google_compute_address" "vpc_sc_vpn_ip" {
   region       = "${var.region}"
 }
 
-output "ip_addr_of_cloud_vpn_router" {
-  value = "${google_compute_address.vpc_sc_vpn_ip.address}"
-}
- STEP 2B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
-
-
-/* STEP 4A: DELETE THIS COMMENT LINE TO CREATE CLOUD VPN ROUTER (costs ~$1.80/day) 
 resource "google_compute_router" "vpc_sc_cloud_router" {
   bgp {
     advertise_mode = "DEFAULT"
@@ -89,39 +82,39 @@ resource "google_compute_forwarding_rule" "fr_for_vpn_gateway" {
   ip_protocol = "ESP"
   ip_address  = "${google_compute_address.vpc_sc_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
-  project = "${google_project.vpc_sc_network_project.project_id}"
-  region = "${var.region}"
+  project     = "${google_project.vpc_sc_network_project.project_id}"
+  region      = "${var.region}"
 }
 
 resource "google_compute_forwarding_rule" "fr_udp500" {
   name        = "frforvpngatewayudp500"
   ip_protocol = "UDP"
-  port_range = "500"
+  port_range  = "500"
   ip_address  = "${google_compute_address.vpc_sc_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
-  project = "${google_project.vpc_sc_network_project.project_id}"
-  region = "${var.region}"
+  project     = "${google_project.vpc_sc_network_project.project_id}"
+  region      = "${var.region}"
 }
 
 resource "google_compute_forwarding_rule" "fr_udp4500" {
   name        = "frforvpngatewayudp4500"
   ip_protocol = "UDP"
-  port_range = "4500"
+  port_range  = "4500"
   ip_address  = "${google_compute_address.vpc_sc_vpn_ip.address}"
   target      = "${google_compute_vpn_gateway.target_gateway.self_link}"
-  project = "${google_project.vpc_sc_network_project.project_id}"
-  region = "${var.region}"
+  project     = "${google_project.vpc_sc_network_project.project_id}"
+  region      = "${var.region}"
 }
 
 resource "google_compute_vpn_tunnel" "vpc_sc_vpn_tunnel" {
-  ike_version             = "2"
-  name                    = "vpc-sc-vpn-tunnel"
-  peer_ip                 = "${var.ip_addr_of_onprem_vpn_router}"
-  project                 = "${google_project.vpc_sc_network_project.project_id}"
-  region                  = "${var.region}"
-  router                  = "${google_compute_router.vpc_sc_cloud_router.self_link}"
-  target_vpn_gateway      = "${google_compute_vpn_gateway.target_gateway.name}"
-  shared_secret           = "${var.vpn_shared_secret}"
+  ike_version        = "2"
+  name               = "vpc-sc-vpn-tunnel"
+  peer_ip            = "${var.ip_addr_of_onprem_vpn_router}"
+  project            = "${google_project.vpc_sc_network_project.project_id}"
+  region             = "${var.region}"
+  router             = "${google_compute_router.vpc_sc_cloud_router.self_link}"
+  target_vpn_gateway = "${google_compute_vpn_gateway.target_gateway.name}"
+  shared_secret      = "${var.vpn_shared_secret}"
 }
 
 resource "google_compute_router_interface" "vpc_sc_router_interface" {
@@ -130,7 +123,7 @@ resource "google_compute_router_interface" "vpc_sc_router_interface" {
   region     = "${var.region}"
   ip_range   = "169.254.1.2/30"
   vpn_tunnel = "${google_compute_vpn_tunnel.vpc_sc_vpn_tunnel.self_link}"
-  project = "${google_project.vpc_sc_network_project.project_id}"
+  project    = "${google_project.vpc_sc_network_project.project_id}"
 }
 
 resource "google_compute_router_peer" "vpc_sc_router_peer" {
@@ -141,26 +134,21 @@ resource "google_compute_router_peer" "vpc_sc_router_peer" {
   peer_asn                  = 64512
   advertised_route_priority = 100
   interface                 = "${google_compute_router_interface.vpc_sc_router_interface.name}"
-  project = "${google_project.vpc_sc_network_project.project_id}"
+  project                   = "${google_project.vpc_sc_network_project.project_id}"
 }
 
 resource "google_compute_route" "vpc_sc_to_vpn_route" {
-  name       = "vpc-sc-to-vpn-route"
-  network    = "${google_compute_network.test-vpc.self_link}"
-  dest_range = "0.0.0.0/0"
-  priority   = 1000
+  name                = "vpc-sc-to-vpn-route"
+  network             = "${google_compute_network.test-vpc.self_link}"
+  dest_range          = "0.0.0.0/0"
+  priority            = 1000
   project             = "${google_project.vpc_sc_network_project.project_id}"
   next_hop_vpn_tunnel = "${google_compute_vpn_tunnel.vpc_sc_vpn_tunnel.self_link}"
 }
 
- STEP 4B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
-
-
-
 /**********************************************/
 /***** BEGIN JUMPHOST AND FWD PROXY VM'S ******/
 /**********************************************/
-/* STEP 6A: DELETE THIS COMMENT LINE TO CREATE WINDOWS INSTANCE WITHOUT EXTERNAL IP INSIDE VPC (costs ~$3.80/day) 
 
 resource "google_compute_instance" "vpc_sc_windows_instance" {
   boot_disk {
@@ -172,20 +160,19 @@ resource "google_compute_instance" "vpc_sc_windows_instance" {
       size  = "50"
       type  = "pd-ssd"
     }
-
   }
 
   can_ip_forward      = false
   deletion_protection = false
-  labels              {}
+  labels              = {}
   machine_type        = "n1-standard-2"
 
   name = "vpc-sc-windows-instance"
 
   network_interface {
-    network            = "${google_compute_network.test-vpc.self_link}"
-    subnetwork         = "${google_compute_subnetwork.vpc_subnet.self_link}"
-    network_ip         = "10.7.0.2"
+    network    = "${google_compute_network.test-vpc.self_link}"
+    subnetwork = "${google_compute_subnetwork.vpc_subnet.self_link}"
+    network_ip = "10.7.0.2"
   }
 
   project = "${google_project.vpc_sc_network_project.project_id}"
@@ -202,11 +189,6 @@ resource "google_compute_instance" "vpc_sc_windows_instance" {
 
   zone = "${var.region}-b"
 }
-
-
- STEP 6B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
-
-
 
 /*********************************/
 /***** BEGIN FIREWALL RULES ******/
@@ -226,10 +208,6 @@ resource "google_compute_firewall" "allow_all_from_internal" {
   source_ranges = ["10.0.0.0/8"]
 }
 
-
-
-
-
 /*************************/
 /***** BEGIN ROUTES ******/
 /*************************/
@@ -243,76 +221,63 @@ resource "google_compute_route" "google_private_access_route" {
   project          = "${google_project.vpc_sc_network_project.project_id}"
 }
 
-
-
-
 /******************************/
 /***** BEGIN PRIVATE DNS ******/
 /******************************/
-/* STEP 7A: DELETE THIS COMMENT LINE TO CREATE DNS RECORDS THAT RESOLVE *.GOOGLEAPIS.COM TO GOOGLE PRIVATE ACCESS 
 // Steps below are reproduced from gcloud comands here:
 // https://cloud.google.com/vpc-service-controls/docs/set-up-private-connectivity#configuring_dns_with 
 
-
 resource "google_dns_managed_zone" "google_private_access_zone" {
-  name = "google-private-access-zone"
-  dns_name = "googleapis.com."
-  project          = "${google_project.vpc_sc_network_project.project_id}"
+  name        = "google-private-access-zone"
+  dns_name    = "googleapis.com."
+  project     = "${google_project.vpc_sc_network_project.project_id}"
   description = "Private DNS zone for resolving queries to Google APIs using Google Private Access"
 
   visibility = "private"
 
   private_visibility_config {
     networks {
-      network_url =  "${google_compute_network.test-vpc.self_link}"
+      network_url = "${google_compute_network.test-vpc.self_link}"
     }
   }
 }
 
 resource "google_dns_record_set" "cname" {
-  name = "*.googleapis.com."
+  name         = "*.googleapis.com."
   managed_zone = "${google_dns_managed_zone.google_private_access_zone.name}"
-  type = "CNAME"
-  ttl  = 300
-  rrdatas = ["restricted.googleapis.com."]
-  project          = "${google_project.vpc_sc_network_project.project_id}"
+  type         = "CNAME"
+  ttl          = 300
+  rrdatas      = ["restricted.googleapis.com."]
+  project      = "${google_project.vpc_sc_network_project.project_id}"
 }
-
 
 resource "google_dns_record_set" "a" {
-  name = "restricted.googleapis.com."
+  name         = "restricted.googleapis.com."
   managed_zone = "${google_dns_managed_zone.google_private_access_zone.name}"
-  type = "A"
-  ttl  = 300
-  rrdatas = ["199.36.153.4", "199.36.153.5", "199.36.153.6", "199.36.153.7"]
-  project          = "${google_project.vpc_sc_network_project.project_id}"
+  type         = "A"
+  ttl          = 300
+  rrdatas      = ["199.36.153.4", "199.36.153.5", "199.36.153.6", "199.36.153.7"]
+  project      = "${google_project.vpc_sc_network_project.project_id}"
 }
- STEP 7B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
-
-
-
 
 /***************************************/
 /***** BEGIN VPC SERVICE CONTROLS ******/
 /***************************************/
-/* STEP 8A: DELETE THIS COMMENT LINE TO ENABLE VPC SERVICE CONTROLS.  OR - USE THE SECURITY SECTION OF THE CLOUD CONSOLE TO ENABLE THEM  
+module "regular_service_perimeter_1" {
+  source         = "../../../modules/regular_service_perimeter"
+  policy         = "${var.access_policy_name}"
+  perimeter_name = "regular_perimeter_1"
+  description    = "VPC Service Controls perimeter"
+  resources      = ["${google_project.vpc_sc_network_project.number}"]
 
-resource "google_access_context_manager_service_perimeter" "service_perimeter" {
-  parent      = "accessPolicies/${var.access_policy_name}"
-  name        = "accessPolicies/${var.access_policy_name}/servicePerimeters/restrict_all"
-  title       = "restrict_all"
-  status {
-    resources = ["projects/${google_project.vpc_sc_network_project.number}"]
-    restricted_services = ["bigquery.googleapis.com",
-                           "cloudkms.googleapis.com",
-                           "bigtable.googleapis.com",
-                           "dataflow.googleapis.com",
-                           "dataproc.googleapis.com",
-                           "pubsub.googleapis.com",
-                           "spanner.googleapis.com",
-                           "storage.googleapis.com",
-                           "logging.googleapis.com"]
-  }
+  restricted_services = ["bigquery.googleapis.com",
+    "cloudkms.googleapis.com",
+    "bigtable.googleapis.com",
+    "dataflow.googleapis.com",
+    "dataproc.googleapis.com",
+    "pubsub.googleapis.com",
+    "spanner.googleapis.com",
+    "storage.googleapis.com",
+    "logging.googleapis.com",
+  ]
 }
-STEP 8B: DELETE THIS END-COMMENT LINE.  Then run terraform apply. */
-
