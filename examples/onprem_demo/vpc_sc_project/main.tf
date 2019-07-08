@@ -38,6 +38,7 @@ resource "google_compute_network" "test-vpc" {
   name                            = "test-vpc"
   project                         = "${google_project.vpc_sc_network_project.project_id}"
   routing_mode                    = "REGIONAL"
+  depends_on                      = ["google_project_service.gce_service"]
 }
 
 resource "google_compute_subnetwork" "vpc_subnet" {
@@ -56,6 +57,7 @@ resource "google_compute_address" "vpc_sc_vpn_ip" {
   network_tier = "PREMIUM"
   project      = "${google_project.vpc_sc_network_project.project_id}"
   region       = "${var.region}"
+  depends_on   = ["google_project_service.gce_service"]
 }
 
 resource "google_compute_router" "vpc_sc_cloud_router" {
@@ -240,6 +242,8 @@ resource "google_dns_managed_zone" "google_private_access_zone" {
       network_url = "${google_compute_network.test-vpc.self_link}"
     }
   }
+
+  depends_on = ["google_project_service.dns_service"]
 }
 
 resource "google_dns_record_set" "cname" {
@@ -263,6 +267,7 @@ resource "google_dns_record_set" "a" {
 /***************************************/
 /***** BEGIN VPC SERVICE CONTROLS ******/
 /***************************************/
+
 module "regular_service_perimeter_1" {
   source         = "../../../modules/regular_service_perimeter"
   policy         = "${var.access_policy_name}"

@@ -33,6 +33,7 @@ resource "google_compute_address" "onprem_vpn_ip" {
   network_tier = "PREMIUM"
   project      = "${google_project.on_prem_network_project.project_id}"
   region       = "${var.region}"
+  depends_on   = ["google_project_service.gce_service"]
 }
 
 resource "google_compute_router" "onprem_cloud_router" {
@@ -41,17 +42,19 @@ resource "google_compute_router" "onprem_cloud_router" {
     asn            = "64512"
   }
 
-  name    = "onprem-cloud-router"
-  network = "default"
-  project = "${google_project.on_prem_network_project.project_id}"
-  region  = "${var.region}"
+  name       = "onprem-cloud-router"
+  network    = "default"
+  project    = "${google_project.on_prem_network_project.project_id}"
+  region     = "${var.region}"
+  depends_on = ["google_project_service.gce_service"]
 }
 
 resource "google_compute_vpn_gateway" "target_gateway" {
-  name    = "target-vpn-gateway"
-  network = "default"
-  project = "${google_project.on_prem_network_project.project_id}"
-  region  = "${var.region}"
+  name       = "target-vpn-gateway"
+  network    = "default"
+  project    = "${google_project.on_prem_network_project.project_id}"
+  region     = "${var.region}"
+  depends_on = ["google_project_service.gce_service"]
 }
 
 resource "google_compute_forwarding_rule" "fr_for_vpn_gateway" {
@@ -168,8 +171,9 @@ resource "google_compute_instance" "forward_proxy_instance" {
     preemptible         = false
   }
 
-  tags = ["forward-proxy"]
-  zone = "${var.region}-b"
+  tags       = ["forward-proxy"]
+  zone       = "${var.region}-b"
+  depends_on = ["google_project_service.gce_service"]
 }
 
 resource "google_compute_instance" "windows_jumphost" {
@@ -212,8 +216,9 @@ resource "google_compute_instance" "windows_jumphost" {
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
 
-  tags = ["forward-proxy"]
-  zone = "${var.region}-b"
+  tags       = ["forward-proxy"]
+  zone       = "${var.region}-b"
+  depends_on = ["google_project_service.gce_service"]
 }
 
 /*********************************/

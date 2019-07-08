@@ -23,7 +23,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
 
   status {
     restricted_services = "${var.restricted_services}"
-    resources           = "${formatlist("projects/%s", var.resources)}"
+    resources           = ["${formatlist("projects/%s", var.resources)}"]
     access_levels       = ["${formatlist("accessPolicies/${var.policy}/accessLevels/%s", var.access_levels)}"]
   }
 }
