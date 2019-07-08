@@ -32,9 +32,6 @@ variable "billing_account_id" {}
 // GCP Region (like us-west1, us-central1, etc)
 variable "region" {}
 
-// IP address that is reserved for the VPC SC project's VPN router
-variable "ip_addr_of_onprem_vpn_router" {}
-
 // Shared secret string for VPN connection
 variable "vpn_shared_secret" {}
 

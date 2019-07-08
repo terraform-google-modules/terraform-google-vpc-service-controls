@@ -52,10 +52,10 @@ To complete this demo, you'll need:
             - `gcloud organizations list` to get the Organization ID
             - `gcloud access-context-manager policies list --organization <Organization ID>` 
 2. From a command line terminal:
-        - `cd examples/onprem_demo`
-        - `terraform plan`
-        - `terraform apply` and type "yes" when it prompts you to create the resources.  Might take a few minutes to create the projects (should be less than 5 minutes).
-        - If you get error messages about the Compute Engine API or Cloud DNS API needing to be enabled, wait a minute and try running `terraform apply` again.  If you get error messages about forwarding rules and VPN tunnel creation, wait a minute and try again.
+    - `cd examples/onprem_demo`
+    - `terraform plan`
+    - `terraform apply` and type "yes" when it prompts you to create the resources.  Might take a few minutes to create the projects (should be less than 5 minutes).
+    - If you get error messages about the Compute Engine API or Cloud DNS API needing to be enabled, wait a minute and try running `terraform apply` again.  If you get error messages about forwarding rules and VPN tunnel creation, wait a minute and try again.
 
 
 To gain access to a VM in the VPC Service Control protected environment:
