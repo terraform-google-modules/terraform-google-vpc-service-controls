@@ -19,12 +19,31 @@ resource "google_project" "on_prem_network_project" {
   project_id          = "${var.project_id}"
   org_id              = "${var.organization_id}"
   billing_account     = "${var.billing_account_id}"
-  auto_create_network = true
+  auto_create_network = false
 }
 
 resource "google_project_service" "gce_service" {
   project = "${google_project.on_prem_network_project.project_id}"
   service = "compute.googleapis.com"
+}
+
+resource "google_compute_network" "onprem-network" {
+  auto_create_subnetworks         = false
+  delete_default_routes_on_create = true
+  name                            = "onprem-network"
+  project                         = "${google_project.on_prem_network_project.project_id}"
+  routing_mode                    = "REGIONAL"
+  depends_on                      = ["google_project_service.gce_service"]
+}
+
+resource "google_compute_subnetwork" "onprem_subnet" {
+  enable_flow_logs         = false
+  ip_cidr_range            = "10.2.0.0/16"
+  name                     = "vpc-subnet"
+  network                  = "${google_compute_network.onprem-network.self_link}"
+  private_ip_google_access = false
+  project                  = "${google_project.on_prem_network_project.project_id}"
+  region                   = "${var.region}"
 }
 
 resource "google_compute_address" "onprem_vpn_ip" {
@@ -43,7 +62,7 @@ resource "google_compute_router" "onprem_cloud_router" {
   }
 
   name       = "onprem-cloud-router"
-  network    = "default"
+  network    = "${google_compute_network.onprem-network.self_link}"
   project    = "${google_project.on_prem_network_project.project_id}"
   region     = "${var.region}"
   depends_on = ["google_project_service.gce_service"]
@@ -51,7 +70,7 @@ resource "google_compute_router" "onprem_cloud_router" {
 
 resource "google_compute_vpn_gateway" "target_gateway" {
   name       = "target-vpn-gateway"
-  network    = "default"
+  network    = "${google_compute_network.onprem-network.self_link}"
   project    = "${google_project.on_prem_network_project.project_id}"
   region     = "${var.region}"
   depends_on = ["google_project_service.gce_service"]
@@ -119,7 +138,7 @@ resource "google_compute_router_peer" "onprem_router_peer" {
 
 resource "google_compute_route" "onprem_to_vpn_route" {
   name                = "onprem-to-vpn-route"
-  network             = "default"
+  network             = "${google_compute_network.onprem-network.self_link}"
   dest_range          = "10.7.0.0/16"
   priority            = 1000
   project             = "${google_project.on_prem_network_project.project_id}"
@@ -153,8 +172,9 @@ resource "google_compute_instance" "forward_proxy_instance" {
       network_tier = "PREMIUM"
     }
 
-    network    = "default"
-    network_ip = "10.138.0.2"
+    network    = "${google_compute_network.onprem-network.self_link}"
+    subnetwork = "${google_compute_subnetwork.onprem_subnet.self_link}"
+    network_ip = "10.2.0.2"
   }
 
   project = "${google_project.on_prem_network_project.project_id}"
@@ -200,8 +220,9 @@ resource "google_compute_instance" "windows_jumphost" {
       network_tier = "PREMIUM"
     }
 
-    network    = "default"
-    network_ip = "10.138.0.3"
+    network    = "${google_compute_network.onprem-network.self_link}"
+    subnetwork = "${google_compute_subnetwork.onprem_subnet.self_link}"
+    network_ip = "10.2.0.3"
   }
 
   project = "${google_project.on_prem_network_project.project_id}"
@@ -233,11 +254,26 @@ resource "google_compute_firewall" "allow_all_from_internal" {
   direction     = "INGRESS"
   disabled      = false
   name          = "allow-all-from-internal"
-  network       = "default"
+  network       = "${google_compute_network.onprem-network.self_link}"
   priority      = "1000"
   project       = "${google_project.on_prem_network_project.project_id}"
   source_ranges = ["10.0.0.0/8"]
   target_tags   = ["forward-proxy"]
+}
+
+resource "google_compute_firewall" "allow_rdp_ssh_from_internet" {
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "3389"]
+  }
+
+  direction     = "INGRESS"
+  disabled      = false
+  name          = "allow-rdp-ssh-from-internet"
+  network       = "${google_compute_network.onprem-network.self_link}"
+  priority      = "1000"
+  project       = "${google_project.on_prem_network_project.project_id}"
+  source_ranges = ["0.0.0.0/0"]
 }
 
 /*************************/
@@ -247,8 +283,8 @@ resource "google_compute_firewall" "allow_all_from_internal" {
 resource "google_compute_route" "default_for_all" {
   dest_range  = "0.0.0.0/0"
   name        = "default-for-all"
-  network     = "default"
-  next_hop_ip = "10.138.0.2"
+  network     = "${google_compute_network.onprem-network.self_link}"
+  next_hop_ip = "${google_compute_instance.forward_proxy_instance.network_interface.0.network_ip}"
   priority    = "1000"
   project     = "${google_project.on_prem_network_project.project_id}"
 }
@@ -256,7 +292,7 @@ resource "google_compute_route" "default_for_all" {
 resource "google_compute_route" "default_for_forward_proxy" {
   dest_range       = "0.0.0.0/0"
   name             = "default-for-forward-proxy"
-  network          = "default"
+  network          = "${google_compute_network.onprem-network.self_link}"
   next_hop_gateway = "https://www.googleapis.com/compute/v1/projects/${google_project.on_prem_network_project.project_id}/global/gateways/default-internet-gateway"
   priority         = "100"
   project          = "${google_project.on_prem_network_project.project_id}"
