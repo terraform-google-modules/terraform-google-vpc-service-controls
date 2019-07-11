@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-// The ID of the GCP project that is going to be created
-variable "project_id" {}
+variable "project_id" {
+  description = "The ID of the GCP project that is going to be created"
+}
 
-// Organization ID, which can be found at `gcloud organizations list`
-variable "organization_id" {}
+variable "organization_id" {
+  description = "Organization ID, which can be found at `gcloud organizations list`"
+}
 
-// Billing account ID to which the new project should be associated
-variable "billing_account_id" {}
+variable "billing_account_id" {
+  description = "Billing account ID to which the new project should be associated"
+}
 
-// GCP Region (like us-west1, us-central1, etc)
-variable "region" {}
+variable "region" {
+  description = "GCP Region (like us-west1, us-central1, etc)"
+}
 
-// IP address that is reserved for the VPC SC project's VPN router
-variable "ip_addr_of_cloud_vpn_router" {}
+variable "ip_addr_of_cloud_vpn_router" {
+  description = "IP address that is reserved for the VPC SC project's VPN router"
+}
 
-// Shared secret string for VPN connection
-variable "vpn_shared_secret" {}
+variable "vpn_shared_secret" {
+  description = "Shared secret string for VPN connection"
+}

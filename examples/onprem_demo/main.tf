@@ -15,7 +15,7 @@
  */
 
 provider "google" {
-  version     = "~> 2.6.0"
+  version     = "~> 2.5.0"
   credentials = "${file("${var.credentials_path}")}"
 }
 
@@ -37,5 +37,5 @@ module "vpc_sc_network" {
   region                       = "${var.region}"
   vpn_shared_secret            = "${var.vpn_shared_secret}"
   ip_addr_of_onprem_vpn_router = "${module.onprem_network.ip_addr_of_onprem_vpn_router}"
-  access_policy_name           = "1059294165525"
+  access_policy_name           = "${var.access_policy_name}"
 }

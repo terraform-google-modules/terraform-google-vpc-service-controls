@@ -37,10 +37,12 @@ To complete this demo, you'll need:
 0. Set up the service account needed to run the Terraform code.
     - In an existing project, create the service account.  Copy and paste its email address (the big, long, `gserviceaccount.com` address) to a scratch pad.  Download its .json secret key file into the `onprem_project/` and also copy it into the `vpc_sc_project` folders.  Be **extremely careful** with this file; delete it when you're done with this example.
     - Go to the [IAM admin](https://console.cloud.google.com/iam-admin/iam) section of your *organization.*  (You should see your domain name at the top of the screen, not an individual project name).  Click Add.  In the "New Members" box, paste the email address of the service account you created.  Under the Roles dialog, search for "Project Creator."  Grant that role by clicking Save.  Your service account can now create projects and act as a project owner for those projects.
-    - Go to the Billing section of the Cloud Console.  Select the billing account you want to charge for the projects you create.  (If you're using your credit card, the default limit is 5 projects mapped to a billing account, in case project creation fails for you in the steps below).  On the right side of the screen, there's a "Permissions" section for your billing account.  Click "Add members," and paste the email address of the service account you created.  Grant the service account Billing Admin privileges, so that it can map the projects it creates to your billing account.  **Note the billing account ID** (the alphanumeric text separated by hyphens), as we'll use it below.
+    -  Add the additional Organization level permissions to the service account mentioned [here](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls#organization-level-permissions) to  make sure your service account can create VPC SC otherwise known as Access Context Manager resources.
+    - Go to the Billing section of the Cloud Console.  Select the billing account you want to charge for the projects you create.  (If you're using your credit card, the default limit is 5 projects mapped to a billing account, in case project creation fails for you in the steps below).  On the right side of the screen, there's a "Permissions" section for your billing account.  Click "Add members," and paste the email address of the service account you created.  Grant the service account Billing Account User privileges, so that it can map the projects it creates to your billing account.  **Note the billing account ID** (the alphanumeric text separated by hyphens), as we'll use it below.
 
 1. Create the Terraform variables file.
-    - In your favorite text editor, edit and save the following variables in `examples/onprem_demo/terraform.tfvars`:
+    - In your favorite text editor, create and save a file named `terraform.tfvars` in the `examples/onprem_demo/` directory:
+
         - `vpc_sc_project_id`: the unique ID for the VPC Service Control project that is going to be created.  Use lowercase letters and a 6 digit random number only (no spaces).
         - `onprem_project_id`: the unique ID for the on-prem project that is going to be created.  Use lowercase letters and a 6 digit random number only (no spaces).
         - `credentials_path`: the name of the service account secret key file you downloaded.  Relative path is fine if you saved it in the `onprem_project` directory.
@@ -51,8 +53,10 @@ To complete this demo, you'll need:
         - `access_policy_name`: Get this value by running the following two commands:
             - `gcloud organizations list` to get the Organization ID
             - `gcloud access-context-manager policies list --organization <Organization ID>` 
+            - If the above commands return an error message, or don't return a value at all, you may have to create a new access policy (instructions [here](https://cloud.google.com/sdk/gcloud/reference/access-context-manager/policies/create)).
 2. From a command line terminal:
     - `cd examples/onprem_demo`
+    - `terraform init`
     - `terraform plan`
     - `terraform apply` and type "yes" when it prompts you to create the resources.  Might take a few minutes to create the projects (should be less than 5 minutes).
     - If you get error messages about the Compute Engine API or Cloud DNS API needing to be enabled, wait a minute and try running `terraform apply` again.  If you get error messages about forwarding rules and VPN tunnel creation, wait a minute and try again.
