@@ -28,6 +28,7 @@ variable "billing_account_id" {
 
 variable "region" {
   description = "GCP Region (like us-west1, us-central1, etc)"
+  default = "us-west1"
 }
 
 variable "ip_addr_of_onprem_vpn_router" {
