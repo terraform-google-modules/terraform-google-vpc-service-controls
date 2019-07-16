@@ -14,26 +14,35 @@
  * limitations under the License.
  */
 
-// The ID of the Onprem GCP project that is going to be created
-variable "onprem_project_id" {}
+variable "onprem_project_id" {
+  description = "The ID of the Onprem GCP project that is going to be created"
+}
 
-// The ID of the VPC Service Control project that is going to be created
-variable "vpc_sc_project_id" {}
+variable "vpc_sc_project_id" {
+  description = "The ID of the VPC Service Control project that is going to be created"
+}
 
-// Path to the service account .json file
-variable "credentials_path" {}
+variable "credentials_path" {
+  description = "Path to the service account .json file"
+}
 
-// Organization ID, which can be found at `gcloud organizations list`
-variable "organization_id" {}
+variable "organization_id" {
+  description = "Organization ID, which can be found at `gcloud organizations list`"
+}
 
-// Billing account ID to which the new project should be associated
-variable "billing_account_id" {}
+variable "billing_account_id" {
+  description = "Billing account ID to which the new project should be associated"
+}
 
-// GCP Region (like us-west1, us-central1, etc)
-variable "region" {}
+variable "region" {
+  description = "GCP Region (like us-west1, us-central1, etc)"
+  default     = "us-west1"
+}
 
-// Shared secret string for VPN connection
-variable "vpn_shared_secret" {}
+variable "vpn_shared_secret" {
+  description = "Shared secret string for VPN connection"
+}
 
-// Name of the access policy
-variable "access_policy_name" {}
+variable "access_policy_name" {
+  description = "Name of the access policy"
+}
