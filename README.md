@@ -2,40 +2,41 @@
 
 This module handles opiniated VPC Service Controls and Access Context Manager configuration and deployments.
 
+
+## Compatibility
+This module is meant for use with Terraform 0.12. If you haven't [upgraded](https://www.terraform.io/upgrade-guides/0-12.html) and need a Terraform 0.11.x-compatible version of this module, the last released version intended for Terraform 0.11.x
+is [0.1.0](https://registry.terraform.io/modules/terraform-google-modules/vpc-service-controls/google/0.1.0).
+
 ## Usage
 The root module only handles the configuration of the [access_context_manager_policy resource](https://www.terraform.io/docs/providers/google/r/access_context_manager_access_policy.html). For examples on how to use the root module with along with other submodules to configure all of VPC Service Controls and Access Context Manager resources, see the [examples](./examples/) folder and the [modules](./modules/) folder
 
 ```hcl
 provider "google" {
-  version     = "~> 2.5.0"
-  credentials = "${file("${var.credentials_path}")}"
+  version = "~> 2.5.0"
 }
 
 module "org_policy" {
   source      = "terraform-google-modules/vpc-service-controls/google"
-  parent_id   = "${var.parent_id}"
-  policy_name = "${var.policy_name}"
+  parent_id   = var.parent_id
+  policy_name = var.policy_name
 }
 
 module "access_level_members" {
-  source   = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  policy      = "${module.org_policy.policy_id}"
-  name        = "terraform_members"
-  members  = "${var.members}"
+  source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
+  policy  = module.org_policy.policy_id
+  name    = "terraform_members"
+  members = var.members
 }
 
 module "regular_service_perimeter_1" {
-   source         = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  policy         = "${module.org_policy.policy_id}"
-  perimeter_name = "regular_perimeter_1"
-
-  description    = "Perimeter shielding projects"
-  resources      = ["1111111"]
-
-  access_levels = ["${module.access_level_members.name}"]
+  source              = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
+  policy              = module.org_policy.policy_id
+  perimeter_name      = "regular_perimeter_1"
+  description         = "Perimeter shielding projects"
+  resources           = ["1111111"]
+  access_levels       = [module.access_level_members.name]
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
-
-  shared_resources = {
+  shared_resources    = {
     all = ["11111111"]
   }
 }
@@ -53,8 +54,7 @@ Then perform the following commands on the root folder:
 The [Access Context Manager API](https://cloud.google.com/access-context-manager/docs/) guarantees that resources will be created, but there may be a delay between a successful response and the change taking effect. For example, ["after you create a service perimeter, it may take up to 30 minutes for the changes to propagate and take effect"](https://cloud.google.com/vpc-service-controls/docs/create-service-perimeters).
 Because of these limitations in the API, you may first get an error when running `terraform apply` for the first time. However, for the [examples](./examples/) you should be able to succesfully deploy all resources by running `terraform apply` a second about 15 seconds after running it for the first time.
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -69,7 +69,7 @@ Because of these limitations in the API, you may first get an error when running
 | policy\_id | Resource name of the AccessPolicy. |
 | policy\_name | The policy's name. |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Requirements
 
@@ -83,8 +83,8 @@ The [project factory](https://github.com/terraform-google-modules/terraform-goog
 
 ### Software Dependencies
 ### Terraform
-- [Terraform](https://www.terraform.io/downloads.html) 0.11.x
-- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v2.0.0
+- [Terraform](https://www.terraform.io/downloads.html) >= 0.12.0
+- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) >= v2.5.0
 
 ### Configure a Service Account
 
@@ -117,7 +117,7 @@ In order to operate with the Service Account you must activate the following API
 
 ## Install
 
-Be sure you have the correct Terraform version (0.11.x), you can choose the binary here:
+Be sure you have the correct Terraform version (0.12.x), you can choose the binary here:
 - https://releases.hashicorp.com/terraform/
 
 
