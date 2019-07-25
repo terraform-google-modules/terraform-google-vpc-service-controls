@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-output "ip_addr_onprem_vpn_router" {
-  value       = "${google_compute_address.onprem_vpn_ip.address}"
-  description = "IP address of the VPN router in the onprem network project"
+output "windows_onprem_public_ip" {
+  description = "Public IP address for the 'onprem' Windows jumphost"
+  value       = "${module.onprem_network.windows_onprem_public_ip}"
 }
 
-output "windows_onprem_public_ip" {
-  value       = "${google_compute_instance.windows_jumphost.network_interface.0.access_config.0.nat_ip}"
-  description = "Public IP address for the 'onprem' Windows jumphost"
+output "windows_cloud_private_ip" {
+  description = "Private IP address for the 'cloud-based' Windows instance"
+  value       = "${module.vpc_sc_network.windows_cloud_private_ip}"
 }

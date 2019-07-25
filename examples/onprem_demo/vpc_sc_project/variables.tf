@@ -31,7 +31,7 @@ variable "region" {
   default     = "us-west1"
 }
 
-variable "ip_addr_of_onprem_vpn_router" {
+variable "ip_addr_onprem_vpn_router" {
   description = "IP address that is reserved for the VPC SC project's VPN router"
 }
 

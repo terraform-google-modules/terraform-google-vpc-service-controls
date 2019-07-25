@@ -108,7 +108,7 @@ resource "google_compute_forwarding_rule" "fr_udp4500" {
 resource "google_compute_vpn_tunnel" "onprem_vpn_tunnel" {
   ike_version        = "2"
   name               = "onprem-vpn-tunnel"
-  peer_ip            = "${var.ip_addr_of_cloud_vpn_router}"
+  peer_ip            = "${var.ip_addr_cloud_vpn_router}"
   project            = "${google_project.on_prem_network_project.project_id}"
   region             = "${var.region}"
   router             = "${google_compute_router.onprem_cloud_router.self_link}"

@@ -111,7 +111,7 @@ resource "google_compute_forwarding_rule" "fr_udp4500" {
 resource "google_compute_vpn_tunnel" "vpc_sc_vpn_tunnel" {
   ike_version        = "2"
   name               = "vpc-sc-vpn-tunnel"
-  peer_ip            = "${var.ip_addr_of_onprem_vpn_router}"
+  peer_ip            = "${var.ip_addr_onprem_vpn_router}"
   project            = "${google_project.vpc_sc_network_project.project_id}"
   region             = "${var.region}"
   router             = "${google_compute_router.vpc_sc_cloud_router.self_link}"

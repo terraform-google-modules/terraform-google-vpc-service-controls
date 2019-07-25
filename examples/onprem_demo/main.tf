@@ -26,7 +26,7 @@ module "onprem_network" {
   billing_account_id          = "${var.billing_account_id}"
   region                      = "${var.region}"
   vpn_shared_secret           = "${var.vpn_shared_secret}"
-  ip_addr_of_cloud_vpn_router = "${module.vpc_sc_network.ip_addr_of_cloud_vpn_router}"
+  ip_addr_cloud_vpn_router = "${module.vpc_sc_network.ip_addr_cloud_vpn_router}"
 }
 
 module "vpc_sc_network" {
@@ -36,6 +36,6 @@ module "vpc_sc_network" {
   billing_account_id           = "${var.billing_account_id}"
   region                       = "${var.region}"
   vpn_shared_secret            = "${var.vpn_shared_secret}"
-  ip_addr_of_onprem_vpn_router = "${module.onprem_network.ip_addr_of_onprem_vpn_router}"
+  ip_addr_onprem_vpn_router = "${module.onprem_network.ip_addr_onprem_vpn_router}"
   access_policy_name           = "${var.access_policy_name}"
 }
