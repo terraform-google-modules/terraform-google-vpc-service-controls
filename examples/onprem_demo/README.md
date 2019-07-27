@@ -88,4 +88,11 @@ When you're done with this demo, delete the service account keys and delete the 
 | vpc\_sc\_project\_id | The ID of the VPC Service Control project that is going to be created | string | n/a | yes |
 | vpn\_shared\_secret | Shared secret string for VPN connection | string | n/a | yes |
 
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| windows\_cloud\_private\_ip | Private IP address for the 'cloud-based' Windows instance |
+| windows\_onprem\_public\_ip | Public IP address for the 'onprem' Windows jumphost |
+
 [^]: (autogen_docs_end)
