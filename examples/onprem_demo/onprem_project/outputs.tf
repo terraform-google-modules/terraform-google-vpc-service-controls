@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-resource "google_access_context_manager_service_perimeter" "regular_service_perimeter" {
-  provider       = "google"
-  parent         = "accessPolicies/${var.policy}"
-  perimeter_type = "PERIMETER_TYPE_REGULAR"
-  name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
-  title          = "${var.perimeter_name}"
+output "ip_addr_onprem_vpn_router" {
+  value       = "${google_compute_address.onprem_vpn_ip.address}"
+  description = "IP address of the VPN router in the onprem network project"
+}
 
-  status {
-    restricted_services = "${var.restricted_services}"
-    resources           = ["${formatlist("projects/%s", var.resources)}"]
-    access_levels       = ["${formatlist("accessPolicies/${var.policy}/accessLevels/%s", var.access_levels)}"]
-  }
+output "windows_onprem_public_ip" {
+  value       = "${google_compute_instance.windows_jumphost.network_interface.0.access_config.0.nat_ip}"
+  description = "Public IP address for the 'onprem' Windows jumphost"
 }

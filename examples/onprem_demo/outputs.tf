@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-resource "google_access_context_manager_service_perimeter" "regular_service_perimeter" {
-  provider       = "google"
-  parent         = "accessPolicies/${var.policy}"
-  perimeter_type = "PERIMETER_TYPE_REGULAR"
-  name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
-  title          = "${var.perimeter_name}"
+output "windows_onprem_public_ip" {
+  description = "Public IP address for the 'onprem' Windows jumphost"
+  value       = "${module.onprem_network.windows_onprem_public_ip}"
+}
 
-  status {
-    restricted_services = "${var.restricted_services}"
-    resources           = ["${formatlist("projects/%s", var.resources)}"]
-    access_levels       = ["${formatlist("accessPolicies/${var.policy}/accessLevels/%s", var.access_levels)}"]
-  }
+output "windows_cloud_private_ip" {
+  description = "Private IP address for the 'cloud-based' Windows instance"
+  value       = "${module.vpc_sc_network.windows_cloud_private_ip}"
 }
