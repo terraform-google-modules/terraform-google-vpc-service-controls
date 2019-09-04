@@ -15,33 +15,31 @@
  */
 
 resource "google_access_context_manager_access_level" "access_level" {
-  provider    = "google"
+  provider    = google
   parent      = "accessPolicies/${var.policy}"
   name        = "accessPolicies/${var.policy}/accessLevels/${var.name}"
-  title       = "${var.name}"
-  description = "${var.description}"
+  title       = var.name
+  description = var.description
 
-  basic = [
-    {
-      conditions = [{
-        ip_subnetworks         = "${var.ip_subnetworks}"
-        required_access_levels = "${var.required_access_levels}"
-        members                = "${var.members}"
-        negate                 = "${var.negate}"
+  basic {
+    conditions {
+      ip_subnetworks         = var.ip_subnetworks
+      required_access_levels = var.required_access_levels
+      members                = var.members
+      negate                 = var.negate
 
-        device_policy {
-          require_screen_lock              = "${var.require_screen_lock}"
-          allowed_encryption_statuses      = "${var.allowed_encryption_statuses}"
-          allowed_device_management_levels = "${var.allowed_device_management_levels}"
+      device_policy {
+        require_screen_lock              = var.require_screen_lock
+        allowed_encryption_statuses      = var.allowed_encryption_statuses
+        allowed_device_management_levels = var.allowed_device_management_levels
 
-          os_constraints = [{
-            minimum_version = "${var.minimum_version}"
-            os_type         = "${var.os_type}"
-          }]
+        os_constraints {
+          minimum_version = var.minimum_version
+          os_type         = var.os_type
         }
-      }]
+      }
+    }
 
-      combining_function = "${var.combining_function}"
-    },
-  ]
+    combining_function = var.combining_function
+  }
 }

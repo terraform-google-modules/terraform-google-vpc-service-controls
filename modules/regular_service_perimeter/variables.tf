@@ -16,10 +16,12 @@
 
 variable "policy" {
   description = "Name of the parent policy"
+  type        = string
 }
 
 variable "description" {
   description = "Description of the regular perimeter"
+  type        = string
 }
 
 variable "perimeter_name" {
@@ -28,22 +30,24 @@ variable "perimeter_name" {
 
 variable "restricted_services" {
   description = "GCP services that are subject to the Service Perimeter restrictions. Must contain a list of services. For example, if storage.googleapis.com is specified, access to the storage buckets inside the perimeter must meet the perimeter's access restrictions."
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
 variable "resources" {
   description = "A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed."
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
 variable "access_levels" {
-  description = "A list of AccessLevel resource names that allow resources within the ServicePerimeter to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel is a syntax error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via GCP calls with request origins within the perimeter. "
+  description = "A list of AccessLevel resource names that allow resources within the ServicePerimeter to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel is a syntax error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via GCP calls with request origins within the perimeter. Example: 'accessPolicies/MY_POLICY/accessLevels/MY_LEVEL'. For Service Perimeter Bridge, must be empty."
+  type        = list(string)
   default     = []
 }
 
 variable "shared_resources" {
   description = "A map of lists of resources to share in a Bridge perimeter module. Each list should contain all or a subset of the perimeters resources"
-  default     = {}
+  type        = object({ all = list(string) })
+  default     = { all = [] }
 }

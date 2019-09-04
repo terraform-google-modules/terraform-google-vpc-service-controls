@@ -15,35 +15,35 @@
  */
 
 provider "google" {
-  version     = "~> 2.5.0"
-  credentials = "${file("${var.credentials_path}")}"
+  version = "~> 2.5.0"
 }
 
-module "org_policy" {
+module "access_context_manager_policy" {
   source      = "../.."
-  parent_id   = "${var.parent_id}"
-  policy_name = "${var.policy_name}"
+  parent_id   = var.parent_id
+  policy_name = var.policy_name
 }
 
 module "access_level_1" {
   source         = "../../modules/access_level"
-  policy         = "${module.org_policy.policy_id}"
+  policy         = module.access_context_manager_policy.policy_id
   name           = "single_ip_policy"
-  ip_subnetworks = "${var.ip_subnetworks}"
+  ip_subnetworks = var.ip_subnetworks
+  description    = "Some description"
 }
 
 module "regular_service_perimeter_1" {
   source         = "../../modules/regular_service_perimeter"
-  policy         = "${module.org_policy.policy_id}"
+  policy         = module.access_context_manager_policy.policy_id
   perimeter_name = "regular_perimeter_1"
   description    = "Some description"
-  resources      = ["${var.protected_project_ids["number"]}"]
+  resources      = [var.protected_project_ids["number"]]
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
-  access_levels = ["${module.access_level_1.name}"]
+  access_levels = [module.access_level_1.name]
 
   shared_resources = {
-    all = ["${var.protected_project_ids["number"]}"]
+    all = [var.protected_project_ids["number"]]
   }
 }
