@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-output "resources" {
-  description = "A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed."
-  value       = var.resources
+terraform {
+  required_version = ">= 0.12"
 }

@@ -14,17 +14,15 @@ You may use the following gcloud commands:
    `gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<service-account-email> --role=roles/bigquery.jobUser`
    `gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<service-account-email> --role=roles/bigquery.dataOwner`
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| credentials\_path | Path to credentials.json key for service account deploying resources | string | n/a | yes |
 | parent\_id | The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent. | string | n/a | yes |
 | policy\_name | The policy's name. | string | n/a | yes |
-| protected\_project\_ids | Project id and number of the project INSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | map | n/a | yes |
-| public\_project\_ids | Project id and number of the project OUTSIDE of the regular service perimeter. This variable is only necessary for running integration tests. This map variable expects an "id" for the project id and "number" key for the project number. | map | n/a | yes |
+| protected\_project\_ids | Project id and number of the project INSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | object | n/a | yes |
+| public\_project\_ids | Project id and number of the project OUTSIDE of the regular service perimeter. This variable is only necessary for running integration tests. This map variable expects an "id" for the project id and "number" key for the project number. | object | n/a | yes |
 
 ## Outputs
 
@@ -32,7 +30,7 @@ You may use the following gcloud commands:
 |------|-------------|
 | policy\_name |  |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 To provision this example, run the following from within this directory:
 - `terraform init` to get the plugins

@@ -15,25 +15,17 @@
  */
 
 output "parent_id" {
-  value = "${var.parent_id}"
+  value = var.parent_id
 }
 
 output "policy_name" {
-  value = "${var.policy_name}"
+  value = var.policy_name
 }
 
 output "protected_project_id" {
-  value = "${var.protected_project_ids["id"]}"
+  value = var.protected_project_ids["id"]
 }
 
 output "public_project_id" {
-  value = "${var.public_project_ids["id"]}"
-}
-
-output "dataset_id" {
-  value = "${module.example.dataset_id}"
-}
-
-output "table_id" {
-  value = "${module.example.table_id}"
+  value = var.public_project_ids["id"]
 }

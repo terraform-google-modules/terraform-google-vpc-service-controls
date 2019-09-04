@@ -15,52 +15,49 @@
  */
 
 provider "google" {
-  version     = "~> 2.5.0"
-  credentials = "${file("${var.credentials_path}")}"
+  version = "~> 2.5.0"
 }
 
-module "org_policy" {
+module "access_context_manager_policy" {
   source      = "../.."
-  parent_id   = "${var.parent_id}"
-  policy_name = "${var.policy_name}"
+  parent_id   = var.parent_id
+  policy_name = var.policy_name
 }
 
 module "access_level_members" {
-  source  = "../../modules/access_level"
-  policy  = "${module.org_policy.policy_id}"
-  name    = "terraform_members"
-  members = "${var.members}"
+  source      = "../../modules/access_level"
+  description = "Simple Example Access Level"
+  policy      = module.access_context_manager_policy.policy_id
+  name        = "terraform_members"
+  members     = var.members
 }
 
 module "regular_service_perimeter_1" {
   source         = "../../modules/regular_service_perimeter"
-  policy         = "${module.org_policy.policy_id}"
+  policy         = module.access_context_manager_policy.policy_id
   perimeter_name = "regular_perimeter_1"
 
   description = "Perimeter shielding bigquery project"
-  resources   = ["${var.protected_project_ids["number"]}"]
+  resources   = [var.protected_project_ids["number"]]
 
-  access_levels       = ["${module.access_level_members.name}"]
+  access_levels       = [module.access_level_members.name]
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
   shared_resources = {
-    all = ["${var.protected_project_ids["number"]}"]
+    all = [var.protected_project_ids["number"]]
   }
 }
 
 module "bigquery" {
-  source  = "terraform-google-modules/bigquery/google"
-  version = "0.1.0"
-
+  source            = "terraform-google-modules/bigquery/google"
+  version           = "2.0.0"
   dataset_id        = "sample_dataset"
   dataset_name      = "sample_dataset"
   description       = "Dataset with a single table with one field"
   expiration        = "3600000"
-  project_id        = "${var.protected_project_ids["id"]}"
+  project_id        = var.protected_project_ids["id"]
   location          = "US"
-  table_id          = "example_table"
   time_partitioning = "DAY"
-  schema_file       = "sample_bq_schema.json"
 
   dataset_labels = {
     env      = "dev"
@@ -68,9 +65,13 @@ module "bigquery" {
     owner    = "janesmith"
   }
 
-  table_labels = {
-    env      = "dev"
-    billable = "true"
-    owner    = "joedoe"
-  }
+  tables = [{
+    table_id = "example_table",
+    schema   = "sample_bq_schema.json",
+    labels = {
+      env      = "dev"
+      billable = "true"
+      owner    = "joedoe"
+    },
+  }, ]
 }
