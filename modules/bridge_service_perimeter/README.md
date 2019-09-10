@@ -60,7 +60,7 @@ module "regular_service_perimeter_2" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| description | Description of the bridge perimeter | string | n/a | yes |
+| description | Description of the bridge perimeter | string | `""` | no |
 | perimeter\_name | Name of the perimeter. Should be one unified string. Must only be letters, numbers and underscores | string | n/a | yes |
 | policy | Name of the parent policy | string | n/a | yes |
 | resources | A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed. | list(string) | n/a | yes |

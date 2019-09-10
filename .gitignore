@@ -50,3 +50,8 @@ examples/simple_example_access_level/terraform.tfvars
 terraform.tfvars
 
 credentials.json
+
+examples/automatic_folder.zip
+
+node_modules
+yarn.lock

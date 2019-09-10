@@ -1,0 +1,15 @@
+provider "google" {
+//  credentials = file("credentials.json")
+//  project     = "YOUR_PROJECT"
+  region      = "us-central1"
+}
+
+terraform {
+  required_version = "~> 0.12.0"
+
+  backend "gcs" {
+//    credentials = "credentials.json"
+    bucket      = "YOUR_BUCKET"
+    prefix      = "terraform/vpc-service-controls"
+  }
+}

@@ -38,7 +38,6 @@ setup_environment() {
 
   # Terraform variables
   export TF_VAR_project_id="$PROJECT_ID"
-  export TF_VAR_bucket_name="$BUCKET_NAME"
 }
 
 main() {
