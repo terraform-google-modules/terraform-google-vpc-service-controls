@@ -24,11 +24,6 @@ variable "parent_id" {
   type        = string
 }
 
-variable "policy_name" {
-  description = "The policy's name."
-  type        = string
-}
-
 variable "protected_project_ids" {
   description = "Project id and number of the project within the regular service perimeter"
   type        = object({ id = string, number = number })

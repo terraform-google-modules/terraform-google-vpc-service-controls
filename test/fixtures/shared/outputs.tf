@@ -19,7 +19,7 @@ output "parent_id" {
 }
 
 output "policy_name" {
-  value = var.policy_name
+  value = module.example.policy_name
 }
 
 output "protected_project_id" {
@@ -28,4 +28,8 @@ output "protected_project_id" {
 
 output "public_project_id" {
   value = var.public_project_ids["id"]
+}
+
+output "dataset_name" {
+  value = module.example.dataset_name
 }

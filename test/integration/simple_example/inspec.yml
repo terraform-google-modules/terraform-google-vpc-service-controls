@@ -1,8 +1,4 @@
 name: simple_example
-depends:
-  - name: inspec-gcp
-    git: https://github.com/inspec/inspec-gcp.git
-    version: ~> 0.11.0
 attributes:
   - name: protected_project_id
     required: true
@@ -10,7 +6,7 @@ attributes:
   - name: public_project_id
     required: true
     type: string
-  - name: dataset_id
+  - name: dataset_name
     required: true
     type: string
   - name: table_id

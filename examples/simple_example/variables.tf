@@ -33,3 +33,20 @@ variable "members" {
   description = "An allowed list of members (users, service accounts). The signed-in identity originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, etc.). Formats: user:{emailid}, serviceAccount:{emailid}"
   type        = list(string)
 }
+
+variable "access_level_name" {
+  description = "Access level name of the Access Policy."
+  type        = string
+  default     = "terraform_members"
+}
+
+variable "perimeter_name" {
+  description = "Perimeter name of the Access Policy.."
+  type        = string
+  default     = "regular_perimeter_1"
+}
+variable "dataset_id" {
+  description = "Unique dataset ID/name that will be created."
+  type        = string
+  default     = "sample_dataset"
+}

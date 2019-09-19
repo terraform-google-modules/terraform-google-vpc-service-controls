@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,8 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ruby '2.5.3'
+# Delete any exisiting oragization AccessPolicy
+# shellcheck disable=SC2154
+remove_gcloud_org_accesspolicy() {
+  source_test_env
+  init_credentials
 
-source 'https://rubygems.org/' do
-  gem 'kitchen-terraform', '~> 4.0.3'
-end
+  local policy
+  policy=$(gcloud access-context-manager policies list --organization="${TF_VAR_org_id}" | grep "${TF_VAR_org_id}" | awk '{print $1}')
+  if [[ -n "${policy}" ]]; then
+    echo "Removing Access Policy ${policy}"
+    gcloud access-context-manager policies delete "${policy}" --quiet
+  fi
+}

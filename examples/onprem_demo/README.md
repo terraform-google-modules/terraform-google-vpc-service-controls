@@ -6,13 +6,13 @@ This is a demo of a GCP project protected from internet access using [VPC Servic
 - Creates a project that will be protected with VPC SC with a custom network that has only one `10.7.0.0/16` subnet (purely for the sake of simplicity) in a region of your choice
 - Creates a VPN tunnel connecting the two projects (this could conceptually represent a dedicated interconnect as well)
 - Creates a Cloud Router in each project to exchange network routes between the two environments
-- Launches one virtual machine in the VPC SC project: 
+- Launches one virtual machine in the VPC SC project:
     - one Windows instance without an external IP address
-- Launches two virtual machines in the on-prem project: 
-    - one Linux instance acting as a forward proxy for all internet-bound requests; and 
+- Launches two virtual machines in the on-prem project:
+    - one Linux instance acting as a forward proxy for all internet-bound requests; and
     - one Windows instance representing an on-prem server.  You'll use this as a jumphost to RDP into the Windows instance in the VPC SC project.
 - Configures routes and DNS resolution for [Google Private Access](https://cloud.google.com/vpc/docs/configure-private-google-access) in the VPC SC project, so GCP API calls from within your project never traverse the public internet
-- Enables VPC Service Controls.  
+- Enables VPC Service Controls.
 
 You can optionally enable VPC SC using the Cloud Console instead of Terraform if you'd like to poke around at some of the features.
 
@@ -48,11 +48,11 @@ To complete this demo, you'll need:
         - `credentials_path`: the name of the service account secret key file you downloaded.  Relative path is fine if you saved it in the `onprem_project` directory.
         - `organization_id`: run `gcloud organizations list` to get this **number**.
         - `billing_account_id`: the billing account that the project will charge to.
-        - `region`: region where the GCP resources will be created. 
+        - `region`: region where the GCP resources will be created.
         - `vpn_shared_secret`: any random text string can go here.
         - `access_policy_name`: Get this value by running the following two commands:
             - `gcloud organizations list` to get the Organization ID
-            - `gcloud access-context-manager policies list --organization <Organization ID>` 
+            - `gcloud access-context-manager policies list --organization <Organization ID>`
             - If the above commands return an error message, or don't return a value at all, you may have to create a new access policy (instructions [here](https://cloud.google.com/sdk/gcloud/reference/access-context-manager/policies/create)).
 2. From a command line terminal:
     - `cd examples/onprem_demo`
@@ -67,14 +67,13 @@ To gain access to a VM in the VPC Service Control protected environment:
 - Set the Windows password for the jumphost in the on-prem project, and download the .rdp file
 - Set the Windows password for the VPC SC Windows VM
 - RDP into the jumphost using its public IP
-- Once you're in the jumphost, click Start -> Remote Desktop, and then RDP into `10.7.0.2` (the internal IP of the VM in the VPC Service Controls perimeter).  So you RDP into the jumphost, and then you RDP through the VPN tunnel into your cloud VM.  
+- Once you're in the jumphost, click Start -> Remote Desktop, and then RDP into `10.7.0.2` (the internal IP of the VM in the VPC Service Controls perimeter).  So you RDP into the jumphost, and then you RDP through the VPN tunnel into your cloud VM.
 - Play around with VPC Service Controls.
 - Remember to delete all resources when done.  Easiest way to do this is to run `terraform destroy`.
 
 When you're done with this demo, delete the service account keys and delete the service account altogether from the Cloud Console.
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -95,4 +94,4 @@ When you're done with this demo, delete the service account keys and delete the 
 | windows\_cloud\_private\_ip | Private IP address for the 'cloud-based' Windows instance |
 | windows\_onprem\_public\_ip | Public IP address for the 'onprem' Windows jumphost |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

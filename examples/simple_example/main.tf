@@ -28,14 +28,14 @@ module "access_level_members" {
   source      = "../../modules/access_level"
   description = "Simple Example Access Level"
   policy      = module.access_context_manager_policy.policy_id
-  name        = "terraform_members"
+  name        = var.access_level_name
   members     = var.members
 }
 
 module "regular_service_perimeter_1" {
   source         = "../../modules/regular_service_perimeter"
   policy         = module.access_context_manager_policy.policy_id
-  perimeter_name = "regular_perimeter_1"
+  perimeter_name = var.perimeter_name
 
   description = "Perimeter shielding bigquery project"
   resources   = [var.protected_project_ids["number"]]
@@ -51,8 +51,8 @@ module "regular_service_perimeter_1" {
 module "bigquery" {
   source            = "terraform-google-modules/bigquery/google"
   version           = "2.0.0"
-  dataset_id        = "sample_dataset"
-  dataset_name      = "sample_dataset"
+  dataset_id        = var.dataset_id
+  dataset_name      = var.dataset_id
   description       = "Dataset with a single table with one field"
   expiration        = "3600000"
   project_id        = var.protected_project_ids["id"]
