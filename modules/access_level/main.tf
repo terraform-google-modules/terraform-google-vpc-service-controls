@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+locals {
+  output_name = google_access_context_manager_access_level.access_level.name
+}
+
 resource "google_access_context_manager_access_level" "access_level" {
   provider    = google
   parent      = "accessPolicies/${var.policy}"
