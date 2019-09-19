@@ -2,10 +2,30 @@
 
 This example illustrates how to use the `vpc-service-controls` module to configure an org policy, an access level and a regular perimeter with projects inside a folder.
 
-# Requirements
+## Set up
+
+**Please note, that whole example folder is uploaded as a Cloud Function. Do not store credentials in it.**
 
 1. Make sure you've gone through the root [Requirement Section](../../README.md#requirements) on any project in your organization.
-2. Updated `provider.tf.dist` with remote state configs. Copy `provider.tf.dist` to `provider.tf` changing variables for local running
+
+2. Choose or create a project for hosting the VPC Service Controls manager.
+
+3. Activate the required APIs:
+    - cloudfunctions.googleapis.com
+    - accesscontextmanager.googleapis.com
+
+3. Create a Google Cloud Storage bucket to hold Terraform state.
+
+    ```sh
+    gsutil mb -p YOUR_PROJECT gs://YOUR_BUCKET_NAME
+    ```
+
+4. Copy `backend.tf.sample` to `backend.tf` and change the bucket to match your own on line 5.
+
+    ```sh
+    cp backend.tf.sample backend.tf
+    ```
+
 3. Create `local.tfvars` file with required inputs, like this:
 ````hcl-terraform
 project_id          = "YOUR_PROJECT"
@@ -16,11 +36,10 @@ members             = ["user:YOUR_NAME@google.com"]
 region              = "us-east1"
 restricted_services = ["storage.googleapis.com"]
 ````
-4. Please note, that whole example folder is uploaded as Cloud Function root. Don't store credentials in it!
-5. Add Cloud Function's SA to organization (Access Context Manager Admin), project IAM (Owner and Storage Object Admin) and watched folder (Logs Configuration Writer)
-6. You might need to apply TF changes twice due to ACM race condition
 
+<!-- 5. Add Cloud Function's SA to organization (Access Context Manager Admin), project IAM (Owner and Storage Object Admin) and watched folder (Logs Configuration Writer)
 
+6. You might need to apply TF changes twice due to ACM race condition -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
