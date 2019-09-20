@@ -1,7 +1,3 @@
-resource "random_pet" "main" {
-  separator = "-"
-}
-
 module "event_folder_log_entry" {
   source  = "terraform-google-modules/event-function/google//modules/event-folder-log-entry"
   version = "1.1.0"
@@ -11,7 +7,7 @@ resource.type="project" AND
 protoPayload.serviceName="cloudresourcemanager.googleapis.com" AND
 (protoPayload.methodName="CreateProject" OR protoPayload.methodName="DeleteProject" OR protoPayload.methodName="UpdateProject")
 EOF
-  name       = random_pet.main.id
+  name       = local.watcher_name
   project_id = var.project_id
   folder_id  = var.folder_id
 }
@@ -19,8 +15,8 @@ EOF
 resource "google_service_account" "watcher" {
   project = var.project_id
 
-  account_id   = random_pet.main.id
-  display_name = random_pet.main.id
+  account_id   = local.watcher_name
+  display_name = local.watcher_name
 }
 
 module "localhost_function" {
@@ -35,7 +31,7 @@ module "localhost_function" {
   }
 
   event_trigger    = module.event_folder_log_entry.function_event_trigger
-  name             = random_pet.main.id
+  name             = local.watcher_name
   project_id       = var.project_id
   region           = var.region
   source_directory = abspath(path.module)
