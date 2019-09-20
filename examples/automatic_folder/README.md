@@ -26,20 +26,44 @@ This example illustrates how to use the `vpc-service-controls` module to configu
     cp backend.tf.sample backend.tf
     ```
 
-3. Create `local.tfvars` file with required inputs, like this:
-````hcl-terraform
-project_id          = "YOUR_PROJECT"
-parent_id           = "ORG_ID"
-folder_id           = "FOLDER_ID"
-policy_name         = "automatic_folder"
-members             = ["user:YOUR_NAME@google.com"]
-region              = "us-east1"
-restricted_services = ["storage.googleapis.com"]
-````
+3. Create a local `terraform.tfvars` file with required inputs, like this:
 
-<!-- 5. Add Cloud Function's SA to organization (Access Context Manager Admin), project IAM (Owner and Storage Object Admin) and watched folder (Logs Configuration Writer)
+    ```tf
+    project_id          = "YOUR_PROJECT"
+    parent_id           = "ORG_ID"
+    folder_id           = "FOLDER_ID"
+    policy_name         = "automatic_folder"
+    members             = ["user:YOUR_NAME@google.com"]
+    region              = "us-east1"
+    restricted_services = ["storage.googleapis.com"]
+    ```
 
-6. You might need to apply TF changes twice due to ACM race condition -->
+4. Run `terraform apply` to create the perimeter and watching function.
+
+5. Grant the Cloud Function's SA access to your organization and management project. It needs these roles:
+
+    - Access Context Manager Admin (`roles/accesscontextmanager.policyAdmin`)
+    - Editor on the watched project (`roles/editor`)
+    - Logs Configuration Writer on the watched folder (`roles/logging.configWriter`)
+
+    ```bash
+    SA_ID=$(terraform output function_service_account)
+    ORG_ID=$(terraform output organization_id)
+    PROJECT_ID=$(terraform output project_id)
+    FOLDER_ID=$(terraform output folder_id)
+    gcloud organizations add-iam-policy-binding \
+        "${ORG_ID}" \
+        --member="serviceAccount:${SA_ID}" \
+        --role="roles/accesscontextmanager.policyAdmin"
+    gcloud projects add-iam-policy-binding \
+        "${PROJECT_ID}" \
+        --member="serviceAccount:${SA_ID}" \
+        --role="roles/editor"
+    gcloud resource-manager folders add-iam-policy-binding \
+        "${FOLDER_ID}" \
+        --member="serviceAccount:${SA_ID}" \
+        --role="roles/logging.configWriter"
+    ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs

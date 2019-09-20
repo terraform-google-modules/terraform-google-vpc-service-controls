@@ -37,20 +37,21 @@ data "google_project" "in_perimeter_folder" {
 }
 
 locals {
-  projects = compact(data.google_project.in_perimeter_folder.*.number)
+  projects  = compact(data.google_project.in_perimeter_folder.*.number)
+  parent_id = var.org_id
 }
 
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
-  version = "1.0.0"
+  version = "1.0.1"
 
-  parent_id   = var.parent_id
+  parent_id   = local.parent_id
   policy_name = var.policy_name
 }
 
 module "access_level_members" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "1.0.0"
+  version = "1.0.1"
 
   description = "${var.perimeter_name} Access Level"
   policy      = module.access_context_manager_policy.policy_id
@@ -60,7 +61,7 @@ module "access_level_members" {
 
 module "service_perimeter" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version = "1.0.0"
+  version = "1.0.1"
 
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name

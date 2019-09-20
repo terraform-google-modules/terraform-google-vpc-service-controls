@@ -34,13 +34,13 @@ module "localhost_function" {
     FOLDER_ID = var.folder_id
   }
 
-  event_trigger         = module.event_folder_log_entry.function_event_trigger
-  name                  = random_pet.main.id
-  project_id            = var.project_id
-  region                = var.region
-  source_directory      = abspath(path.module)
-  runtime               = "python37"
-//  runtime               = "go111"
+  event_trigger    = module.event_folder_log_entry.function_event_trigger
+  name             = random_pet.main.id
+  project_id       = var.project_id
+  region           = var.region
+  source_directory = abspath(path.module)
+  runtime          = "python37"
+  //  runtime               = "go111"
   available_memory_mb   = 2048
   timeout_s             = 540
   service_account_email = google_service_account.watcher.email

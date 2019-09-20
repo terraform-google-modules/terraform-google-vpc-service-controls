@@ -16,11 +16,11 @@
 
 variable "project_id" {
   type        = string
-  description = "The ID of the project to which resources will be applied."
+  description = "The ID of the project to host the watcher function."
 }
 
-variable "parent_id" {
-  description = "The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent (ID)."
+variable "org_id" {
+  description = "The parent organization ID of this AccessPolicy in the Cloud Resource Hierarchy."
   type        = string
 }
 
