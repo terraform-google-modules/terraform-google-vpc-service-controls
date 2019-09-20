@@ -58,15 +58,14 @@ def handler(event, context):
     if os.path.exists(PROJECT_DIR):
         rmtree(PROJECT_DIR)
 
-    copytree('.', PROJECT_DIR, ignore=ignore_patterns('.terraform', 'provider.tf', 'credentials.json'))
-    copyfile('provider.tf.dist', os.path.join(PROJECT_DIR, 'provider.tf'))
+    copytree('.', PROJECT_DIR, ignore=ignore_patterns('.terraform', 'credentials.json'))
 
     install_terraform()
 
     check_call([TERRAFORM_PATH, 'init'],
                   cwd=PROJECT_DIR,
                   printOut=True)
-    check_call([TERRAFORM_PATH, 'plan', '-no-color', '-var-file=local.tfvars', '-lock-timeout=300s', '-out', 'tfplan'],
+    check_call([TERRAFORM_PATH, 'plan', '-no-color', '-lock-timeout=300s', '-out', 'tfplan'],
                   cwd=PROJECT_DIR,
                   printOut=True)
     check_call([TERRAFORM_PATH, 'apply', '-no-color', '-auto-approve', '-lock-timeout=300s', 'tfplan'],
