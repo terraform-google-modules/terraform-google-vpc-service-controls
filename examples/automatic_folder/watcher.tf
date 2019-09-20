@@ -41,33 +41,3 @@ module "localhost_function" {
   timeout_s             = 540
   service_account_email = google_service_account.watcher.email
 }
-
-resource "null_resource" "wait_for_function" {
-  provisioner "local-exec" {
-    command = "sleep 60"
-  }
-
-  depends_on = [module.localhost_function]
-}
-
-resource "random_pet" "project_id" {
-  separator = "-"
-  prefix    = random_pet.main.id
-}
-
-resource "google_project" "test" {
-  name       = random_pet.project_id.id
-  project_id = random_pet.project_id.id
-  folder_id  = var.folder_id
-
-  lifecycle {
-    ignore_changes = [
-      labels,
-    ]
-  }
-
-  depends_on = [
-    null_resource.wait_for_function,
-    module.service_perimeter,
-  ]
-}
