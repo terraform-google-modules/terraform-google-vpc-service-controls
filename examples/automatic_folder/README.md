@@ -1,6 +1,6 @@
 # Automatically Secured Folder
 
-This example illustrates how to use the `vpc-service-controls` module to use Terraform and Cloud Functions to secure all projects within a folder via VPC service Controls.
+This example illustrates how to use Terraform and Cloud Functions to secure all projects within a folder via VPC service Controls.
 
 Terraform is used to set up a new service perimeter and to deploy a Cloud Function which monitors that folder via Stackdriver and Cloud Pub/Sub. When the function notices a new project is added to the folder, it executes Terraform to add the new project to the associated perimeter. Similarly, the function automatically removes projects from the perimeter if they are moved out of the folder.
 
@@ -92,6 +92,10 @@ Terraform is used to set up a new service perimeter and to deploy a Cloud Functi
     ```
 
 6. Test the function by creating a project in the protected folder (or moving an existing project in).
+
+## Limitations
+1. The Cloud Function used to manage the perimeter must be hosted in a project **outside** the perimeter. This is because Cloud Functions do not yet support VPC Service Controls.
+2. Nested folders are not supported. Only projects directly contained within your perimeter folder will be added.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
