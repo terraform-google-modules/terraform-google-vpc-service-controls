@@ -8,19 +8,19 @@ Terraform is used to set up a new service perimeter and to deploy a Cloud Functi
 
 ## Set up
 
-**Please note, that whole example folder is uploaded as a Cloud Function. Do not store credentials in it.**
+**Please note, the whole example folder is uploaded as a Cloud Function. Do not store credentials in it.**
 
 1. [Authenticate](https://www.terraform.io/docs/providers/google/provider_reference.html#credentials-1) to Terraform using either your user account or an exported Service Account key.
 
     ```bash
-    export GOOGLE_APPLICATION_CREDENTIALS=mykey.json
+    export GOOGLE_APPLICATION_CREDENTIALS=~/mykey.json
     ```
 
     You will need these roles:
 
-        - Access Context Manager Admin (`roles/accesscontextmanager.policyAdmin`)
-        - Editor on the watched project (`roles/editor`)
-        - Logs Configuration Writer on the watched folder (`roles/logging.configWriter`)
+    - Access Context Manager Admin (`roles/accesscontextmanager.policyAdmin`)
+    - Editor on the watched project (`roles/editor`)
+    - Logs Configuration Writer on the watched folder (`roles/logging.configWriter`)
 
 2. Choose or create a project for hosting the VPC Service Controls manager.
 
@@ -56,7 +56,7 @@ Terraform is used to set up a new service perimeter and to deploy a Cloud Functi
 
     ```tf
     project_id          = "YOUR_PROJECT"
-    parent_id           = "ORG_ID"
+    org_id              = "ORG_ID"
     folder_id           = "FOLDER_ID"
     policy_name         = "automatic_folder"
     members             = ["user:YOUR_NAME@google.com"]
