@@ -1,6 +1,10 @@
 # Automatic folder securing Example
 
-This example illustrates how to use the `vpc-service-controls` module to configure an org policy, an access level and a regular perimeter with projects inside a folder.
+This example illustrates how to use the `vpc-service-controls` module to use Terraform and Cloud Functions to secure all projects within a folder via VPC service Controls.
+
+Terraform is used to set up a new VPC Service Controls perimeter and to deploy a Cloud Function which monitors that folder via Stackdriver and Cloud Pub/Sub. When the function notices a new project is added to the folder, it executes Terraform to add the new project to the associated perimeter. Similarly, the function automatically removes projects from the perimeter if they are moved out of the folder.
+
+![Diagram](./diagram.png)
 
 ## Set up
 
