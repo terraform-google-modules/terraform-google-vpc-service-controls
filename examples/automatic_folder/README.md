@@ -10,9 +10,17 @@ This example illustrates how to use the `vpc-service-controls` module to configu
 
 2. Choose or create a project for hosting the VPC Service Controls manager.
 
-3. Activate the required APIs:
+3. Activate the required APIs on your management project:
     - cloudfunctions.googleapis.com
     - accesscontextmanager.googleapis.com
+    - cloudresourcemanager.googleapis.com
+
+    ```bash
+    gcloud config set project YOUR_PROJECT
+    gcloud services enable cloudresourcemanager.googleapis.com
+    gcloud services enable cloudfunctions.googleapis.com
+    gcloud services enable accesscontextmanager.googleapis.com
+    ```
 
 3. Create a Google Cloud Storage bucket to hold Terraform state.
 
@@ -65,6 +73,8 @@ This example illustrates how to use the `vpc-service-controls` module to configu
         --role="roles/logging.configWriter"
     ```
 
+6. Test the function by creating a project in the protected folder (or moving an existing project in).
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
@@ -87,9 +97,3 @@ This example illustrates how to use the `vpc-service-controls` module to configu
 | protected\_project\_ids | Project ids of the projects INSIDE the regular service perimeter |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-To provision this example, run the following from within this directory:
-- `terraform init` to get the plugins
-- `terraform plan` to see the infrastructure plan
-- `terraform apply` to apply the infrastructure build
-- `terraform destroy` to destroy the built infrastructure

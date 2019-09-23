@@ -70,7 +70,8 @@ def handler(event, context):
                   printOut=True)
     check_call([TERRAFORM_PATH, 'apply',
         '-target=module.service_perimeter', '-no-color',
-        '-auto-approve', '-lock-timeout=300s'],
+        '-auto-approve', '-lock=false',
+        '-lock-timeout=300s'],
                   cwd=PROJECT_DIR,
                   printOut=True)
     check_call([TERRAFORM_PATH, 'output', '-json'],
