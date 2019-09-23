@@ -1,8 +1,8 @@
-# Automatic folder securing Example
+# Automatically Secured Folder
 
 This example illustrates how to use the `vpc-service-controls` module to use Terraform and Cloud Functions to secure all projects within a folder via VPC service Controls.
 
-Terraform is used to set up a new VPC Service Controls perimeter and to deploy a Cloud Function which monitors that folder via Stackdriver and Cloud Pub/Sub. When the function notices a new project is added to the folder, it executes Terraform to add the new project to the associated perimeter. Similarly, the function automatically removes projects from the perimeter if they are moved out of the folder.
+Terraform is used to set up a new service perimeter and to deploy a Cloud Function which monitors that folder via Stackdriver and Cloud Pub/Sub. When the function notices a new project is added to the folder, it executes Terraform to add the new project to the associated perimeter. Similarly, the function automatically removes projects from the perimeter if they are moved out of the folder.
 
 ![Diagram](./diagram.png)
 
@@ -10,9 +10,23 @@ Terraform is used to set up a new VPC Service Controls perimeter and to deploy a
 
 **Please note, that whole example folder is uploaded as a Cloud Function. Do not store credentials in it.**
 
-1. Make sure you've gone through the root [Requirement Section](../../README.md#requirements) on any project in your organization.
+1. [Authenticate](https://www.terraform.io/docs/providers/google/provider_reference.html#credentials-1) to Terraform using either your user account or an exported Service Account key.
+
+    ```bash
+    export GOOGLE_APPLICATION_CREDENTIALS=mykey.json
+    ```
+
+    You will need these roles:
+
+        - Access Context Manager Admin (`roles/accesscontextmanager.policyAdmin`)
+        - Editor on the watched project (`roles/editor`)
+        - Logs Configuration Writer on the watched folder (`roles/logging.configWriter`)
 
 2. Choose or create a project for hosting the VPC Service Controls manager.
+
+    ```bash
+    gcloud config set project YOUR_PROJECT
+    ```
 
 3. Activate the required APIs on your management project:
     - cloudfunctions.googleapis.com
