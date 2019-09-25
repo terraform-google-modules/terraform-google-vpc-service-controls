@@ -96,6 +96,7 @@ Terraform is used to set up a new service perimeter and to deploy a Cloud Functi
 ## Limitations
 1. The Cloud Function used to manage the perimeter must be hosted in a project **outside** the perimeter. This is because Cloud Functions do not yet support VPC Service Controls.
 2. Nested folders are not supported. Only projects directly contained within your perimeter folder will be added.
+3. See maximum number of projects per perimeter in https://cloud.google.com/vpc-service-controls/quotas.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
