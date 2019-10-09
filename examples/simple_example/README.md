@@ -24,8 +24,11 @@ You may use the following gcloud commands:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| members | An allowed list of members \(users, service accounts\). The signed-in identity originating the request must be a part of one of the provided members. If not specified, a request may come from any user \(logged in/not logged in, etc.\). Formats: user:\{emailid\}, serviceAccount:\{emailid\} | list(string) | n/a | yes |
+| access\_level\_name | Access level name of the Access Policy. | string | `"terraform_members"` | no |
+| dataset\_id | Unique dataset ID/name that will be created. | string | `"sample_dataset"` | no |
+| members | An allowed list of members (users, service accounts). The signed-in identity originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, etc.). Formats: user:{emailid}, serviceAccount:{emailid} | list(string) | n/a | yes |
 | parent\_id | The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent. | string | n/a | yes |
+| perimeter\_name | Perimeter name of the Access Policy.. | string | `"regular_perimeter_1"` | no |
 | policy\_name | The policy's name. | string | n/a | yes |
 | protected\_project\_ids | Project id and number of the project INSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | object | n/a | yes |
 
@@ -34,6 +37,7 @@ You may use the following gcloud commands:
 | Name | Description |
 |------|-------------|
 | dataset\_id | Unique id for the BigQuery dataset being provisioned |
+| dataset\_name | Name of dataset being provisioned |
 | policy\_name | Name of the parent policy |
 | protected\_project\_id | Project id of the project INSIDE the regular service perimeter |
 | table\_id | Unique id for the BigQuery table being provisioned |

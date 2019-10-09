@@ -33,3 +33,8 @@ output "table_id" {
   description = "Unique id for the BigQuery table being provisioned"
   value       = module.bigquery.table_id
 }
+
+output "dataset_name" {
+  description = "Name of dataset being provisioned"
+  value       = module.bigquery.dataset_name
+}

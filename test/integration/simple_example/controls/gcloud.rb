@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 protected_project_id       = attribute('protected_project_id')
-dataset_id       = attribute('dataset_id')
+dataset_name     = attribute('dataset_name')
 table_id         = attribute('table_id')
 public_project_id       = attribute('public_project_id')
 
 control "big_query_vpc_positive_test" do
-  describe command("bq query --use_legacy=false --project_id=#{protected_project_id} \'select * from `#{protected_project_id}.sample_dataset.example_table` limit 10\'" ) do
+  describe command("bq query --use_legacy=false --project_id=#{protected_project_id} \'select * from `#{protected_project_id}.#{dataset_name}.example_table` limit 10\'" ) do
     its(:exit_status) { should be 0 }
 
     its(:stderr) { should include "Current status: DONE" }
@@ -27,7 +26,7 @@ control "big_query_vpc_positive_test" do
 end
 
 control "big_query_vpc_negative_test" do
-  describe command("bq query --use_legacy=false --project_id=#{public_project_id} \'select * from `#{protected_project_id}.sample_dataset.example_table` limit 10\'" ) do
+  describe command("bq query --use_legacy=false --project_id=#{public_project_id} \'select * from `#{protected_project_id}.#{dataset_name}.example_table` limit 10\'" ) do
 
     # exit_status should be 1 as this is intentionally trigerring an errror by accesing the BigQuery data from outside the perimeter.
     its(:exit_status) { should be 1 }

@@ -37,8 +37,8 @@ data "google_project" "in_perimeter_folder" {
 }
 
 locals {
-  projects  = compact(data.google_project.in_perimeter_folder.*.number)
-  parent_id = var.org_id
+  projects     = compact(data.google_project.in_perimeter_folder.*.number)
+  parent_id    = var.org_id
   watcher_name = replace("${var.policy_name}-manager", "_", "-")
 }
 

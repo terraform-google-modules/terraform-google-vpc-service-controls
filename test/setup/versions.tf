@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-resource "random_id" "random_suffix" {
-  byte_length = 2
+terraform {
+  required_version = ">= 0.12"
 }
 
-module "example" {
-  source                = "../../../examples/simple_example"
-  parent_id             = var.parent_id
-  policy_name           = "int_test_vpc_sc_policy_${random_id.random_suffix.hex}"
-  protected_project_ids = var.protected_project_ids
-  members               = var.members
-  access_level_name     = "vpc_sc_members_test_${random_id.random_suffix.hex}"
-  perimeter_name        = "perimeter_vpc_sc_test_${random_id.random_suffix.hex}"
-  dataset_id            = "dataset_vpc_sc_test_${random_id.random_suffix.hex}"
+provider "google" {
+  version = "~> 2.13.0"
+}
+
+provider "google-beta" {
+  version = "~> 2.13.0"
 }
