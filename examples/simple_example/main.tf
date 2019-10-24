@@ -32,12 +32,20 @@ module "access_level_members" {
   members     = var.members
 }
 
+resource "null_resource" "wait_for_members" {
+  provisioner "local-exec" {
+    command = "sleep 60"
+  }
+
+  depends_on = [module.access_level_members]
+}
+
 module "regular_service_perimeter_1" {
   source         = "../../modules/regular_service_perimeter"
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name
 
-  description = "Perimeter shielding bigquery project"
+  description = "Perimeter shielding bigquery project ${null_resource.wait_for_members.id}"
   resources   = [var.protected_project_ids["number"]]
 
   access_levels       = [module.access_level_members.name]
