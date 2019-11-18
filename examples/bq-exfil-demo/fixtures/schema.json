@@ -7,7 +7,7 @@
 		"name" : "mpg",
 		"type" : "FLOAT"
 	},
-	{	
+	{
 		"name" : "cylinders",
 		"type" : "INTEGER"
 	},

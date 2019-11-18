@@ -25,7 +25,7 @@ This terraform code will create:
 There's a few steps needed to get this demo up and running properly or you'll have a difficult time setting it up later
 
 1. Create a Seed Project
-2. Use the [project factory helper script](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/helpers/setup-sa.sh) to create a Service Account in your seed 
+2. Use the [project factory helper script](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/helpers/setup-sa.sh) to create a Service Account in your seed
 3. Since this service account will be creating BigQuery Datasets and Storage Buckets as well as VPC Service Control perimeters, it'll need a few more permissions. At the Org level, add `Access Context Manager Admin`, and at the Folder level, add `BigQuery Admin` and `Storage Admin` to the seed project Service Account.
 4. Run `cp terraform.tfvars.sample terraform.tfvars` and then update that file with your own values.
 
@@ -55,7 +55,7 @@ First you'll want to get the bucket name from either the state or looking in the
 terraform state show google_storage_bucket.target_bucket | grep url | cut -f2 -d'=' |sed -e 's/^ "//' -e 's/"$//'
 ```
 
-Next log into the Bastion instance using `gcloud`. Notice how it will say something about tunnelling through IAP? 
+Next log into the Bastion instance using `gcloud`. Notice how it will say something about tunnelling through IAP?
 That's because the instance doesn't have a public IP!
 
 ```
@@ -71,10 +71,10 @@ bq head project_1_dataset.cars
 ```
 
 
-Now lets be a bit evil! We're going to attempt to exfil the data from this host to another GCP account that we own. 
+Now lets be a bit evil! We're going to attempt to exfil the data from this host to another GCP account that we own.
 Since we own it, we can grant the Service Account for the bastion Owner permissions on the target account. This was already
 done for you in the Terraform in `storage.tf`. Since we are Owner of the target account, without VPC SC, we could extract the
-entire table into a GCS bucket that we own, but with VPC SC protecting our BigQuery, that won't work. Let's try it anyway! 
+entire table into a GCS bucket that we own, but with VPC SC protecting our BigQuery, that won't work. Let's try it anyway!
 Using the bucket name you printed earlier (we'll call it BUCKET_URL), let's try to extract the cars table to the target bucket.
 You should get an output that looks something like this:
 
