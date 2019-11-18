@@ -1,0 +1,39 @@
+[
+	{
+		"name" : "car",
+		"type" : "STRING"
+	},
+	{
+		"name" : "mpg",
+		"type" : "FLOAT"
+	},
+	{	
+		"name" : "cylinders",
+		"type" : "INTEGER"
+	},
+	{
+		"name" : "displacement",
+		"type" : "FLOAT"
+	},
+	{
+		"name" : "horsepower",
+		"type" : "FLOAT"
+	},
+	{
+		"name" : "weight",
+		"type" : "FLOAT"
+	},
+	{
+		"name" : "acceleration",
+		"type" : "FLOAT"
+	},
+	{
+		"name" : "model",
+		"type" : "INTEGER"
+	},
+	{
+		"name" : "origin",
+		"type" : "STRING"
+	}
+]
+

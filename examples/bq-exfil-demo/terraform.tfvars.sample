@@ -1,0 +1,5 @@
+org_id  									= "1234567898765"
+billing_account 					= "AAAAAA-BBBBBB-CCCCCC"
+folder_id									= "1234567898765"
+members 									= ["serviceAccount:project-factory-12345@my-seed-project.iam.gserviceaccount.com"]
+terraform_service_account = "project-factory-12345@my-seed-project.iam.gserviceaccount.com" 
