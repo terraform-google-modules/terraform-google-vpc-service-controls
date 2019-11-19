@@ -7,7 +7,7 @@
 
 ## Overview
 
-![](fixtures/arch.png)
+![](assets/arch.png)
 
 This terraform code will create:
 
