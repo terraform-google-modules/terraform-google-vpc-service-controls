@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-variable "project1_id" {
-  type = "string"
-}
-
-variable "project2_id" {
-  type = "string"
-}
-
 variable "org_id" {
   type = "string"
 }
 
+variable "billing_account" {
+  type = "string"
+}
+
+variable "folder_id" {
+  type    = "string"
+  default = ""
+}
 variable "members" {
   type    = "list"
   default = []
@@ -49,4 +49,15 @@ variable "region" {
 variable "zone" {
   type    = "string"
   default = "us-west1-a"
+}
+
+variable "enabled_apis" {
+  type = "list"
+  default = [
+    "iap.googleapis.com",
+    "oslogin.googleapis.com",
+    "compute.googleapis.com",
+    "bigquery-json.googleapis.com",
+    "storage-api.googleapis.com",
+  ]
 }

@@ -33,9 +33,6 @@ resource "google_organization_policy" "external_ip_policy" {
 ## VPC Service Controls
 ###########################
 
-data "google_project" "project1" {
-  project_id = var.project1_id
-}
 module "org_policy" {
   source      = "terraform-google-modules/vpc-service-controls/google"
   version     = "~> 1.0.1"
@@ -57,7 +54,7 @@ module "regular_service_perimeter_1" {
   policy              = module.org_policy.policy_id
   perimeter_name      = "regular_perimeter_1"
   description         = "Perimeter shielding projects"
-  resources           = [data.google_project.project1.number]
+  resources           = [module.project1.project_number]
   access_levels       = [module.access_level_members.name]
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 }

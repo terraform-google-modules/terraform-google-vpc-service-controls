@@ -33,32 +33,26 @@ Now you should be good to go. If not please create an issue detailing your probl
 
 ## Deployment
 
-Since we have to first create the two projects, we have a Makefile that makes applying this easy. Just run:
+With all the arguments set in the `terraform.tfvars` file, simply run
 
 ```
-make apply_projects
+terraform apply
 ```
-
-This will apply both source and target projects to test out VPC SC and subsequently write the IDs into the `env.sh`. This file is sourced first before the subsequent `apply`. Now you can run:
-
-```
-make apply
-```
-
 
 ## Demo
 
 
-First you'll want to get the bucket name from either the state or looking in the console:
+First you'll want to get the bucket name from either the state output or looking it up in the console:
 
 ```
-terraform state show google_storage_bucket.target_bucket | grep url | cut -f2 -d'=' |sed -e 's/^ "//' -e 's/"$//'
+terraform output target_bucket
 ```
 
 Next log into the Bastion instance using `gcloud`. Notice how it will say something about tunnelling through IAP?
 That's because the instance doesn't have a public IP!
 
 ```
+gcloud config set project $(terraform output source_project)
 gcloud compute ssh bastion-vm
 ```
 
@@ -75,7 +69,7 @@ Now lets be a bit evil! We're going to attempt to exfil the data from this host 
 Since we own it, we can grant the Service Account for the bastion Owner permissions on the target account. This was already
 done for you in the Terraform in `storage.tf`. Since we are Owner of the target account, without VPC SC, we could extract the
 entire table into a GCS bucket that we own, but with VPC SC protecting our BigQuery, that won't work. Let's try it anyway!
-Using the bucket name you printed earlier (we'll call it BUCKET_URL), let's try to extract the cars table to the target bucket.
+Using the bucket name you printed earlier (we'll call it `BUCKET_URL`), let's try to extract the cars table to the target bucket.
 You should get an output that looks something like this:
 
 ```

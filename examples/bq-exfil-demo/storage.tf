@@ -21,7 +21,7 @@ module "bigquery" {
   dataset_id        = "project_1_dataset"
   dataset_name      = "project_1_dataset"
   description       = "Some Cars"
-  project_id        = var.project1_id
+  project_id        = module.project1.project_id
   location          = "US"
   time_partitioning = "DAY"
   tables = [
@@ -45,7 +45,8 @@ resource "null_resource" "load_data" {
 
   provisioner "local-exec" {
     command = <<EOF
-      bq load \
+      bq --project_id ${module.project1.project_id} \
+      load \
       --location=US \
       --format=csv \
       --field_delimiter=';' \
@@ -56,8 +57,8 @@ EOF
 }
 
 resource "google_storage_bucket" "source_bucket" {
-  project  = var.project1_id
-  name     = "${var.project1_id}-source-bucket"
+  project  = module.project1.project_id
+  name     = "${module.project1.project_id}-source-bucket"
   location = "US"
 }
 
@@ -69,7 +70,7 @@ resource "google_storage_bucket_object" "data" {
 
 
 resource "google_storage_bucket" "target_bucket" {
-  project  = var.project2_id
-  name     = "${var.project2_id}-target-bucket"
+  project  = module.project2.project_id
+  name     = "${module.project2.project_id}-target-bucket"
   location = "US"
 }
