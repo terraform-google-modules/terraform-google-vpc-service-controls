@@ -20,24 +20,63 @@ This terraform code will create:
 * Org policy forbidding external IPs on Instances
 * VPC Service Control perimeter around BigQuery and GCS in the source project
 
-## Setup
+## Permissions
 
-There's a few steps needed to get this demo up and running properly or you'll have a difficult time setting it up later
+Since this example touches Org-level configuration, you should have pretty high permissions in your org to be able to use it. At minimum, you'll need:
 
-1. Create a Seed Project
-2. Use the [project factory helper script](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/helpers/setup-sa.sh) to create a Service Account in your seed
-3. Since this service account will be creating BigQuery Datasets and Storage Buckets as well as VPC Service Control perimeters, it'll need a few more permissions. At the Org level, add `Access Context Manager Admin`, and at the Folder level, add `BigQuery Admin` and `Storage Admin` to the seed project Service Account.
-4. Run `cp terraform.tfvars.sample terraform.tfvars` and then update that file with your own values.
+### Org level
+* roles/accesscontextmanager.policyAdmin
+* roles/resourcemanager.organizationViewer
+* roles/resourcemanager.projectCreator
+* roles/billing.user
 
-Now you should be good to go. If not please create an issue detailing your problem so I can update this guide.
+### Folder level
+
+These are the roles necessary for the projects that will be created.
+
+* roles/compute.networkAdmin
+* roles/compute.xpnAdmin
+* roles/iam.serviceAccountAdmin
+* roles/resourcemanager.projectIamAdmin
+* roles/bigquery.admin
+* roles/storage.admin
+
 
 ## Deployment
 
-With all the arguments set in the `terraform.tfvars` file, simply run
+```
+cp terraform.tfvars.sample terraform.tfvars
+```
+
+Then update that file with your own values. With all the arguments set in the `terraform.tfvars` file, simply run
 
 ```
 terraform apply
 ```
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| billing\_account | Billing Account id. e.g. AAAAAA-BBBBBB-CCCCCC | string | n/a | yes |
+| enabled\_apis | List of APIs to enable on the created projects | list | `<list>` | no |
+| folder\_id | Folder ID within the Organization: e.g. 1234567898765 | string | `""` | no |
+| members | List of members in the standard GCP form: user:{email}, serviceAccount:{email}, group:{email} | list | `<list>` | no |
+| org\_id | Organization ID. e.g. 1234567898765 | string | n/a | yes |
+| perimeter\_name | Name of the VPC SC perimeter | string | `"protect_the_daters"` | no |
+| region | Region where the bastion host will run | string | `"us-west1"` | no |
+| terraform\_service\_account | The Terraform service account email that should still be allowed in the perimeter to create buckets, datasets, etc. | string | n/a | yes |
+| zone | Zone where the bastion host will run | string | `"us-west1-a"` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| source\_project |  |
+| target\_bucket |  |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Demo
 

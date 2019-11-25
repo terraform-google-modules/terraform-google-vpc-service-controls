@@ -15,20 +15,24 @@
  */
 
 variable "org_id" {
-  type = "string"
+  description = "Organization ID. e.g. 1234567898765"
+  type        = "string"
 }
 
 variable "billing_account" {
-  type = "string"
+  description = "Billing Account id. e.g. AAAAAA-BBBBBB-CCCCCC"
+  type        = "string"
 }
 
 variable "folder_id" {
-  type    = "string"
-  default = ""
+  description = "Folder ID within the Organization: e.g. 1234567898765"
+  type        = "string"
+  default     = ""
 }
 variable "members" {
-  type    = "list"
-  default = []
+  description = "List of members in the standard GCP form: user:{email}, serviceAccount:{email}, group:{email}"
+  type        = "list"
+  default     = []
 }
 
 variable "terraform_service_account" {
@@ -37,22 +41,26 @@ variable "terraform_service_account" {
 }
 
 variable "perimeter_name" {
-  type    = "string"
-  default = "protect_the_daters"
+  type        = "string"
+  description = "Name of the VPC SC perimeter"
+  default     = "protect_the_daters"
 }
 
 variable "region" {
-  type    = "string"
-  default = "us-west1"
+  description = "Region where the bastion host will run"
+  type        = "string"
+  default     = "us-west1"
 }
 
 variable "zone" {
-  type    = "string"
-  default = "us-west1-a"
+  description = "Zone where the bastion host will run"
+  type        = "string"
+  default     = "us-west1-a"
 }
 
 variable "enabled_apis" {
-  type = "list"
+  description = "List of APIs to enable on the created projects"
+  type        = "list"
   default = [
     "iap.googleapis.com",
     "oslogin.googleapis.com",
