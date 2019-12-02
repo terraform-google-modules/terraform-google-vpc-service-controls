@@ -37,7 +37,6 @@ resource "google_compute_network" "onprem-network" {
 }
 
 resource "google_compute_subnetwork" "onprem_subnet" {
-  enable_flow_logs         = false
   ip_cidr_range            = "10.2.0.0/16"
   name                     = "vpc-subnet"
   network                  = "${google_compute_network.onprem-network.self_link}"

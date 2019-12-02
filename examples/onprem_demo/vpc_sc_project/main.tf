@@ -42,7 +42,6 @@ resource "google_compute_network" "test-vpc" {
 }
 
 resource "google_compute_subnetwork" "vpc_subnet" {
-  enable_flow_logs         = false
   ip_cidr_range            = "10.7.0.0/16"
   name                     = "vpc-subnet"
   network                  = "${google_compute_network.test-vpc.self_link}"
