@@ -27,27 +27,28 @@ module "bastion" {
   region  = var.region
   zone    = var.zone
   members = var.members
-  network = google_compute_network.source_network.self_link
-  subnet  = google_compute_subnetwork.source_subnet.self_link
+  network = module.vpc.network_self_link
+  subnet  = module.vpc.subnets_self_links[0]
   service_account_roles_supplemental = [
     "roles/bigquery.admin",
     "roles/storage.admin",
   ]
 }
 
-resource "google_compute_network" "source_network" {
-  project                 = module.project1.project_id
-  name                    = "test-network"
-  auto_create_subnetworks = false
-}
+module "vpc" {
+  source  = "terraform-google-modules/network/google"
+  version = "~> 1.5.0"
 
-resource "google_compute_subnetwork" "source_subnet" {
-  project                  = module.project1.project_id
-  name                     = "test-subnet"
-  region                   = var.region
-  ip_cidr_range            = "10.127.0.0/20"
-  network                  = google_compute_network.source_network.self_link
-  private_ip_google_access = true
+  project_id              = module.project1.project_id
+  network_name            = "test-network"
+  auto_create_subnetworks = false
+  subnets = [
+    {
+      subnet_name   = "test-subnet"
+      subnet_ip     = "10.127.0.0/20"
+      subnet_region = var.region
+    }
+  ]
 }
 
 ######################################
