@@ -1,0 +1,8 @@
+name: simple_example_bridge
+attributes:
+  - name: policy_name
+    required: true
+    type: string
+  - name: parent_id
+    required: true
+    type: string
