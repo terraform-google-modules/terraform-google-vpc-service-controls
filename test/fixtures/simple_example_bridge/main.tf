@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2019 Google LLC
  *
@@ -14,8 +15,14 @@
  * limitations under the License.
  */
 
-output "shared_resources" {
-  description = "A map of lists of resources to share in a Bridge perimeter module. Each list should contain all or a subset of the perimeters resources"
-  value       = var.shared_resources
-  depends_on  = [google_access_context_manager_service_perimeter.regular_service_perimeter]
+resource "random_id" "random_suffix" {
+  byte_length = 2
+}
+
+module "example_bridge" {
+  source                = "../../../examples/simple_example_bridge"
+  parent_id             = var.parent_id
+  policy_name           = "int_test_vpc_sc_bridge_policy_${random_id.random_suffix.hex}"
+  protected_project_ids = var.protected_project_ids
+  public_project_ids    = var.public_project_ids
 }

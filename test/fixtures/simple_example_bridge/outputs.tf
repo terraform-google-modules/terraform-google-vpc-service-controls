@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-output "shared_resources" {
-  description = "A map of lists of resources to share in a Bridge perimeter module. Each list should contain all or a subset of the perimeters resources"
-  value       = var.shared_resources
-  depends_on  = [google_access_context_manager_service_perimeter.regular_service_perimeter]
+output "policy_name" {
+  value = module.example_bridge.policy_name
+}
+
+output "parent_id" {
+  value = var.parent_id
 }
