@@ -61,9 +61,9 @@ variable "negate" {
 }
 
 variable "device_policy_enabled" {
-  description = "This conditional is used to determine if device policy block needs to be created. Must to set to true if you want to create device policy"
+  description = "This conditional is used to determine if device policy block needs to be created. Must to set to false if you want to not create device policy"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "require_screen_lock" {
