@@ -65,7 +65,7 @@ variable "enabled_apis" {
     "iap.googleapis.com",
     "oslogin.googleapis.com",
     "compute.googleapis.com",
-    "bigquery-json.googleapis.com",
+    "bigquery.googleapis.com",
     "storage-api.googleapis.com",
   ]
 }
