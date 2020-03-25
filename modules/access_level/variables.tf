@@ -87,5 +87,5 @@ variable "minimum_version" {
 variable "os_type" {
   description = "The operating system type of the device."
   type        = string
-  default     = ""
+  default     = "OS_UNSPECIFIED"
 }
