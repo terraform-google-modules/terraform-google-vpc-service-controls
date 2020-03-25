@@ -34,7 +34,7 @@ module "project-vpc-service-controls" {
     "storage-api.googleapis.com",
     "serviceusage.googleapis.com",
     "accesscontextmanager.googleapis.com",
-    "bigquery-json.googleapis.com",
+    "bigquery.googleapis.com",
     "bigquerystorage.googleapis.com",
     "compute.googleapis.com"
   ]
@@ -51,7 +51,7 @@ module "project-vpc-service-controls-policy-0" {
   billing_account   = var.billing_account
 
   activate_apis = [
-    "bigquery-json.googleapis.com",
+    "bigquery.googleapis.com",
     "bigquerystorage.googleapis.com"
   ]
 }
@@ -67,7 +67,7 @@ module "project-vpc-service-controls-policy-1" {
   billing_account   = var.billing_account
 
   activate_apis = [
-    "bigquery-json.googleapis.com",
+    "bigquery.googleapis.com",
     "bigquerystorage.googleapis.com"
   ]
 }
