@@ -32,14 +32,18 @@ resource "google_access_context_manager_access_level" "access_level" {
       members                = var.members
       negate                 = var.negate
 
-      device_policy {
-        require_screen_lock              = var.require_screen_lock
-        allowed_encryption_statuses      = var.allowed_encryption_statuses
-        allowed_device_management_levels = var.allowed_device_management_levels
+      dynamic "device_policy" {
+        for_each = var.require_screen_lock || length(var.allowed_encryption_statuses) > 0 || length(var.allowed_device_management_levels) > 0 || var.minimum_version != "" || var.os_type != "OS_UNSPECIFIED" ? [{}] : []
 
-        os_constraints {
-          minimum_version = var.minimum_version
-          os_type         = var.os_type
+        content {
+          require_screen_lock              = var.require_screen_lock
+          allowed_encryption_statuses      = var.allowed_encryption_statuses
+          allowed_device_management_levels = var.allowed_device_management_levels
+
+          os_constraints {
+            minimum_version = var.minimum_version
+            os_type         = var.os_type
+          }
         }
       }
     }
