@@ -20,6 +20,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
   perimeter_type = "PERIMETER_TYPE_REGULAR"
   name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
   title          = var.perimeter_name
+  description    = var.description
 
   status {
     restricted_services = var.restricted_services
