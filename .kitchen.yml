@@ -40,6 +40,22 @@ suites:
             - big_query_vpc_negative_test
     provisioner:
       name: terraform
+  - name: "simple_example_dry_run"
+    driver:
+      name: "terraform"
+      command_timeout: 1800
+      root_module_directory: test/fixtures/simple_example_dry_run/
+    verifier:
+      name: terraform
+      color: false
+      systems:
+        - name: simple_example
+          backend: local
+          controls:
+            - big_query_vpc_positive_test
+            - big_query_vpc_negative_test
+    provisioner:
+      name: terraform
   - name: "simple_example_bridge"
     driver:
       name: "terraform"

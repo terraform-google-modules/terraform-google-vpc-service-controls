@@ -1,0 +1,14 @@
+name: simple_example_dry_run
+attributes:
+  - name: protected_project_id
+    required: true
+    type: string
+  - name: public_project_id
+    required: true
+    type: string
+  - name: dataset_name
+    required: true
+    type: string
+  - name: table_id
+    required: true
+    type: string
