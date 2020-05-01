@@ -15,7 +15,7 @@
  */
 
 provider "google" {
-  version = "~> 3.19.0"
+  version = "~> 3.19.0" // Dry-run support added in provider version 3.17.0
 }
 
 module "access_context_manager_policy" {
@@ -32,6 +32,14 @@ module "access_level_1" {
   description    = "Some description"
 }
 
+module "access_level_2" {
+  source         = "../../modules/access_level"
+  policy         = module.access_context_manager_policy.policy_id
+  name           = "single_ip_policy_dry_run"
+  ip_subnetworks = var.ip_subnetworks
+  description    = "Some description"
+}
+
 module "regular_service_perimeter_1" {
   source         = "../../modules/regular_service_perimeter"
   policy         = module.access_context_manager_policy.policy_id
@@ -42,6 +50,11 @@ module "regular_service_perimeter_1" {
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
   access_levels = [module.access_level_1.name]
+
+
+  resources_dry_run           = [var.protected_project_id]
+  restricted_services_dry_run = ["storage.googleapis.com"]
+  access_levels_dry_run       = [module.access_level_2.name]
 
   shared_resources = {
     all = [var.protected_project_id]

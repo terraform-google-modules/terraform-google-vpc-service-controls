@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+locals {
+  dry_run = (length(var.restricted_services_dry_run) > 0 || length(var.resources_dry_run) > 0 || length(var.access_levels_dry_run) > 0)
+}
+
 resource "google_access_context_manager_service_perimeter" "regular_service_perimeter" {
   provider       = google
   parent         = "accessPolicies/${var.policy}"
@@ -30,4 +34,17 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
       var.access_levels
     )
   }
+
+  dynamic "spec" {
+    for_each = local.dry_run ? ["dry-run"] : []
+    content {
+      restricted_services = var.restricted_services_dry_run
+      resources           = formatlist("projects/%s", var.resources_dry_run)
+      access_levels = formatlist(
+        "accessPolicies/${var.policy}/accessLevels/%s",
+        var.access_levels_dry_run
+      )
+    }
+  }
+  use_explicit_dry_run_spec = local.dry_run
 }

@@ -11,7 +11,7 @@ The root module only handles the configuration of the [access_context_manager_po
 
 ```hcl
 provider "google" {
-  version = "~> 2.5.0"
+  version = "~> 3.19.0"
 }
 
 module "org_policy" {
@@ -84,7 +84,7 @@ The [project factory](https://github.com/terraform-google-modules/terraform-goog
 ### Software Dependencies
 ### Terraform
 - [Terraform](https://www.terraform.io/downloads.html) >= 0.12.0
-- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) >= v2.5.0
+- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) >= v3.19.0
 
 ### Configure a Service Account
 
