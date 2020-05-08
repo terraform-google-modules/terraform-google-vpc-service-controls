@@ -16,18 +16,25 @@
 
 module "bigquery" {
   source  = "terraform-google-modules/bigquery/google"
-  version = "~> 2.0"
+  version = "~> 4.1"
 
-  dataset_id        = "project_1_dataset"
-  dataset_name      = "project_1_dataset"
-  description       = "Some Cars"
-  project_id        = module.project1.project_id
-  location          = "US"
-  time_partitioning = "DAY"
+  dataset_id   = "project_1_dataset"
+  dataset_name = "project_1_dataset"
+  description  = "Some Cars"
+  project_id   = module.project1.project_id
+  location     = "US"
   tables = [
     {
       table_id = "cars",
       schema   = "fixtures/schema.json",
+      time_partitioning = {
+        type                     = "DAY",
+        field                    = null,
+        require_partition_filter = false,
+        expiration_ms            = null,
+      },
+      expiration_time = null,
+      clustering      = null,
       labels = {
         env = "dev"
       },
@@ -40,7 +47,7 @@ module "bigquery" {
 
 resource "null_resource" "load_data" {
   triggers = {
-    bq_table = module.bigquery.table_name[0]
+    bq_table = module.bigquery.table_names[0]
   }
 
   provisioner "local-exec" {

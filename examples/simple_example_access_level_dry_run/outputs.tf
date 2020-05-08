@@ -14,14 +14,6 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 0.12"
-}
-
-provider "google" {
-  version = "~> 3.19.0"
-}
-
-provider "google-beta" {
-  version = "~> 3.19.0"
+output "policy_name" {
+  value = var.policy_name
 }
