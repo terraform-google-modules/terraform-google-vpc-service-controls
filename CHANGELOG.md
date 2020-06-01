@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v1.1.0...v2.0.0) (2020-06-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* Minimum provider version increased to 3.17
+
+### Features
+
+* Added support for dry-run policies in VPC Service Controls ([#37](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/37)) ([0e712f0](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/0e712f068b000221bcdc617292e1ef98e4fb9b6c))
+
 ## [1.1.0](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v1.0.3...v1.1.0) (2020-04-07)
 
 
