@@ -36,7 +36,7 @@ module "access_level_members" {
 | minimum\_version | The minimum allowed OS version. If not set, any version of this OS satisfies the constraint. Format: "major.minor.patch" such as "10.5.301", "9.2.1". | string | `""` | no |
 | name | Description of the AccessLevel and its use. Does not affect behavior. | string | n/a | yes |
 | negate | Whether to negate the Condition. If true, the Condition becomes a NAND over its non-empty fields, each field must be false for the Condition overall to be satisfied. | bool | `"false"` | no |
-| os\_type | The operating system type of the device. | string | `""` | no |
+| os\_type | The operating system type of the device. | string | `"OS_UNSPECIFIED"` | no |
 | policy | Name of the parent policy | string | n/a | yes |
 | require\_screen\_lock | Condition - Whether or not screenlock is required for the DevicePolicy to be true. | bool | `"false"` | no |
 | required\_access\_levels | Condition - A list of other access levels defined in the same Policy, referenced by resource name. Referencing an AccessLevel which does not exist is an error. All access levels listed must be granted for the Condition to be true. | list(string) | `<list>` | no |
