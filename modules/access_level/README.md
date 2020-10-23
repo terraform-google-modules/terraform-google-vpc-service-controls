@@ -38,6 +38,8 @@ module "access_level_members" {
 | negate | Whether to negate the Condition. If true, the Condition becomes a NAND over its non-empty fields, each field must be false for the Condition overall to be satisfied. | bool | `"false"` | no |
 | os\_type | The operating system type of the device. | string | `"OS_UNSPECIFIED"` | no |
 | policy | Name of the parent policy | string | n/a | yes |
+| regions | Condition - The request must originate from one of the provided countries/regions. Format: A valid ISO 3166-1 alpha-2 code. | list(string) | `<list>` | no |
+| require\_corp\_owned | Condition - Whether the device needs to be corp owned. | bool | `"false"` | no |
 | require\_screen\_lock | Condition - Whether or not screenlock is required for the DevicePolicy to be true. | bool | `"false"` | no |
 | required\_access\_levels | Condition - A list of other access levels defined in the same Policy, referenced by resource name. Referencing an AccessLevel which does not exist is an error. All access levels listed must be granted for the Condition to be true. | list(string) | `<list>` | no |
 

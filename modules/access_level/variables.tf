@@ -54,6 +54,12 @@ variable "members" {
   default     = []
 }
 
+variable "regions" {
+  description = "Condition - The request must originate from one of the provided countries/regions. Format: A valid ISO 3166-1 alpha-2 code."
+  type        = list(string)
+  default     = []
+}
+
 variable "negate" {
   description = "Whether to negate the Condition. If true, the Condition becomes a NAND over its non-empty fields, each field must be false for the Condition overall to be satisfied."
   type        = bool
@@ -62,6 +68,12 @@ variable "negate" {
 
 variable "require_screen_lock" {
   description = "Condition - Whether or not screenlock is required for the DevicePolicy to be true."
+  type        = bool
+  default     = false
+}
+
+variable "require_corp_owned" {
+  description = "Condition - Whether the device needs to be corp owned."
   type        = bool
   default     = false
 }
