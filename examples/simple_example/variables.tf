@@ -34,6 +34,12 @@ variable "members" {
   type        = list(string)
 }
 
+variable "regions" {
+  description = "The request must originate from one of the provided countries/regions. Format: A valid ISO 3166-1 alpha-2 code."
+  type        = list(string)
+  default     = []
+}
+
 variable "access_level_name" {
   description = "Access level name of the Access Policy."
   type        = string

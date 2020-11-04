@@ -30,6 +30,7 @@ module "access_level_members" {
   policy      = module.access_context_manager_policy.policy_id
   name        = var.access_level_name
   members     = var.members
+  regions     = var.regions
 }
 
 resource "null_resource" "wait_for_members" {

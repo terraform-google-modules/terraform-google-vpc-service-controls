@@ -31,13 +31,16 @@ You may use the following gcloud commands:
 | perimeter\_name | Perimeter name of the Access Policy.. | string | `"regular_perimeter_1"` | no |
 | policy\_name | The policy's name. | string | n/a | yes |
 | protected\_project\_ids | Project id and number of the project INSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | object | n/a | yes |
+| regions | The request must originate from one of the provided countries/regions. Format: A valid ISO 3166-1 alpha-2 code. | list(string) | `<list>` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
+| access\_level\_name | Access level name of the Access Policy. |
 | dataset\_id | Unique id for the BigQuery dataset being provisioned |
 | dataset\_name | Name of dataset being provisioned |
+| policy\_id | Resource name of the AccessPolicy. |
 | policy\_name | Name of the parent policy |
 | protected\_project\_id | Project id of the project INSIDE the regular service perimeter |
 | table\_id | Unique id for the BigQuery table being provisioned |

@@ -31,14 +31,16 @@ resource "google_access_context_manager_access_level" "access_level" {
       required_access_levels = var.required_access_levels
       members                = var.members
       negate                 = var.negate
+      regions                = var.regions
 
       dynamic "device_policy" {
-        for_each = var.require_screen_lock || length(var.allowed_encryption_statuses) > 0 || length(var.allowed_device_management_levels) > 0 || var.minimum_version != "" || var.os_type != "OS_UNSPECIFIED" ? [{}] : []
+        for_each = var.require_corp_owned || var.require_screen_lock || length(var.allowed_encryption_statuses) > 0 || length(var.allowed_device_management_levels) > 0 || var.minimum_version != "" || var.os_type != "OS_UNSPECIFIED" ? [{}] : []
 
         content {
           require_screen_lock              = var.require_screen_lock
           allowed_encryption_statuses      = var.allowed_encryption_statuses
           allowed_device_management_levels = var.allowed_device_management_levels
+          require_corp_owned               = var.require_corp_owned
 
           os_constraints {
             minimum_version = var.minimum_version
