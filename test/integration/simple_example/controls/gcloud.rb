@@ -56,9 +56,7 @@ control "access_level_regions_test" do
     describe 'allowed regions' do
       regions_to_allow.each do |region|
         it "#{region} should be allowed" do
-          expect(data['basic']['conditions'][0]['regions']).to include(
-            'regions' => [region]
-          )
+          expect(data['basic']['conditions'][0]['regions']).to include(region)
         end
       end
     end
