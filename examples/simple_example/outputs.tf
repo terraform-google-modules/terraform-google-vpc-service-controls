@@ -16,7 +16,7 @@
 
 output "policy_id" {
   description = "Resource name of the AccessPolicy."
-  value       = module.access_context_manager_policy.name
+  value       = module.access_context_manager_policy.policy_id
 }
 
 output "policy_name" {
