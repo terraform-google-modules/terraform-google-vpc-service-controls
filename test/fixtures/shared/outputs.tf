@@ -18,8 +18,16 @@ output "parent_id" {
   value = var.parent_id
 }
 
+output "policy_id" {
+  value = module.example.policy_id
+}
+
 output "policy_name" {
   value = module.example.policy_name
+}
+
+output "access_level_name" {
+  value = module.example.access_level_name
 }
 
 output "protected_project_id" {

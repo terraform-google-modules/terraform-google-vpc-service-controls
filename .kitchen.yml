@@ -38,6 +38,7 @@ suites:
           controls:
             - big_query_vpc_positive_test
             - big_query_vpc_negative_test
+            - access_level_regions_test
     provisioner:
       name: terraform
   - name: "simple_example_bridge"

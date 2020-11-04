@@ -16,6 +16,12 @@ protected_project_id       = attribute('protected_project_id')
 dataset_name     = attribute('dataset_name')
 table_id         = attribute('table_id')
 public_project_id       = attribute('public_project_id')
+policy_id = attribute('policy_id')
+access_level_name = attribute('access_level_name')
+regions_to_allow = [
+  'US',
+  'CA'
+]
 
 control "big_query_vpc_positive_test" do
   describe command("bq query --use_legacy=false --project_id=#{protected_project_id} \'select * from `#{protected_project_id}.#{dataset_name}.example_table` limit 10\'" ) do
@@ -32,5 +38,30 @@ control "big_query_vpc_negative_test" do
     its(:exit_status) { should be 1 }
     its(:stderr) { should eq '' }
     its(:stdout) { should include "Request is prohibited by organization's policy." }
+  end
+end
+
+control "access_level_regions_test" do
+  describe command("gcloud access-context-manager levels describe #{access_level_name} --policy #{policy_id}  --format=json" ) do
+    its(:exit_status) { should be 0 }
+
+    let(:data) do
+      if subject.exit_status.zero?
+        JSON.parse(subject.stdout)
+      else
+        {}
+      end
+    end
+
+    describe 'allowed regions' do
+      regions_to_allow.each do |region|
+        it "#{region} should be allowed" do
+          expect(data['basic']['conditions'][0]).to include(
+            'regions' => [region]
+          )
+        end
+      end
+    end
+
   end
 end

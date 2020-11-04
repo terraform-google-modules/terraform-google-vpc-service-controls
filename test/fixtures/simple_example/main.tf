@@ -24,6 +24,7 @@ module "example" {
   policy_name           = "int_test_vpc_sc_policy_${random_id.random_suffix.hex}"
   protected_project_ids = var.protected_project_ids
   members               = var.members
+  regions               = ["US", "CA"]
   access_level_name     = "vpc_sc_members_test_${random_id.random_suffix.hex}"
   perimeter_name        = "perimeter_vpc_sc_test_${random_id.random_suffix.hex}"
   dataset_id            = "dataset_vpc_sc_test_${random_id.random_suffix.hex}"
