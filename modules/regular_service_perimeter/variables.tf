@@ -66,6 +66,6 @@ variable "access_levels_dry_run" {
 
 variable "shared_resources" {
   description = "A map of lists of resources to share in a Bridge perimeter module. Each list should contain all or a subset of the perimeters resources"
-  type        = object({ all = list(string) })
+  type        = map(list(string))
   default     = { all = [] }
 }
