@@ -43,7 +43,7 @@ module "regular_service_perimeter_1" {
 | resources\_dry\_run | (Dry-run) A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed. If set, a dry-run policy will be set. | list(string) | `<list>` | no |
 | restricted\_services | GCP services that are subject to the Service Perimeter restrictions. Must contain a list of services. For example, if storage.googleapis.com is specified, access to the storage buckets inside the perimeter must meet the perimeter's access restrictions. | list(string) | `<list>` | no |
 | restricted\_services\_dry\_run | (Dry-run) GCP services that are subject to the Service Perimeter restrictions. Must contain a list of services. For example, if storage.googleapis.com is specified, access to the storage buckets inside the perimeter must meet the perimeter's access restrictions.  If set, a dry-run policy will be set. | list(string) | `<list>` | no |
-| shared\_resources | A map of lists of resources to share in a Bridge perimeter module. Each list should contain all or a subset of the perimeters resources | object | `<map>` | no |
+| shared\_resources | A map of lists of resources to share in a Bridge perimeter module. Each list should contain all or a subset of the perimeters resources | map(list(string)) | `<map>` | no |
 
 ## Outputs
 
