@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v2.0.0...v2.1.0) (2021-01-20)
+
+
+### Features
+
+* add regions and require_corp_owned to access level module ([#40](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/40)) ([20d4ce5](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/20d4ce5e062f8716c241d32109e5a614269cbe85))
+
 ## [2.0.0](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v1.1.0...v2.0.0) (2020-06-01)
 
 
