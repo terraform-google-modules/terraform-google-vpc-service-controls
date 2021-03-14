@@ -15,7 +15,7 @@
  */
 
 provider "google" {
-  version = "~> 3.19.0"
+  version = "~> 3.53.0"
 }
 
 module "access_context_manager_policy" {

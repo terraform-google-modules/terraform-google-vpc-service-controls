@@ -102,15 +102,15 @@ Terraform is used to set up a new service perimeter and to deploy a Cloud Functi
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| folder\_id | Folder ID to watch for projects. | string | n/a | yes |
-| members | An allowed list of members (users, service accounts). The signed-in identity originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, etc.). Formats: user:{emailid}, serviceAccount:{emailid} | list(string) | n/a | yes |
-| org\_id | The parent organization ID of this AccessPolicy in the Cloud Resource Hierarchy. | string | n/a | yes |
-| perimeter\_name | Name of perimeter. | string | `"regular_perimeter"` | no |
-| policy\_name | The policy's name. | string | n/a | yes |
-| project\_id | The ID of the project to host the watcher function. | string | n/a | yes |
-| region | The region in which resources will be applied. | string | n/a | yes |
-| restricted\_services | List of services to restrict. | list(string) | n/a | yes |
+|------|-------------|------|---------|:--------:|
+| folder\_id | Folder ID to watch for projects. | `string` | n/a | yes |
+| members | An allowed list of members (users, service accounts). The signed-in identity originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, etc.). Formats: user:{emailid}, serviceAccount:{emailid} | `list(string)` | n/a | yes |
+| org\_id | The parent organization ID of this AccessPolicy in the Cloud Resource Hierarchy. | `string` | n/a | yes |
+| perimeter\_name | Name of perimeter. | `string` | `"regular_perimeter"` | no |
+| policy\_name | The policy's name. | `string` | n/a | yes |
+| project\_id | The ID of the project to host the watcher function. | `string` | n/a | yes |
+| region | The region in which resources will be applied. | `string` | n/a | yes |
+| restricted\_services | List of services to restrict. | `list(string)` | n/a | yes |
 
 ## Outputs
 
