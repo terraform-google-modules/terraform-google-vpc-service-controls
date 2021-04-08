@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v2.1.0...v3.0.0) (2021-04-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* add Terraform 0.13 constraint and module attribution (#45)
+
+### Features
+
+* add Terraform 0.13 constraint and module attribution ([#45](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/45)) ([9fab6ed](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/9fab6ed2a394d6aa9d00ff510aa097816175cf22))
+
 ## [2.1.0](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v2.0.0...v2.1.0) (2021-01-20)
 
 
