@@ -21,10 +21,9 @@
 
 module "bastion" {
   source  = "terraform-google-modules/bastion-host/google"
-  version = "2.1.0"
+  version = "~> 3.0"
 
   project = module.project1.project_id
-  region  = var.region
   zone    = var.zone
   members = var.members
   network = module.vpc.network_self_link
@@ -37,7 +36,7 @@ module "bastion" {
 
 module "vpc" {
   source  = "terraform-google-modules/network/google"
-  version = "~> 2.3.0"
+  version = "~> 3.0"
 
   project_id              = module.project1.project_id
   network_name            = "test-network"

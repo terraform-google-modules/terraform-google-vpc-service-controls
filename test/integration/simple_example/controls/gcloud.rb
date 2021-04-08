@@ -24,7 +24,7 @@ regions_to_allow = [
 ]
 
 control "big_query_vpc_positive_test" do
-  describe command("bq query --use_legacy=false --project_id=#{protected_project_id} \'select * from `#{protected_project_id}.#{dataset_name}.example_table` limit 10\'" ) do
+  describe command("bq query --use_legacy_sql=false --project_id=#{protected_project_id} \'select * from `#{protected_project_id}.#{dataset_name}.example_table` limit 10\'" ) do
     its(:exit_status) { should be 0 }
 
     its(:stderr) { should include "Current status: DONE" }
@@ -32,7 +32,7 @@ control "big_query_vpc_positive_test" do
 end
 
 control "big_query_vpc_negative_test" do
-  describe command("bq query --use_legacy=false --project_id=#{public_project_id} \'select * from `#{protected_project_id}.#{dataset_name}.example_table` limit 10\'" ) do
+  describe command("bq query --use_legacy_sql=false --project_id=#{public_project_id} \'select * from `#{protected_project_id}.#{dataset_name}.example_table` limit 10\'" ) do
 
     # exit_status should be 1 as this is intentionally trigerring an errror by accesing the BigQuery data from outside the perimeter.
     its(:exit_status) { should be 1 }

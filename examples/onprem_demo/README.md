@@ -77,15 +77,15 @@ When you're done with this demo, delete the service account keys and delete the 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| access\_policy\_name | Name of the access policy | string | n/a | yes |
-| billing\_account\_id | Billing account ID to which the new project should be associated | string | n/a | yes |
-| credentials\_path | Path to the service account .json file | string | n/a | yes |
-| onprem\_project\_id | The ID of the Onprem GCP project that is going to be created | string | n/a | yes |
-| organization\_id | Organization ID, which can be found at `gcloud organizations list` | string | n/a | yes |
-| region | GCP Region (like us-west1, us-central1, etc) | string | `"us-west1"` | no |
-| vpc\_sc\_project\_id | The ID of the VPC Service Control project that is going to be created | string | n/a | yes |
-| vpn\_shared\_secret | Shared secret string for VPN connection | string | n/a | yes |
+|------|-------------|------|---------|:--------:|
+| access\_policy\_name | Name of the access policy | `any` | n/a | yes |
+| billing\_account\_id | Billing account ID to which the new project should be associated | `any` | n/a | yes |
+| credentials\_path | Path to the service account .json file | `any` | n/a | yes |
+| onprem\_project\_id | The ID of the Onprem GCP project that is going to be created | `any` | n/a | yes |
+| organization\_id | Organization ID, which can be found at `gcloud organizations list` | `any` | n/a | yes |
+| region | GCP Region (like us-west1, us-central1, etc) | `string` | `"us-west1"` | no |
+| vpc\_sc\_project\_id | The ID of the VPC Service Control project that is going to be created | `any` | n/a | yes |
+| vpn\_shared\_secret | Shared secret string for VPN connection | `any` | n/a | yes |
 
 ## Outputs
 

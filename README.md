@@ -3,8 +3,10 @@
 This module handles opinionated VPC Service Controls and Access Context Manager configuration and deployments.
 
 ## Compatibility
-This module is meant for use with Terraform 0.12. If you haven't [upgraded](https://www.terraform.io/upgrade-guides/0-12.html) and need a Terraform 0.11.x-compatible version of this module, the last released version intended for Terraform 0.11.x
-is [0.1.0](https://registry.terraform.io/modules/terraform-google-modules/vpc-service-controls/google/0.1.0).
+This module is meant for use with Terraform 0.13. If you haven't
+[upgraded](https://www.terraform.io/upgrade-guides/0-13.html) and need a Terraform
+0.12.x-compatible version of this module, the last released version
+intended for Terraform 0.12.x is [v2.1.0](https://registry.terraform.io/modules/terraform-google-modules/-vpc-service-controls/google/v2.1.0).
 
 ## Usage
 The root module only handles the configuration of the [access_context_manager_policy resource](https://www.terraform.io/docs/providers/google/r/access_context_manager_access_policy.html). For examples on how to use the root module with along with other submodules to configure all of VPC Service Controls and Access Context Manager resources, see the [examples](./examples/) folder and the [modules](./modules/) folder
@@ -58,9 +60,9 @@ You can add a delay using terraform's [`null_resource`](https://www.terraform.io
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| parent\_id | The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent. | string | n/a | yes |
-| policy\_name | The policy's name. | string | n/a | yes |
+|------|-------------|------|---------|:--------:|
+| parent\_id | The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent. | `string` | n/a | yes |
+| policy\_name | The policy's name. | `string` | n/a | yes |
 
 ## Outputs
 
@@ -83,7 +85,7 @@ The [project factory](https://github.com/terraform-google-modules/terraform-goog
 
 ### Software Dependencies
 ### Terraform
-- [Terraform](https://www.terraform.io/downloads.html) >= 0.12.0
+- [Terraform](https://www.terraform.io/downloads.html) >= 0.13.0
 - [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) >= v3.19.0
 
 ### Configure a Service Account

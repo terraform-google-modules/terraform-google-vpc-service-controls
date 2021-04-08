@@ -58,23 +58,23 @@ terraform apply
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| billing\_account | Billing Account id. e.g. AAAAAA-BBBBBB-CCCCCC | string | n/a | yes |
-| enabled\_apis | List of APIs to enable on the created projects | list | `<list>` | no |
-| folder\_id | Folder ID within the Organization: e.g. 1234567898765 | string | `""` | no |
-| members | List of members in the standard GCP form: user:{email}, serviceAccount:{email}, group:{email} | list | `<list>` | no |
-| org\_id | Organization ID. e.g. 1234567898765 | string | n/a | yes |
-| perimeter\_name | Name of the VPC SC perimeter | string | `"protect_the_daters"` | no |
-| region | Region where the bastion host will run | string | `"us-west1"` | no |
-| terraform\_service\_account | The Terraform service account email that should still be allowed in the perimeter to create buckets, datasets, etc. | string | n/a | yes |
-| zone | Zone where the bastion host will run | string | `"us-west1-a"` | no |
+|------|-------------|------|---------|:--------:|
+| billing\_account | Billing Account id. e.g. AAAAAA-BBBBBB-CCCCCC | `string` | n/a | yes |
+| enabled\_apis | List of APIs to enable on the created projects | `list` | <pre>[<br>  "iap.googleapis.com",<br>  "oslogin.googleapis.com",<br>  "compute.googleapis.com",<br>  "bigquery.googleapis.com",<br>  "storage-api.googleapis.com"<br>]</pre> | no |
+| folder\_id | Folder ID within the Organization: e.g. 1234567898765 | `string` | `""` | no |
+| members | List of members in the standard GCP form: user:{email}, serviceAccount:{email}, group:{email} | `list` | `[]` | no |
+| org\_id | Organization ID. e.g. 1234567898765 | `string` | n/a | yes |
+| perimeter\_name | Name of the VPC SC perimeter | `string` | `"protect_the_daters"` | no |
+| region | Region where the bastion host will run | `string` | `"us-west1"` | no |
+| terraform\_service\_account | The Terraform service account email that should still be allowed in the perimeter to create buckets, datasets, etc. | `string` | n/a | yes |
+| zone | Zone where the bastion host will run | `string` | `"us-west1-a"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| source\_project |  |
-| target\_bucket |  |
+| source\_project | n/a |
+| target\_bucket | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
