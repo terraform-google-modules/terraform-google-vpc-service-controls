@@ -19,3 +19,13 @@ output "shared_resources" {
   value       = var.shared_resources
   depends_on  = [google_access_context_manager_service_perimeter.regular_service_perimeter]
 }
+
+output "perimeter_id" {
+  description = "The full perimeter name as 'accessPolicies/...'."
+  value = google_access_context_manager_service_perimeter.regular_service_perimeter.name
+}
+
+output "perimeter_name" {
+  description = "The concise perimeter name."
+  value = var.perimeter_name
+}
