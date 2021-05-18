@@ -49,6 +49,8 @@ module "regular_service_perimeter_1" {
 
 | Name | Description |
 |------|-------------|
+| perimeter\_name | The perimeter's name. |
+| resources | A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed. |
 | shared\_resources | A map of lists of resources to share in a Bridge perimeter module. Each list should contain all or a subset of the perimeters resources |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
