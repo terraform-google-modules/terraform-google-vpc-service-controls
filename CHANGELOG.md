@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+### [3.0.1](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v3.0.0...v3.0.1) (2021-05-19)
+
+
+### Bug Fixes
+
+* Add perimeter info to regular perimeter outputs ([#51](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/51)) ([1787b21](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/1787b217a92b68cc80d057288ecb6e36dd362d63))
+
 ## [3.0.0](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v2.1.0...v3.0.0) (2021-04-08)
 
 
