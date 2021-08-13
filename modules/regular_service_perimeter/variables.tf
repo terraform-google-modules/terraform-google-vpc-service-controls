@@ -69,3 +69,24 @@ variable "shared_resources" {
   type        = object({ all = list(string) })
   default     = { all = [] }
 }
+
+
+## Have to solve it like this don't want use optional flag because is still experimental
+variable "egress_policies" {
+  description = "A list of all ingress policies"
+  type = list(object({
+    from = any
+    to = any
+  }))
+  default     = []
+}
+
+## Have to solve it like this don't want use optional flag because is still experimental
+variable "ingress_policies" {
+  description = "A list of all ingress policies"
+  type = list(object({
+    from = any
+    to = any
+  }))
+  default = []
+}

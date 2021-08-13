@@ -33,6 +33,40 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
       "accessPolicies/${var.policy}/accessLevels/%s",
       var.access_levels
     )
+
+    dynamic "ingress_policies" {
+      for_each = var.ingress_policies
+      content {
+        ingress_from {
+          dynamic "sources" {
+            for_each = merge({ for k, v in lookup(ingress_policies.value["from"]["sources"], "resources", []) : v => "resource" }, { for k, v in lookup(ingress_policies.value["from"]["sources"], "access_levels", []) : v => "access_level" })
+            content {
+              resource     = sources.value == "resource" ? sources.key : null
+              access_level = sources.value == "access_level" ? sources.key : null
+            }
+          }
+          identity_type = lookup(ingress_policies.value["from"], "identity_type", "") == "" ? lookup(ingress_policies.value["from"], "identities", "") == "" ? "ANY_IDENTITY" : "" : lookup(ingress_policies.value["from"], "identity_type", "")
+          identities    = lookup(ingress_policies.value["from"], "identity_type", "") == "" ? lookup(ingress_policies.value["from"], "identities", []) : []
+        }
+
+        ingress_to {
+          resources = lookup(ingress_policies.value["to"], "resources", "") == "" ? ["*"] : lookup(ingress_policies.value["to"], "resources", [])
+          dynamic "operations" {
+            for_each = ingress_policies.value["to"]["operations"]
+            content {
+              service_name = operations.key
+              dynamic "method_selectors" {
+                for_each = merge({ for k, v in lookup(operations.value, "methods", {}) : v => "method" }, { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" })
+                content {
+                  method     = method_selectors.value == "method" ? method_selectors.key : ""
+                  permission = method_selectors.value == "permission" ? method_selectors.key : ""
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   dynamic "spec" {
@@ -46,5 +80,8 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
       )
     }
   }
+
+
+
   use_explicit_dry_run_spec = local.dry_run
 }
