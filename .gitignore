@@ -55,3 +55,6 @@ examples/automatic_folder.zip
 
 node_modules
 yarn.lock
+
+# tf lock file
+.terraform.lock.hcl
