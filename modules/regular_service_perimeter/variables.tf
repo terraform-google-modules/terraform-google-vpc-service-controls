@@ -90,3 +90,24 @@ variable "ingress_policies" {
   }))
   default = []
 }
+
+
+## Have to solve it like this don't want use optional flag because is still experimental
+variable "egress_policies_dry_run" {
+  description = "A list of all egress policies, each list object has an from and to key value that describes egress_from and egress_to. for more desription https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference"
+  type = list(object({
+    from = any
+    to   = any
+  }))
+  default = []
+}
+
+## Have to solve it like this don't want use optional flag because is still experimental
+variable "ingress_policies_dry_run" {
+  description = "A list of all ingress policies, each list object has an from and to key value that describes ingress_from and ingress_to. for more desription https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference"
+  type = list(object({
+    from = any
+    to   = any
+  }))
+  default = []
+}
