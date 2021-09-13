@@ -44,7 +44,7 @@ module "regular_service_perimeter_1" {
 | restricted\_services | GCP services that are subject to the Service Perimeter restrictions. Must contain a list of services. For example, if storage.googleapis.com is specified, access to the storage buckets inside the perimeter must meet the perimeter's access restrictions. | `list(string)` | `[]` | no |
 | restricted\_services\_dry\_run | (Dry-run) GCP services that are subject to the Service Perimeter restrictions. Must contain a list of services. For example, if storage.googleapis.com is specified, access to the storage buckets inside the perimeter must meet the perimeter's access restrictions.  If set, a dry-run policy will be set. | `list(string)` | `[]` | no |
 | shared\_resources | A map of lists of resources to share in a Bridge perimeter module. Each list should contain all or a subset of the perimeters resources | `object({ all = list(string) })` | <pre>{<br>  "all": []<br>}</pre> | no |
-| ingress\_policies\_info | A map of objects.it includes ingress_from and ingress_to objects |
+| ingress\_policies\_info | A map of objects, it includes ingress_from and ingress_to objects |
 map(object({
     ingress_from = object({
       identity_type = string
@@ -82,7 +82,6 @@ map(object({
     })
     })
   ) | '{}' | no |
-  
 ## Outputs
 
 | Name | Description |
