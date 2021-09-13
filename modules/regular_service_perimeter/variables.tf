@@ -69,3 +69,48 @@ variable "shared_resources" {
   type        = object({ all = list(string) })
   default     = { all = [] }
 }
+
+
+variable "ingress_policies_info" {
+  default = {}
+  type = map(object({
+    ingress_from = object({
+      identity_type = string
+      identities    = list(string)
+      sources = object({
+        access_level = string
+        resource     = string
+      })
+    })
+    ingress_to = object({
+      resources = list(string)
+      operations = list(object({
+        service_name = string
+        method_selectors = object({
+        method = string })
+        })
+      )
+    })
+    })
+  )
+}
+
+variable "egress_policies_info" {
+  default = {}
+  type = map(object({
+    egress_from = object({
+      identity_type = string
+      identities    = list(string)
+    })
+    egress_to = object({
+      resources = list(string)
+      operations = list(object({
+        service_name = string
+        method_selectors = object({
+        method = string })
+        })
+      )
+    })
+    })
+  )
+}

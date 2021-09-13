@@ -33,6 +33,60 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
       "accessPolicies/${var.policy}/accessLevels/%s",
       var.access_levels
     )
+
+    dynamic "ingress_policies" {
+      for_each = var.ingress_policies_info
+      content {
+
+        ingress_from {
+          identity_type = ingress_policies.value.ingress_from.identity_type
+          identities    = ingress_policies.value.ingress_from.identities
+          sources {
+            access_level = ingress_policies.value.ingress_from.sources.access_level
+            resource     = ingress_policies.value.ingress_from.sources.resource
+          }
+        }
+
+        ingress_to {
+          resources = ingress_policies.value.ingress_to.resources
+          dynamic "operations" {
+            for_each = ingress_policies.value.ingress_to.operations
+            content {
+              service_name = operations.value.service_name
+              method_selectors {
+                method = operations.value.method_selectors.method
+              }
+            }
+          }
+        }
+
+      }
+    }
+
+    dynamic "egress_policies" {
+      for_each = var.egress_policies_info
+      content {
+
+        egress_from {
+          identity_type = egress_policies.value.egress_from.identity_type
+          identities    = egress_policies.value.egress_from.identities
+        }
+
+        egress_to {
+          resources = egress_policies.value.egress_to.resources
+          dynamic "operations" {
+            for_each = egress_policies.value.egress_to.operations
+            content {
+              service_name = operations.value.service_name
+              method_selectors {
+                method = operations.value.method_selectors.method
+              }
+            }
+          }
+        }
+
+      }
+    }
   }
 
   dynamic "spec" {
