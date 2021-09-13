@@ -65,7 +65,7 @@ map(object({
     })
     })
   ) | '{}' | no |
-| egress\_policies\_info | A map of objects.it includes egress_from and egress_to objects |
+| egress\_policies\_info | A map of objects,it includes egress_from and egress_to objects |
  map(object({
     egress_from = object({
       identity_type = string
