@@ -46,5 +46,5 @@ output "table_id" {
 
 output "dataset_name" {
   description = "Name of dataset being provisioned"
-  value       = module.bigquery.bigquery_dataset.friendly_name
+  value       = module.bigquery.bigquery_dataset.dataset_id
 }
