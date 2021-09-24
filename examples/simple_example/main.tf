@@ -58,29 +58,35 @@ module "regular_service_perimeter_1" {
 }
 
 module "bigquery" {
-  source            = "terraform-google-modules/bigquery/google"
-  version           = "2.0.0"
-  dataset_id        = var.dataset_id
-  dataset_name      = var.dataset_id
-  description       = "Dataset with a single table with one field"
-  expiration        = "3600000"
-  project_id        = var.protected_project_ids["id"]
-  location          = "US"
-  time_partitioning = "DAY"
+  source                      = "terraform-google-modules/bigquery/google"
+  version                     = "5.2.0"
+  dataset_id                  = var.dataset_id
+  dataset_name                = var.dataset_id
+  description                 = "Dataset with a single table with one field"
+  default_table_expiration_ms = "3600000"
+  project_id                  = var.protected_project_ids["id"]
+  location                    = "US"
+  access                      = []
+  deletion_protection         = false
 
-  dataset_labels = {
-    env      = "dev"
-    billable = "true"
-    owner    = "janesmith"
-  }
-
-  tables = [{
-    table_id = "example_table",
-    schema   = "sample_bq_schema.json",
-    labels = {
-      env      = "dev"
-      billable = "true"
-      owner    = "joedoe"
-    },
-  }, ]
+  tables = [
+    {
+      table_id = "example_table",
+      schema   = file("sample_bq_schema.json")
+      time_partitioning = {
+        type                     = "DAY",
+        field                    = null,
+        require_partition_filter = false,
+        expiration_ms            = null,
+      },
+      range_partitioning = null,
+      expiration_time    = null,
+      clustering         = [],
+      labels = {
+        env      = "dev"
+        billable = "true"
+        owner    = "joedoe"
+      },
+    }
+  ]
 }
