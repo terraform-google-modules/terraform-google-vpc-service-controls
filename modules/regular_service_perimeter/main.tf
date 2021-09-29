@@ -45,7 +45,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               access_level = sources.value == "access_level" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : null
             }
           }
-          identity_type = lookup(ingress_policies.value["from"], "identity_type", "") == "" ? lookup(ingress_policies.value["from"], "identities", "") == "" ? "ANY_IDENTITY" : "" : lookup(ingress_policies.value["from"], "identity_type", "")
+          identity_type = lookup(ingress_policies.value["from"], "identity_type", lookup(ingress_policies.value["from"], "identities", "") == "" ? "ANY_IDENTITY" : "")
           identities    = lookup(ingress_policies.value["from"], "identity_type", "") == "" ? lookup(ingress_policies.value["from"], "identities", []) : []
         }
 
@@ -58,7 +58,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               dynamic "method_selectors" {
                 for_each = merge({ for k, v in lookup(operations.value, "methods", {}) : v => "method" }, { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" })
                 content {
-                  method     = method_selectors.value == "method" ? method_selectors.key : ""
+                  method     = method_selectors.value == "method" ? method_selectors.key : null
                   permission = method_selectors.value == "permission" ? method_selectors.key : ""
                 }
               }
