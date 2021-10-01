@@ -47,12 +47,12 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               access_level = sources.value == "access_level" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : null
             }
           }
-          identity_type = lookup(ingress_policies.value["from"], "identity_type", lookup(ingress_policies.value["from"], "identities", "ANY_IDENTITY")) ? "" : null
-          identities    = lookup(ingress_policies.value["from"], "identity_type", lookup(ingress_policies.value["from"], "identities", [])) ? [] : null
+          identity_type = lookup(ingress_policies.value["from"], "identity_type", null)
+          identities    = lookup(ingress_policies.value["from"], "identities", null)
         }
 
         ingress_to {
-          resources = lookup(ingress_policies.value["to"], "resources", ["*"]) ? lookup(ingress_policies.value["to"], "resources", []) : null
+          resources = lookup(ingress_policies.value["to"], "resources", ["*"])
           dynamic "operations" {
             for_each = ingress_policies.value["to"]["operations"]
             content {
@@ -75,11 +75,11 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
       for_each = var.egress_policies
       content {
         egress_from {
-          identity_type = lookup(egress_policies.value["from"], "identity_type", lookup(egress_policies.value["from"], "identities", "ANY_IDENTITY")) ? lookup(egress_policies.value["from"], "identity_type", "") : null
-          identities    = lookup(egress_policies.value["from"], "identity_type", lookup(egress_policies.value["from"], "identities", [])) ? [] : null
+          identity_type = lookup(egress_policies.value["from"], "identity_type", null)
+          identities    = lookup(egress_policies.value["from"], "identities", null)
         }
         egress_to {
-          resources = lookup(egress_policies.value["to"], "resources", ["*"]) ? lookup(egress_policies.value["to"], "resources", []) : null
+          resources = lookup(egress_policies.value["to"], "resources", ["*"])
           dynamic "operations" {
             for_each = lookup(egress_policies.value["to"], "operations", [])
             content {
@@ -124,12 +124,12 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
                 access_level = sources.value == "access_level" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : null
               }
             }
-            identity_type = lookup(ingress_policies.value["from"], "identity_type", lookup(ingress_policies.value["from"], "identities", "ANY_IDENTITY")) ? lookup(ingress_policies.value["from"], "identity_type", "") : null
-            identities    = lookup(ingress_policies.value["from"], "identity_type", lookup(ingress_policies.value["from"], "identities", [])) ? [] : null
+            identity_type = lookup(ingress_policies.value["from"], "identity_type", null)
+            identities    = lookup(ingress_policies.value["from"], "identities", null)
           }
 
           ingress_to {
-            resources = lookup(ingress_policies.value["to"], "resources", ["*"]) ? lookup(ingress_policies.value["to"], "resources", []) : null
+            resources = lookup(ingress_policies.value["to"], "resources", ["*"])
             dynamic "operations" {
               for_each = ingress_policies.value["to"]["operations"]
               content {
@@ -152,11 +152,11 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
         for_each = var.egress_policies_dry_run
         content {
           egress_from {
-            identity_type = lookup(egress_policies.value["from"], "identity_type", lookup(egress_policies.value["from"], "identities", "ANY_IDENTITY")) ? lookup(egress_policies.value["from"], "identity_type", "") : null
-            identities    = lookup(egress_policies.value["from"], "identity_type", lookup(egress_policies.value["from"], "identities", [])) ? [] : null
+            identity_type = lookup(egress_policies.value["from"], "identity_type", null)
+            identities    = lookup(egress_policies.value["from"], "identities", null)
           }
           egress_to {
-            resources = lookup(egress_policies.value["to"], "resources", ["*"]) ? lookup(egress_policies.value["to"], "resources", []) : null
+            resources = lookup(egress_policies.value["to"], "resources", ["*"])
             dynamic "operations" {
               for_each = lookup(egress_policies.value["to"], "operations", [])
               content {
