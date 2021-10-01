@@ -121,7 +121,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               { for k, v in lookup(ingress_policies.value["from"]["sources"], "access_levels", []) : v => "access_level" })
               content {
                 resource     = sources.value == "resource" ? sources.key : null
-                access_level = sources.value == "access_level" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : null
+                access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
               }
             }
             identity_type = lookup(ingress_policies.value["from"], "identity_type", null)
