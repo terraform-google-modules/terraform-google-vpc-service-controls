@@ -60,9 +60,9 @@ terraform apply
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | billing\_account | Billing Account id. e.g. AAAAAA-BBBBBB-CCCCCC | `string` | n/a | yes |
-| enabled\_apis | List of APIs to enable on the created projects | `list` | <pre>[<br>  "iap.googleapis.com",<br>  "oslogin.googleapis.com",<br>  "compute.googleapis.com",<br>  "bigquery.googleapis.com",<br>  "storage-api.googleapis.com"<br>]</pre> | no |
+| enabled\_apis | List of APIs to enable on the created projects | `list(string)` | <pre>[<br>  "iap.googleapis.com",<br>  "oslogin.googleapis.com",<br>  "compute.googleapis.com",<br>  "bigquery.googleapis.com",<br>  "storage-api.googleapis.com"<br>]</pre> | no |
 | folder\_id | Folder ID within the Organization: e.g. 1234567898765 | `string` | `""` | no |
-| members | List of members in the standard GCP form: user:{email}, serviceAccount:{email}, group:{email} | `list` | `[]` | no |
+| members | List of members in the standard GCP form: user:{email}, serviceAccount:{email}, group:{email} | `list(string)` | `[]` | no |
 | org\_id | Organization ID. e.g. 1234567898765 | `string` | n/a | yes |
 | perimeter\_name | Name of the VPC SC perimeter | `string` | `"protect_the_daters"` | no |
 | region | Region where the bastion host will run | `string` | `"us-west1"` | no |

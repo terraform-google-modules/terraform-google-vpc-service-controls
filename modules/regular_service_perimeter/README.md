@@ -23,6 +23,67 @@ module "regular_service_perimeter_1" {
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
+  ingress_policies = [{
+      "from" = {
+        "sources" = {
+          resources = [
+            "projects/688789777678",
+            "projects/557367936583"
+          ],
+          access_levels = [
+              "some_access_level_name"
+          ]
+        },
+        "identity_type" = ""
+        "identities"    = ["some_user_identity or service account"]
+      }
+      "to" = {
+        "operations" = {
+          "bigquery.googleapis.com" = {
+            "methods" = [
+              "BigQueryStorage.ReadRows",
+              "TableService.ListTables"
+            ],
+            "permissions" = [
+              "bigquery.jobs.get"
+            ]
+          }
+          "storage.googleapis.com" = {
+            "methods" = [
+              "google.storage.objects.create"
+            ]
+          }
+        }
+      }
+    },
+  ]
+  egress_policies = [{
+       "from" = {
+        "identity_type" = ""
+        "identities"    = ["some_user_identity or service account"]
+      },
+       "to" = {
+        "resources" = ["*"]
+        "operations" = {
+          "bigquery.googleapis.com" = {
+            "methods" = [
+              "BigQueryStorage.ReadRows",
+              "TableService.ListTables"
+            ],
+            "permissions" = [
+              "bigquery.jobs.get"
+            ]
+          }
+          "storage.googleapis.com" = {
+            "methods" = [
+              "google.storage.objects.create"
+            ]
+          }
+        }
+      }
+    },
+  ]
+
   shared_resources = {
     all = ["1111111111"]
   }
@@ -37,6 +98,10 @@ module "regular_service_perimeter_1" {
 | access\_levels | A list of AccessLevel resource names that allow resources within the ServicePerimeter to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel is a syntax error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via GCP calls with request origins within the perimeter. Example: 'accessPolicies/MY\_POLICY/accessLevels/MY\_LEVEL'. For Service Perimeter Bridge, must be empty. | `list(string)` | `[]` | no |
 | access\_levels\_dry\_run | (Dry-run) A list of AccessLevel resource names that allow resources within the ServicePerimeter to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel is a syntax error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via GCP calls with request origins within the perimeter. Example: 'accessPolicies/MY\_POLICY/accessLevels/MY\_LEVEL'. For Service Perimeter Bridge, must be empty. If set, a dry-run policy will be set. | `list(string)` | `[]` | no |
 | description | Description of the regular perimeter | `string` | n/a | yes |
+| egress\_policies | A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress\_from and egress\_to. | <pre>list(object({<br>    from = any<br>    to   = any<br>  }))</pre> | `[]` | no |
+| egress\_policies\_dry\_run | A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress\_from and egress\_to. | <pre>list(object({<br>    from = any<br>    to   = any<br>  }))</pre> | `[]` | no |
+| ingress\_policies | A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress\_from and ingress\_to. | <pre>list(object({<br>    from = any<br>    to   = any<br>  }))</pre> | `[]` | no |
+| ingress\_policies\_dry\_run | A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress\_from and ingress\_to. | <pre>list(object({<br>    from = any<br>    to   = any<br>  }))</pre> | `[]` | no |
 | perimeter\_name | Name of the perimeter. Should be one unified string. Must only be letters, numbers and underscores | `any` | n/a | yes |
 | policy | Name of the parent policy | `string` | n/a | yes |
 | resources | A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed. | `list(string)` | `[]` | no |

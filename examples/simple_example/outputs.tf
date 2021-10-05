@@ -36,15 +36,15 @@ output "protected_project_id" {
 
 output "dataset_id" {
   description = "Unique id for the BigQuery dataset being provisioned"
-  value       = module.bigquery.dataset_id
+  value       = module.bigquery.bigquery_dataset.dataset_id
 }
 
 output "table_id" {
   description = "Unique id for the BigQuery table being provisioned"
-  value       = module.bigquery.table_id
+  value       = module.bigquery.table_ids
 }
 
 output "dataset_name" {
   description = "Name of dataset being provisioned"
-  value       = module.bigquery.dataset_name
+  value       = module.bigquery.bigquery_dataset.dataset_id
 }
