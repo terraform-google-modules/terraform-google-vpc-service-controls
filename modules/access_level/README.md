@@ -9,13 +9,13 @@ provider "google" {
 }
 
 module "org_policy" {
-  source      = "terraform-google-modules/vpc-service-controls/google"
+  source      = "terraform-google-modules/vpc-service-controls/google//modules/policy"
   parent_id   = var.parent_id
   policy_name = var.policy_name
 }
 
 module "access_level_members" {
-  source         = "terraform-google-modules/vpc-service-controls/google/modules/access_level"
+  source         = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
   policy      = module.org_policy.policy_id
   name        = "terraform_members"
   members = ["serviceAccount:<service-account-email>", "user:<user-email>"]
