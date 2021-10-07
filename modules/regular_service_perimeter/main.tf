@@ -180,10 +180,6 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
   }
   use_explicit_dry_run_spec = local.dry_run
 
-
-  lifecycle {
-    ignore_changes = []
-  }
 }
 
 
