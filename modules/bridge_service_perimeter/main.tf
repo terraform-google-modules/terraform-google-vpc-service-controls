@@ -16,6 +16,7 @@
 
 resource "google_access_context_manager_service_perimeter" "bridge_service_perimeter" {
   provider       = google
+  count          = var.ignore_changes_on_ressources ? 0 : 1 
   parent         = "accessPolicies/${var.policy}"
   perimeter_type = "PERIMETER_TYPE_BRIDGE"
   name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
@@ -23,5 +24,23 @@ resource "google_access_context_manager_service_perimeter" "bridge_service_perim
 
   status {
     resources = formatlist("projects/%s", var.resources)
+  }
+
+}
+
+resource "google_access_context_manager_service_perimeter" "bridge_service_perimeter_ignore_changes" {
+  provider       = google
+  parent         = "accessPolicies/${var.policy}"
+  count          = var.ignore_changes_on_ressources ? 1 : 0 
+  perimeter_type = "PERIMETER_TYPE_BRIDGE"
+  name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
+  title          = var.perimeter_name
+
+  status {
+    resources = formatlist("projects/%s", var.resources)
+  }
+
+  lifecycle {
+    ignore_changes = [status[0].resources]
   }
 }

@@ -34,3 +34,10 @@ variable "resources" {
   description = "A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed."
   type        = list(string)
 }
+
+
+variable "ignore_changes_on_ressources" {
+  description = "Ignore Chages on Ressources added after initial apply"
+  type = bool
+  default = false
+}
