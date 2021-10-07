@@ -9,7 +9,7 @@ provider "google" {
 }
 
 module "org_policy" {
-  source      = "terraform-google-modules/vpc-service-controls/google//modules/policy"
+  source      = "terraform-google-modules/vpc-service-controls/google"
   parent_id   = var.parent_id
   policy_name = var.policy_name
 }
