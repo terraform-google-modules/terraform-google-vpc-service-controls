@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.1.0](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v3.0.1...v3.1.0) (2021-10-07)
+
+
+### Features
+
+* Added Ingress and Egress Rules support to regular perimeters ([#55](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/55)) ([f837a23](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/f837a23b58065c53327a2de3236e70e57e7386e9))
+
 ### [3.0.1](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v3.0.0...v3.0.1) (2021-05-19)
 
 
