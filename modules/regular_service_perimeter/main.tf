@@ -20,7 +20,7 @@ locals {
 
 resource "google_access_context_manager_service_perimeter" "regular_service_perimeter" {
   provider       = google
-  count          = var.ignore_changes_on_ressources ? 0 : 1 
+  count          = var.ignore_changes_on_ressources ? 0 : 1
   parent         = "accessPolicies/${var.policy}"
   perimeter_type = "PERIMETER_TYPE_REGULAR"
   name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
@@ -88,7 +88,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               dynamic "method_selectors" {
                 for_each = operations.key != "*" ? merge(
                   { for k, v in lookup(operations.value, "methods", {}) : v => "method" },
-                { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" }) :{}
+                { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" }) : {}
                 content {
                   method     = method_selectors.value == "method" ? method_selectors.key : ""
                   permission = method_selectors.value == "permission" ? method_selectors.key : ""
@@ -186,7 +186,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
 resource "google_access_context_manager_service_perimeter" "regular_service_perimeter_ignore_changes" {
   provider       = google
   parent         = "accessPolicies/${var.policy}"
-  count          = var.ignore_changes_on_ressources ? 1 : 0 
+  count          = var.ignore_changes_on_ressources ? 1 : 0
   perimeter_type = "PERIMETER_TYPE_REGULAR"
   name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
   title          = var.perimeter_name
@@ -253,7 +253,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               dynamic "method_selectors" {
                 for_each = operations.key != "*" ? merge(
                   { for k, v in lookup(operations.value, "methods", {}) : v => "method" },
-                { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" }) :{}
+                { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" }) : {}
                 content {
                   method     = method_selectors.value == "method" ? method_selectors.key : ""
                   permission = method_selectors.value == "permission" ? method_selectors.key : ""
