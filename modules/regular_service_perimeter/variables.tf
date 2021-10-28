@@ -113,7 +113,7 @@ variable "ingress_policies_dry_run" {
 }
 
 variable "ignore_changes_on_ressources" {
-  description = "Ignore Chages on Ressources added after initial apply"
+  description = "Ignore changes on ressources added after initial apply"
   type        = bool
   default     = false
 }
