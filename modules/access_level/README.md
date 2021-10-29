@@ -15,7 +15,7 @@ module "org_policy" {
 }
 
 module "access_level_members" {
-  source         = "terraform-google-modules/vpc-service-controls/google/modules/access_level"
+  source         = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
   policy      = module.org_policy.policy_id
   name        = "terraform_members"
   members = ["serviceAccount:<service-account-email>", "user:<user-email>"]

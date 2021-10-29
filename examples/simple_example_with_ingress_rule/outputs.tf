@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 0.13"
-  required_providers {
+output "policy_id" {
+  description = "Resource name of the AccessPolicy."
+  value       = module.access_context_manager_policy.policy_id
+}
 
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 3.53"
-    }
-  }
+output "policy_name" {
+  description = "Name of the parent policy"
+  value       = var.policy_name
+}
 
-  provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-vpc-service-controls:access_level/v3.1.0"
-  }
 
+output "protected_project_id" {
+  description = "Project id of the project INSIDE the regular service perimeter"
+  value       = var.protected_project_ids["id"]
 }

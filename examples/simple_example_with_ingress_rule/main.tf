@@ -46,47 +46,52 @@ module "regular_service_perimeter_1" {
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name
 
-  description = "Perimeter shielding bigquery project ${null_resource.wait_for_members.id}"
-  resources   = [var.protected_project_ids["number"]]
+  description   = "Perimeter shielding bigquery project"
+  resources     = [var.protected_project_ids["number"]]
+  access_levels = [module.access_level_members.name]
 
-  access_levels       = [module.access_level_members.name]
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
+
+  ingress_policies = [
+    {
+      "from" = {
+        "sources" = {
+          access_levels = ["*"] # Allow Access from everywhere
+        },
+        "identities" = var.read_bucket_identities
+      }
+      "to" = {
+        "resources" = [
+          "*"
+        ]
+        "operations" = {
+          "storage.googleapis.com" = {
+            "methods" = [
+              "google.storage.objects.get",
+              "google.storage.objects.list"
+            ]
+          }
+        }
+      }
+    },
+  ]
 
   shared_resources = {
     all = [var.protected_project_ids["number"]]
   }
+
+  depends_on = [
+    module.gcs_buckets
+  ]
 }
 
-module "bigquery" {
-  source                      = "terraform-google-modules/bigquery/google"
-  version                     = "5.2.0"
-  dataset_id                  = var.dataset_id
-  dataset_name                = var.dataset_id
-  description                 = "Dataset with a single table with one field"
-  default_table_expiration_ms = "3600000"
-  project_id                  = var.protected_project_ids["id"]
-  location                    = "US"
-  access                      = []
-  deletion_protection         = false
 
-  tables = [
-    {
-      table_id = "example_table",
-      schema   = file("sample_bq_schema.json")
-      time_partitioning = {
-        type                     = "DAY",
-        field                    = null,
-        require_partition_filter = false,
-        expiration_ms            = null,
-      },
-      range_partitioning = null,
-      expiration_time    = null,
-      clustering         = [],
-      labels = {
-        env      = "dev"
-        billable = "true"
-        owner    = "joedoe"
-      },
-    }
-  ]
+module "gcs_buckets" {
+  source           = "terraform-google-modules/cloud-storage/google"
+  project_id       = var.protected_project_ids["id"]
+  names            = var.buckets_names
+  randomize_suffix = true
+  prefix           = var.buckets_prefix
+  set_admin_roles  = true
+  admins           = var.members
 }

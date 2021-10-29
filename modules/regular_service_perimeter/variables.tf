@@ -69,3 +69,45 @@ variable "shared_resources" {
   type        = object({ all = list(string) })
   default     = { all = [] }
 }
+
+
+## Have to solve it like this don't want use optional flag because is still experimental
+variable "egress_policies" {
+  description = "A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress_from and egress_to."
+  type = list(object({
+    from = any
+    to   = any
+  }))
+  default = []
+}
+
+## Have to solve it like this don't want use optional flag because is still experimental
+variable "ingress_policies" {
+  description = "A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress_from and ingress_to."
+  type = list(object({
+    from = any
+    to   = any
+  }))
+  default = []
+}
+
+
+## Have to solve it like this don't want use optional flag because is still experimental
+variable "egress_policies_dry_run" {
+  description = "A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress_from and egress_to."
+  type = list(object({
+    from = any
+    to   = any
+  }))
+  default = []
+}
+
+## Have to solve it like this don't want use optional flag because is still experimental
+variable "ingress_policies_dry_run" {
+  description = "A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress_from and ingress_to."
+  type = list(object({
+    from = any
+    to   = any
+  }))
+  default = []
+}
