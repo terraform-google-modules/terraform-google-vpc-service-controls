@@ -15,5 +15,23 @@
  */
 
 terraform {
-  required_version = ">= 0.12"
+  required_version = ">= 0.13"
+  required_providers {
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 1.0"
+    }
+    google = {
+      source = "hashicorp/google"
+      version = "~> 4.0"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 2.1"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 2.0"
+    }
+  }
 }

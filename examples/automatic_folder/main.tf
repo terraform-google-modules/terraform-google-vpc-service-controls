@@ -14,18 +14,6 @@
  * limitations under the License.
  */
 
-provider "archive" {
-  version = "~> 1.0"
-}
-
-provider "random" {
-  version = "~> 2.0"
-}
-
-provider "null" {
-  version = "~> 2.1"
-}
-
 data "google_projects" "in_perimeter_folder" {
   filter = "parent.id:${var.folder_id}"
 }

@@ -15,17 +15,14 @@
  */
 
 terraform {
-  required_version = ">= 0.13"
   required_providers {
-
     google = {
-      source  = "hashicorp/google"
-      version = ">= 3.53, < 5.0"
+      source = "hashicorp/google"
+      version = "~> 4.0"
+    }
+    null = {
+      source = "hashicorp/null"
     }
   }
-
-  provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-vpc-service-controls:bridge_service_perimeter/v3.1.0"
-  }
-
+  required_version = ">= 0.13"
 }
