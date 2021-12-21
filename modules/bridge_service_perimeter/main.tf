@@ -27,7 +27,7 @@ resource "google_access_context_manager_service_perimeter" "bridge_service_perim
 }
 
 
-resource "google_access_context_manager_service_perimeter_resource" "service-perimeter-resource" {
+resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_resource" {
   for_each       = toset(formatlist("projects/%s", var.resources))
   perimeter_name = google_access_context_manager_service_perimeter.bridge_service_perimeter.name
   resource       = each.key
