@@ -55,7 +55,7 @@ module "regular_service_perimeter_1" {
 
 module "bigquery" {
   source                      = "terraform-google-modules/bigquery/google"
-  version                     = "5.2.0"
+  version                     = "5.3.0"
   dataset_id                  = var.dataset_id
   dataset_name                = var.dataset_id
   description                 = "Dataset with a single table with one field"
