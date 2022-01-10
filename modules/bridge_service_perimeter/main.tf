@@ -21,7 +21,14 @@ resource "google_access_context_manager_service_perimeter" "bridge_service_perim
   name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
   title          = var.perimeter_name
 
-  status {
-    resources = formatlist("projects/%s", var.resources)
+  lifecycle {
+    ignore_changes = [status[0].resources]
   }
+}
+
+
+resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_resource" {
+  for_each       = toset(formatlist("projects/%s", var.resources))
+  perimeter_name = google_access_context_manager_service_perimeter.bridge_service_perimeter.name
+  resource       = each.key
 }
