@@ -28,7 +28,6 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
 
   status {
     restricted_services = var.restricted_services
-    resources           = formatlist("projects/%s", var.resources)
     access_levels = formatlist(
       "accessPolicies/${var.policy}/accessLevels/%s",
       var.access_levels
@@ -58,9 +57,9 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
             content {
               service_name = operations.key
               dynamic "method_selectors" {
-                for_each = merge(
+                for_each = operations.key != "*" ? merge(
                   { for k, v in lookup(operations.value, "methods", {}) : v => "method" },
-                { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" })
+                { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" }) : {}
                 content {
                   method     = method_selectors.value == "method" ? method_selectors.key : null
                   permission = method_selectors.value == "permission" ? method_selectors.key : ""
@@ -85,9 +84,9 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
             content {
               service_name = operations.key
               dynamic "method_selectors" {
-                for_each = merge(
+                for_each = operations.key != "*" ? merge(
                   { for k, v in lookup(operations.value, "methods", {}) : v => "method" },
-                { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" })
+                { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" }) : {}
                 content {
                   method     = method_selectors.value == "method" ? method_selectors.key : ""
                   permission = method_selectors.value == "permission" ? method_selectors.key : ""
@@ -178,4 +177,15 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
     }
   }
   use_explicit_dry_run_spec = local.dry_run
+
+  lifecycle {
+    ignore_changes = [status[0].resources]
+  }
+}
+
+
+resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_resource" {
+  for_each       = toset(formatlist("projects/%s", var.resources))
+  perimeter_name = google_access_context_manager_service_perimeter.regular_service_perimeter.name
+  resource       = each.key
 }
