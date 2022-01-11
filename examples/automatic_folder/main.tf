@@ -14,18 +14,6 @@
  * limitations under the License.
  */
 
-provider "archive" {
-  version = "~> 1.0"
-}
-
-provider "random" {
-  version = "~> 2.0"
-}
-
-provider "null" {
-  version = "~> 2.1"
-}
-
 data "google_projects" "in_perimeter_folder" {
   filter = "parent.id:${var.folder_id}"
 }
@@ -44,7 +32,7 @@ locals {
 
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
-  version = "1.0.1"
+  version = "3.1.0"
 
   parent_id   = local.parent_id
   policy_name = var.policy_name
@@ -52,7 +40,7 @@ module "access_context_manager_policy" {
 
 module "access_level_members" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "1.0.1"
+  version = "3.1.0"
 
   description = "${var.perimeter_name} Access Level"
   policy      = module.access_context_manager_policy.policy_id
@@ -62,7 +50,7 @@ module "access_level_members" {
 
 module "service_perimeter" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version = "1.0.1"
+  version = "3.1.0"
 
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name

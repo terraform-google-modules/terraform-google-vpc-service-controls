@@ -33,7 +33,7 @@ resource "google_compute_network" "onprem-network" {
   name                            = "onprem-network"
   project                         = google_project.on_prem_network_project.project_id
   routing_mode                    = "REGIONAL"
-  depends_on                      = ["google_project_service.gce_service"]
+  depends_on                      = [google_project_service.gce_service]
 }
 
 resource "google_compute_subnetwork" "onprem_subnet" {
@@ -51,7 +51,7 @@ resource "google_compute_address" "onprem_vpn_ip" {
   network_tier = "PREMIUM"
   project      = google_project.on_prem_network_project.project_id
   region       = var.region
-  depends_on   = ["google_project_service.gce_service"]
+  depends_on   = [google_project_service.gce_service]
 }
 
 resource "google_compute_router" "onprem_cloud_router" {
@@ -64,7 +64,7 @@ resource "google_compute_router" "onprem_cloud_router" {
   network    = google_compute_network.onprem-network.self_link
   project    = google_project.on_prem_network_project.project_id
   region     = var.region
-  depends_on = ["google_project_service.gce_service"]
+  depends_on = [google_project_service.gce_service]
 }
 
 resource "google_compute_vpn_gateway" "target_gateway" {
@@ -72,7 +72,7 @@ resource "google_compute_vpn_gateway" "target_gateway" {
   network    = google_compute_network.onprem-network.self_link
   project    = google_project.on_prem_network_project.project_id
   region     = var.region
-  depends_on = ["google_project_service.gce_service"]
+  depends_on = [google_project_service.gce_service]
 }
 
 resource "google_compute_forwarding_rule" "fr_for_vpn_gateway" {
@@ -192,7 +192,7 @@ resource "google_compute_instance" "forward_proxy_instance" {
 
   tags       = ["forward-proxy"]
   zone       = "${var.region}-b"
-  depends_on = ["google_project_service.gce_service"]
+  depends_on = [google_project_service.gce_service]
 }
 
 resource "google_compute_instance" "windows_jumphost" {
@@ -238,7 +238,7 @@ resource "google_compute_instance" "windows_jumphost" {
 
   tags       = ["forward-proxy"]
   zone       = "${var.region}-b"
-  depends_on = ["google_project_service.gce_service"]
+  depends_on = [google_project_service.gce_service]
 }
 
 /*********************************/
