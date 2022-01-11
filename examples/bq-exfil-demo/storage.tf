@@ -16,7 +16,7 @@
 
 module "bigquery" {
   source  = "terraform-google-modules/bigquery/google"
-  version = "~> 4.1"
+  version = "~> 5.3"
 
   dataset_id   = "project_1_dataset"
   dataset_name = "project_1_dataset"
@@ -33,8 +33,9 @@ module "bigquery" {
         require_partition_filter = false,
         expiration_ms            = null,
       },
-      expiration_time = null,
-      clustering      = null,
+      range_partitioning = null,
+      expiration_time    = null,
+      clustering         = null,
       labels = {
         env = "dev"
       },
