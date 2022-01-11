@@ -15,6 +15,7 @@
  */
 
 provider "google" {
+  version     = "~> 3.82.0"
   credentials = file("${var.credentials_path}")
 }
 

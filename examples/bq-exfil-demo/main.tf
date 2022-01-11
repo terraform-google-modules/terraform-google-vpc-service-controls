@@ -21,7 +21,7 @@
 
 module "bastion" {
   source  = "terraform-google-modules/bastion-host/google"
-  version = "~> 4.1"
+  version = "~> 3.0"
 
   project = module.project1.project_id
   zone    = var.zone

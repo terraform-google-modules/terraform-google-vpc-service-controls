@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+provider "google" {
+  version = "~> 3.82.0" // Dry-run support added in provider version 3.17.0
+}
+
 module "access_context_manager_policy" {
   source      = "../.."
   parent_id   = var.parent_id

@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+provider "google" {
+  version = "~> 3.82.0"
+}
+
 module "access_context_manager_policy" {
   source      = "../.."
   parent_id   = var.parent_id
@@ -55,7 +59,7 @@ module "regular_service_perimeter_1" {
 
 module "bigquery" {
   source                      = "terraform-google-modules/bigquery/google"
-  version                     = "5.3.0"
+  version                     = "5.2.0"
   dataset_id                  = var.dataset_id
   dataset_name                = var.dataset_id
   description                 = "Dataset with a single table with one field"

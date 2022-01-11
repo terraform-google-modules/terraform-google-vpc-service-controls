@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+provider "google" {
+  version = "~> 3.82.0"
+}
+
 module "access_context_manager_policy" {
   source      = "../.."
   parent_id   = var.parent_id
