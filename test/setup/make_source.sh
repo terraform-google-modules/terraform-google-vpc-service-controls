@@ -17,15 +17,15 @@
 echo "#!/usr/bin/env bash" > ../source.sh
 
 project_id=$(terraform output project_id)
-echo "export TF_VAR_project_id='$project_id'" >> ../source.sh
+echo "export TF_VAR_project_id=$project_id" >> ../source.sh
 
 sa_json=$(terraform output sa_key)
 # shellcheck disable=SC2086
-echo "export SERVICE_ACCOUNT_JSON='$(echo $sa_json | base64 --decode)'" >> ../source.sh
+echo "export SERVICE_ACCOUNT_JSON='$(echo $sa_json | base64 --decode -i)'" >> ../source.sh
 
 parent_id=$(terraform output parent_id)
-echo "export TF_VAR_parent_id='$parent_id'" >> ../source.sh
-echo "export TF_VAR_org_id='$parent_id'" >> ../source.sh
+echo "export TF_VAR_parent_id=$parent_id" >> ../source.sh
+echo "export TF_VAR_org_id=$parent_id" >> ../source.sh
 
 protected_project_ids=$(terraform output protected_project_ids)
 echo "export TF_VAR_protected_project_ids='$protected_project_ids'" >> ../source.sh
