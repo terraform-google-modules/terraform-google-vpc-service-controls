@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v3.1.0...v3.2.0) (2022-01-11)
+
+
+### Features
+
+* split resources into separate resource to allow out-of-module additions ([#61](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/61)) ([03e86e3](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/03e86e330cc7261608cfe48b0212b421fc6a83ec))
+* update TPG version constraints to allow 4.0 ([#65](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/65)) ([8f7a51c](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/8f7a51cf9bd4cb4d395aca0a750d805da387c650))
+
 ## [3.1.0](https://www.github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v3.0.1...v3.1.0) (2021-10-07)
 
 
