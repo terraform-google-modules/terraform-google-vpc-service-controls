@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+### [3.2.1](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v3.2.0...v3.2.1) (2022-01-13)
+
+
+### Bug Fixes
+
+* ignore excessive changes to bridge status ([#74](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/74)) ([09cb2dc](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/09cb2dcaeb3e3b5465404357847b41289a2ec501))
+
 ## [3.2.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v3.1.0...v3.2.0) (2022-01-11)
 
 
