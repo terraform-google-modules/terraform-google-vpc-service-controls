@@ -22,7 +22,7 @@ resource "google_access_context_manager_service_perimeter" "bridge_service_perim
   title          = var.perimeter_name
 
   lifecycle {
-    ignore_changes = [status[0].resources]
+    ignore_changes = [status]
   }
 }
 
