@@ -47,7 +47,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
             }
           }
           identity_type = lookup(ingress_policies.value["from"], "identity_type", null)
-          identities    = lookup(ingress_policies.value["from"], "identities", null)
+          identities    = lookup(ingress_policies.value["from"], "identities", [])
         }
 
         ingress_to {
@@ -75,7 +75,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
       content {
         egress_from {
           identity_type = lookup(egress_policies.value["from"], "identity_type", null)
-          identities    = lookup(egress_policies.value["from"], "identities", null)
+          identities    = lookup(egress_policies.value["from"], "identities", [])
         }
         egress_to {
           resources = lookup(egress_policies.value["to"], "resources", ["*"])
@@ -124,7 +124,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               }
             }
             identity_type = lookup(ingress_policies.value["from"], "identity_type", null)
-            identities    = lookup(ingress_policies.value["from"], "identities", null)
+            identities    = lookup(ingress_policies.value["from"], "identities", [])
           }
 
           ingress_to {
@@ -152,7 +152,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
         content {
           egress_from {
             identity_type = lookup(egress_policies.value["from"], "identity_type", null)
-            identities    = lookup(egress_policies.value["from"], "identities", null)
+            identities    = lookup(egress_policies.value["from"], "identities", [])
           }
           egress_to {
             resources = lookup(egress_policies.value["to"], "resources", ["*"])
