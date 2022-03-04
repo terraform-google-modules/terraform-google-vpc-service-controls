@@ -15,7 +15,7 @@ This example illustrates how to use the module to create two perimeters, with pr
 
 | Name | Description |
 |------|-------------|
-| policy\_name | n/a |
+| policy\_id | The ID of the created policy |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
