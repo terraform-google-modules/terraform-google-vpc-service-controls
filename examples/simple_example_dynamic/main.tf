@@ -26,11 +26,13 @@ module "bridge" {
   perimeter_name = "bridge_perimeter_1"
   description    = "Some description"
 
-  resources = concat(
-    module.regular_service_perimeter_1.shared_resources["all"],
-    module.regular_service_perimeter_2.shared_resources["all"],
-  )
+  resources     = [module.project_one.project_number, module.project_two.project_number, module.project_three.project_number]
   resource_keys = ["one", "two", "three"]
+
+  depends_on = [
+    module.regular_service_perimeter_1,
+    module.regular_service_perimeter_2
+  ]
 }
 
 module "regular_service_perimeter_1" {
