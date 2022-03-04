@@ -183,9 +183,16 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
   }
 }
 
+locals {
+  resource_keys = var.resource_keys != null ? var.resource_keys : var.resources
+  resources = {
+    for rk in local.resource_keys :
+    rk => var.resources[index(local.resource_keys, rk)]
+  }
+}
 
 resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_resource" {
-  for_each       = toset(formatlist("projects/%s", var.resources))
+  for_each       = local.resources
   perimeter_name = google_access_context_manager_service_perimeter.regular_service_perimeter.name
-  resource       = each.key
+  resource       = "projects/${each.value}"
 }
