@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v3.2.0...v4.0.0) (2022-03-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* add Terraform 0.13 constraint and module attribution (#45)
+* Minimum provider version increased to 3.17
+* Resources have been split out from the perimeter. See the [upgrade guide](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/blob/master/docs/upgrading_to_v4.0.md) for details.
+
+### Features
+
+* add regions and require_corp_owned to access level module ([#40](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/40)) ([20d4ce5](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/20d4ce5e062f8716c241d32109e5a614269cbe85))
+* add Terraform 0.13 constraint and module attribution ([#45](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/45)) ([9fab6ed](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/9fab6ed2a394d6aa9d00ff510aa097816175cf22))
+* Added Ingress and Egress Rules support to regular perimeters ([#55](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/55)) ([f837a23](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/f837a23b58065c53327a2de3236e70e57e7386e9))
+* Added support for dry-run policies in VPC Service Controls ([#37](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/37)) ([0e712f0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/0e712f068b000221bcdc617292e1ef98e4fb9b6c))
+* Pass description attribute through in regular_service_perimeter module ([#34](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/34)) ([d5ff0e3](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/d5ff0e396c4f5eff197a59aafb6f3f31060fc65b))
+* split resources into separate resource to allow out-of-module additions ([#61](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/61)) ([03e86e3](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/03e86e330cc7261608cfe48b0212b421fc6a83ec))
+* update TPG version constraints to allow 4.0 ([#65](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/65)) ([8f7a51c](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/8f7a51cf9bd4cb4d395aca0a750d805da387c650))
+
+
+### Bug Fixes
+
+* Add perimeter info to regular perimeter outputs ([#51](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/51)) ([1787b21](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/1787b217a92b68cc80d057288ecb6e36dd362d63))
+* add resource_keys variable to handle dynamic resources ([#81](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/81)) ([9110314](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/9110314179adff5510f03f73a7010fa32f5b36bc))
+* Change default value for os_type to OS_UNSPECIFIED ([#30](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/30)) ([20da2e0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/20da2e06f375ddcaf47a34a40c967c4644c6ade7))
+* ignore excessive changes to bridge status ([#74](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/74)) ([09cb2dc](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/09cb2dcaeb3e3b5465404357847b41289a2ec501))
+* Use dynamic block to prevent empty device policies ([#31](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/31)) ([17a9329](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/17a9329bd8dad4f201d759a043f82e52de8dce41))
+
 ## [3.2.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v3.1.0...v3.2.0) (2022-01-11)
 
 
