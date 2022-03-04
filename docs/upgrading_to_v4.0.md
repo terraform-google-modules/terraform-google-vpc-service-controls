@@ -16,7 +16,7 @@ However, this change has a few implications:
 If resources are created inside the same configuration as the perimeter, you will received an error that their value cannot be determined until apply:
 ```
 │ Error: Invalid for_each argument
-│ 
+│
 │   on ../../modules/regular_service_perimeter/main.tf line 195, in resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_resource":
 │  195:   for_each       = local.resources
 │     ├────────────────
