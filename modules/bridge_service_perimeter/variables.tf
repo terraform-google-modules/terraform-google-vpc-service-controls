@@ -34,3 +34,9 @@ variable "resources" {
   description = "A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed."
   type        = list(string)
 }
+
+variable "resource_keys" {
+  description = "A list of keys to use for the Terraform state. The order should correspond to var.resources and the keys must not be dynamically computed. If `null`, var.resources will be used as keys."
+  type        = list(string)
+  default     = null
+}
