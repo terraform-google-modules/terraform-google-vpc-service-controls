@@ -12,6 +12,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 * add Terraform 0.13 constraint and module attribution (#45)
 * Minimum provider version increased to 3.17
+* Resources have been split out from the perimeter. See the [upgrade guide](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/blob/master/docs/upgrading_to_v4.0.md) for details.
 
 ### Features
 
