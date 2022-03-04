@@ -63,6 +63,7 @@ module "regular_service_perimeter_2" {
 | description | Description of the bridge perimeter | `string` | `""` | no |
 | perimeter\_name | Name of the perimeter. Should be one unified string. Must only be letters, numbers and underscores | `string` | n/a | yes |
 | policy | Name of the parent policy | `string` | n/a | yes |
+| resource\_keys | A list of keys to use for the Terraform state. The order should correspond to var.resources and the keys must not be dynamically computed. If `null`, var.resources will be used as keys. | `list(string)` | `null` | no |
 | resources | A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed. | `list(string)` | n/a | yes |
 
 ## Outputs
