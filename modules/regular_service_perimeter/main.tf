@@ -186,7 +186,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
 locals {
   resource_keys = var.resource_keys != null ? var.resource_keys : var.resources
   resources = {
-    for rk in local.resource_keys:
+    for rk in local.resource_keys :
     rk => var.resources[index(local.resource_keys, rk)]
   }
 }
