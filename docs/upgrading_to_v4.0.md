@@ -34,7 +34,7 @@ To work around this, you need to provide a `resource_keys` variable input with k
   ...
 
   resources      = [module.project_two.project_number, module.project_three.project_number]
-+ resource_keys  = ["two", "three"] 
++ resource_keys  = ["two", "three"]
 }
 
 module "bridge" {
