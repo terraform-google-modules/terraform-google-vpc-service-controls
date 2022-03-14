@@ -15,7 +15,7 @@
  */
 
 locals {
-  dry_run = (length(var.restricted_services_dry_run) > 0 || length(var.resources_dry_run) > 0 || length(var.access_levels_dry_run) > 0)
+  dry_run = (length(var.restricted_services_dry_run) > 0 || length(var.resources_dry_run) > 0 || length(var.access_levels_dry_run) > 0 || !contains(var.vpc_accessible_services_dry_run, "*"))
 }
 
 resource "google_access_context_manager_service_perimeter" "regular_service_perimeter" {
@@ -97,6 +97,14 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
         }
       }
     }
+
+    dynamic "vpc_accessible_services" {
+      for_each = contains(var.vpc_accessible_services, "*") ? [] : [var.vpc_accessible_services]
+      content {
+        enable_restriction = true
+        allowed_services   = vpc_accessible_services.value
+      }
+    }
   }
 
 
@@ -172,6 +180,14 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               }
             }
           }
+        }
+      }
+
+      dynamic "vpc_accessible_services" {
+        for_each = contains(var.vpc_accessible_services_dry_run, "*") ? [] : [var.vpc_accessible_services_dry_run]
+        content {
+          enable_restriction = true
+          allowed_services   = vpc_accessible_services.value
         }
       }
     }

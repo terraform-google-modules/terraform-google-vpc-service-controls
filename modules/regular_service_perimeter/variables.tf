@@ -117,3 +117,15 @@ variable "ingress_policies_dry_run" {
   }))
   default = []
 }
+
+variable "vpc_accessible_services" {
+  description = "A list of [VPC Accessible Services](https://cloud.google.com/vpc-service-controls/docs/vpc-accessible-services) that will be restricted within the VPC Network. Use [\"RESTRICTED-SERVICES\"] to match the restricted services list."
+  type        = list(string)
+  default     = ["*"]
+}
+
+variable "vpc_accessible_services_dry_run" {
+  description = "(Dry-run) A list of [VPC Accessible Services](https://cloud.google.com/vpc-service-controls/docs/vpc-accessible-services) that will be restricted within the VPC Network. Use [\"RESTRICTED-SERVICES\"] to match the restricted services list."
+  type        = list(string)
+  default     = ["*"]
+}
