@@ -58,11 +58,11 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               service_name = operations.key
               dynamic "method_selectors" {
                 for_each = operations.key != "*" ? merge(
-                  { for k, v in lookup(operations.value, "methods", {}) : v => "method" },
-                { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" }) : {}
+                  { for v in lookup(operations.value, "methods", []) : v => "method" },
+                { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
                 content {
                   method     = method_selectors.value == "method" ? method_selectors.key : null
-                  permission = method_selectors.value == "permission" ? method_selectors.key : ""
+                  permission = method_selectors.value == "permission" ? method_selectors.key : null
                 }
               }
             }
@@ -85,11 +85,11 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               service_name = operations.key
               dynamic "method_selectors" {
                 for_each = operations.key != "*" ? merge(
-                  { for k, v in lookup(operations.value, "methods", {}) : v => "method" },
-                { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" }) : {}
+                  { for v in lookup(operations.value, "methods", []) : v => "method" },
+                { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
                 content {
-                  method     = method_selectors.value == "method" ? method_selectors.key : ""
-                  permission = method_selectors.value == "permission" ? method_selectors.key : ""
+                  method     = method_selectors.value == "method" ? method_selectors.key : null
+                  permission = method_selectors.value == "permission" ? method_selectors.key : null
                 }
               }
             }
@@ -134,12 +134,12 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               content {
                 service_name = operations.key
                 dynamic "method_selectors" {
-                  for_each = merge(
-                    { for k, v in lookup(operations.value, "methods", {}) : v => "method" },
-                  { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" })
+                  for_each = operations.key != "*" ? merge(
+                    { for v in lookup(operations.value, "methods", []) : v => "method" },
+                  { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
                   content {
-                    method     = method_selectors.value == "method" ? method_selectors.key : ""
-                    permission = method_selectors.value == "permission" ? method_selectors.key : ""
+                    method     = method_selectors.value == "method" ? method_selectors.key : null
+                    permission = method_selectors.value == "permission" ? method_selectors.key : null
                   }
                 }
               }
@@ -161,12 +161,12 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               content {
                 service_name = operations.key
                 dynamic "method_selectors" {
-                  for_each = merge(
-                    { for k, v in lookup(operations.value, "methods", {}) : v => "method" },
-                  { for k, v in lookup(operations.value, "permissions", {}) : v => "permission" })
+                  for_each = operations.key != "*" ? merge(
+                    { for v in lookup(operations.value, "methods", []) : v => "method" },
+                  { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
                   content {
-                    method     = method_selectors.value == "method" ? method_selectors.key : ""
-                    permission = method_selectors.value == "permission" ? method_selectors.key : ""
+                    method     = method_selectors.value == "method" ? method_selectors.key : null
+                    permission = method_selectors.value == "permission" ? method_selectors.key : null
                   }
                 }
               }
