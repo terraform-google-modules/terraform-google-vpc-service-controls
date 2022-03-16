@@ -125,7 +125,7 @@ variable "vpc_accessible_services" {
 }
 
 variable "vpc_accessible_services_dry_run" {
-  description = "(Dry-run) A list of [VPC Accessible Services](https://cloud.google.com/vpc-service-controls/docs/vpc-accessible-services) that will be restricted within the VPC Network. Use [\"*\"] to allow any service (disable VPC Accessible Services); Use [\"RESTRICTED-SERVICES\"] to match the restricted services list; Use [] to do not allow any service."
+  description = "(Dry-run) A list of [VPC Accessible Services](https://cloud.google.com/vpc-service-controls/docs/vpc-accessible-services) that will be restricted within the VPC Network. Use [\"*\"] to allow any service (disable VPC Accessible Services); Use [\"RESTRICTED-SERVICES\"] to match the restricted services list; Use [] to not allow any service."
   type        = list(string)
   default     = ["*"]
 }
