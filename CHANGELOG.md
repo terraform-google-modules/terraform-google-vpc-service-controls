@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+### [4.0.1](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v4.0.0...v4.0.1) (2022-03-17)
+
+
+### Bug Fixes
+
+* Added VPC Accessible Services configuration ([#84](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/84)) ([ccc56a8](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/ccc56a80995b8c0e8aa63a05dcb6b6d448a715d3))
+* dry-run egress ingress operations ([#83](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/83)) ([dfd0252](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/dfd02529f48c5f763ce6fc71ada920c2ca0ac8d5))
+
 ## [4.0.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v3.2.0...v4.0.0) (2022-03-04)
 
 
