@@ -27,5 +27,5 @@ variable "policy_name" {
 variable "scopes" {
   description = "Folder or project that the Access Policy applies to."
   type        = list(string)
-  default = [""]
+  default     = [""]
 }
