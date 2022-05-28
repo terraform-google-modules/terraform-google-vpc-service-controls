@@ -23,6 +23,7 @@ You may use the following gcloud commands:
 | policy\_name | The policy's name. | `string` | n/a | yes |
 | protected\_project\_ids | Project id and number of the project INSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | `object({ id = string, number = number })` | n/a | yes |
 | public\_project\_ids | Project id and number of the project OUTSIDE of the regular service perimeter. This variable is only necessary for running integration tests. This map variable expects an "id" for the project id and "number" key for the project number. | `object({ id = string, number = number })` | n/a | yes |
+| scopes | Folder or project that the Access Policy applies to. | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 
 ## Outputs
 

@@ -33,3 +33,9 @@ variable "public_project_ids" {
   description = "Project id and number of the project OUTSIDE of the regular service perimeter. This variable is only necessary for running integration tests. This map variable expects an \"id\" for the project id and \"number\" key for the project number."
   type        = object({ id = string, number = number })
 }
+
+variable "scopes" {
+  description = "Folder or project that the Access Policy applies to."
+  type        = list(string)
+  default     = [""]
+}
