@@ -23,3 +23,8 @@ variable "policy_name" {
   description = "The policy's name."
   type        = string
 }
+
+variable "scopes" {
+  description = "Folder or project on which this policy is applicable."
+  type        = list(string)
+}
