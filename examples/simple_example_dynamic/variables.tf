@@ -29,9 +29,3 @@ variable "billing_account" {
   description = "The billing account to use for creating projects"
   type        = string
 }
-
-variable "scopes" {
-  description = "Folder or project that the Access Policy applies to."
-  type        = list(string)
-  default     = [""]
-}
