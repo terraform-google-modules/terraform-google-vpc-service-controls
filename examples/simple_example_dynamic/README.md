@@ -10,7 +10,6 @@ This example illustrates how to use the module to create two perimeters, with pr
 | billing\_account | The billing account to use for creating projects | `string` | n/a | yes |
 | parent\_id | The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent. | `string` | n/a | yes |
 | policy\_name | The policy's name. | `string` | `"vpc-sc"` | no |
-| scopes | Folder or project that the Access Policy applies to. | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 
 ## Outputs
 
