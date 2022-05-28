@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-variable "parent_id" {
-  description = "The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent."
-  type        = string
-}
-
-variable "policy_name" {
-  description = "The policy's name."
-  type        = string
-}
-
-variable "scopes" {
-  description = "Folder or project that the Access Policy applies to."
-  type        = list(string)
-  default = [""]
+terraform {
+  required_version = ">= 0.13"
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+    null = {
+      source = "hashicorp/null"
+    }
+  }
 }
