@@ -26,8 +26,8 @@ regions_to_allow = [
 control "big_query_vpc_positive_test" do
   describe command("bq query --use_legacy_sql=false --project_id=#{protected_project_id} \'select * from `#{protected_project_id}.#{dataset_name}.example_table` limit 10\'" ) do
     its(:exit_status) { should be 0 }
-
-    its(:stderr) { should include "Current status: DONE" }
+    its(:stderr) { should eq '' }
+    its(:stdout) { should include "Current status: DONE" }
   end
 end
 
