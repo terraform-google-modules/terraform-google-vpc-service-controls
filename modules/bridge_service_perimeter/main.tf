@@ -20,6 +20,7 @@ resource "google_access_context_manager_service_perimeter" "bridge_service_perim
   perimeter_type = "PERIMETER_TYPE_BRIDGE"
   name           = "accessPolicies/${var.policy}/servicePerimeters/${var.perimeter_name}"
   title          = var.perimeter_name
+  description    = var.description
 
   lifecycle {
     ignore_changes = [status]

@@ -272,7 +272,7 @@ module "regular_service_perimeter_1" {
   policy         = var.access_policy_name
   perimeter_name = "regular_perimeter_1"
   description    = "VPC Service Controls perimeter"
-  resources      = ["${google_project.vpc_sc_network_project.number}"]
+  resources      = [google_project.vpc_sc_network_project.number]
 
   restricted_services = ["bigquery.googleapis.com",
     "cloudkms.googleapis.com",

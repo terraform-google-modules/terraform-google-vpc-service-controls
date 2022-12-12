@@ -20,6 +20,6 @@ output "ip_addr_cloud_vpn_router" {
 }
 
 output "windows_cloud_private_ip" {
-  value       = google_compute_instance.vpc_sc_windows_instance.network_interface.0.network_ip
+  value       = google_compute_instance.vpc_sc_windows_instance.network_interface[0].network_ip
   description = "Private IP address for the 'cloud-based' Windows instance"
 }

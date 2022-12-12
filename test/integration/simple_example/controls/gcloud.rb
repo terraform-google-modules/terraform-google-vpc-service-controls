@@ -24,17 +24,16 @@ regions_to_allow = [
 ]
 
 control "big_query_vpc_positive_test" do
-  describe command("bq query --use_legacy_sql=false --project_id=#{protected_project_id} \'select * from `#{protected_project_id}.#{dataset_name}.example_table` limit 10\'" ) do
+  describe command("gcloud alpha bq tables show-rows --table=example_table --dataset=#{dataset_name} --limit=10 --project=#{protected_project_id}") do
     its(:exit_status) { should be 0 }
     its(:stderr) { should eq '' }
-    its(:stdout) { should include "Current status: DONE" }
   end
 end
 
 control "big_query_vpc_negative_test" do
   describe command("bq query --use_legacy_sql=false --project_id=#{public_project_id} \'select * from `#{protected_project_id}.#{dataset_name}.example_table` limit 10\'" ) do
 
-    # exit_status should be 1 as this is intentionally trigerring an errror by accesing the BigQuery data from outside the perimeter.
+    # exit_status should be 1 as this is intentionally triggering an error by accessing the BigQuery data from outside the perimeter.
     its(:exit_status) { should be 1 }
     its(:stderr) { should eq '' }
     its(:stdout) { should include "Request is prohibited by organization's policy." }

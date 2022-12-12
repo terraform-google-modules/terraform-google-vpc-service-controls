@@ -15,7 +15,7 @@
  */
 
 provider "google" {
-  credentials = file("${var.credentials_path}")
+  credentials = file(var.credentials_path)
 }
 
 module "onprem_network" {
