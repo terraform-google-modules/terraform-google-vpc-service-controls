@@ -40,12 +40,6 @@ variable "terraform_service_account" {
   description = "The Terraform service account email that should still be allowed in the perimeter to create buckets, datasets, etc."
 }
 
-variable "perimeter_name" {
-  type        = string
-  description = "Name of the VPC SC perimeter"
-  default     = "protect_the_daters"
-}
-
 variable "region" {
   description = "Region where the bastion host will run"
   type        = string

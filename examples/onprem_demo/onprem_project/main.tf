@@ -283,7 +283,7 @@ resource "google_compute_route" "default_for_all" {
   dest_range  = "0.0.0.0/0"
   name        = "default-for-all"
   network     = google_compute_network.onprem-network.self_link
-  next_hop_ip = google_compute_instance.forward_proxy_instance.network_interface.0.network_ip
+  next_hop_ip = google_compute_instance.forward_proxy_instance.network_interface[0].network_ip
   priority    = "1000"
   project     = google_project.on_prem_network_project.project_id
 }
