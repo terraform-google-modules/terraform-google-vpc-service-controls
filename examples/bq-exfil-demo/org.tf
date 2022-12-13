@@ -35,14 +35,14 @@ resource "google_organization_policy" "external_ip_policy" {
 
 module "org_policy" {
   source      = "terraform-google-modules/vpc-service-controls/google"
-  version     = "~> 3.1.0"
+  version     = "~> 4.0.0"
   parent_id   = var.org_id
   policy_name = "VPC SC Demo Policy"
 }
 
 module "access_level_members" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "~> 3.1.0"
+  version = "~> 4.0.0"
   policy  = module.org_policy.policy_id
   name    = "terraform_members"
   members = ["serviceAccount:${var.terraform_service_account}"]
@@ -50,7 +50,7 @@ module "access_level_members" {
 
 module "regular_service_perimeter_1" {
   source              = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version             = "~> 3.1.0"
+  version             = "~> 4.0.0"
   policy              = module.org_policy.policy_id
   perimeter_name      = "regular_perimeter_1"
   description         = "Perimeter shielding projects"
