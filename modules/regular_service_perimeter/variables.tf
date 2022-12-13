@@ -26,6 +26,7 @@ variable "description" {
 
 variable "perimeter_name" {
   description = "Name of the perimeter. Should be one unified string. Must only be letters, numbers and underscores"
+  type        = string
 }
 
 variable "restricted_services" {
