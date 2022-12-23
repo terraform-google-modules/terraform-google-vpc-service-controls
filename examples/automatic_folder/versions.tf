@@ -19,7 +19,7 @@ terraform {
   required_providers {
     archive = {
       source  = "hashicorp/archive"
-      version = "~> 1.0"
+      version = "~> 2.0"
     }
     google = {
       source  = "hashicorp/google"
@@ -27,11 +27,11 @@ terraform {
     }
     null = {
       source  = "hashicorp/null"
-      version = "~> 2.1"
+      version = "~> 3.0"
     }
     random = {
       source  = "hashicorp/random"
-      version = "~> 2.0"
+      version = "~> 3.0"
     }
   }
 }
