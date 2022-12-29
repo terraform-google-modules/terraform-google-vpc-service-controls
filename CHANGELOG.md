@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.0.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v4.0.1...v5.0.0) (2022-12-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* update TPG version 3.62 and address tflint/CI ([#90](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/90))
+
+### Bug Fixes
+
+* update TPG version 3.62 and address tflint/CI ([#90](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/90)) ([b33c20d](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/b33c20db9f233a2b1de7781550aa95e33f7ec31a))
+
 ### [4.0.1](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v4.0.0...v4.0.1) (2022-03-17)
 
 
