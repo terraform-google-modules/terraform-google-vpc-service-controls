@@ -36,7 +36,7 @@ variable "restricted_services" {
 }
 
 variable "resources" {
-  description = "A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed."
+  description = "A list of GCP resources that are inside of the service perimeter. Currently only projects and VPC networks are allowed."
   type        = list(string)
   default     = []
 }
