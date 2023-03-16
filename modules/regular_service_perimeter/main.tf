@@ -210,5 +210,5 @@ locals {
 resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_resource" {
   for_each       = local.resources
   perimeter_name = google_access_context_manager_service_perimeter.regular_service_perimeter.name
-  resource       = "projects/${each.value}"
+  resource       = can(regex("global/networks", each.value)) ? "//compute.googleapis.com/${each.value}" : "projects/${each.value}"
 }
