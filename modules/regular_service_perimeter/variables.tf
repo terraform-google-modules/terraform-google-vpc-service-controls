@@ -36,7 +36,7 @@ variable "restricted_services" {
 }
 
 variable "resources" {
-  description = "A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed."
+  description = "A list of GCP resources that are inside of the service perimeter. Currently only projects and VPC networks are allowed."
   type        = list(string)
   default     = []
 }
@@ -60,7 +60,7 @@ variable "restricted_services_dry_run" {
 }
 
 variable "resources_dry_run" {
-  description = "(Dry-run) A list of GCP resources that are inside of the service perimeter. Currently only projects are allowed. If set, a dry-run policy will be set."
+  description = "(Dry-run) A list of GCP resources that are inside of the service perimeter. Currently only projects and VPC networks are allowed. If set, a dry-run policy will be set."
   type        = list(string)
   default     = []
 }
