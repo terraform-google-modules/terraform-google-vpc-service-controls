@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.1.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v5.0.0...v5.1.0) (2023-06-22)
+
+
+### Features
+
+* added VPC network support to perimeter resources ([#106](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/106)) ([645f42e](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/645f42e50ff5026d4f03de0dc116dc28666ba032))
+
 ## [5.0.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v4.0.1...v5.0.0) (2022-12-29)
 
 
