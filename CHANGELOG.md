@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.2.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v5.1.0...v5.2.0) (2023-07-26)
+
+
+### Features
+
+* Support for VPCs in dry-run mode ([#117](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/117)) ([38eb822](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/38eb8221543a368c8a84ddb42ad5729517c5040a))
+
 ## [5.1.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v5.0.0...v5.1.0) (2023-06-22)
 
 
