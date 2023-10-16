@@ -23,7 +23,7 @@ terraform {
     }
     google = {
       source  = "hashicorp/google"
-      version = ">= 3.0, < 5.0"
+      version = ">= 3.0, < 5.2"
     }
     null = {
       source  = "hashicorp/null"
