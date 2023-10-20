@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.2.1](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v5.2.0...v5.2.1) (2023-10-20)
+
+
+### Bug Fixes
+
+* upgraded versions.tf to include minor bumps from tpg v5 ([#123](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/123)) ([bf84660](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/bf84660f7ca4ed231949ec652adb5e43708f89c0))
+
 ## [5.2.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v5.1.0...v5.2.0) (2023-07-26)
 
 
