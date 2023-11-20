@@ -25,7 +25,7 @@ terraform {
   }
 
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-vpc-service-controls:access_level/v5.2.0"
+    module_name = "blueprints/terraform/terraform-google-vpc-service-controls:access_level/v5.2.1"
   }
 
 }
