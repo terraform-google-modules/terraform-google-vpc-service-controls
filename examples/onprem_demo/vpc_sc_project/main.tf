@@ -227,7 +227,6 @@ resource "google_compute_route" "google_private_access_route" {
 /******************************/
 // Steps below are reproduced from gcloud comands here:
 // https://cloud.google.com/vpc-service-controls/docs/set-up-private-connectivity#configuring_dns_with
-version = "~> 5.0"
 
 resource "google_dns_managed_zone" "google_private_access_zone" {
   name        = "google-private-access-zone"
