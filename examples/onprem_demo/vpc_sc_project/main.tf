@@ -268,7 +268,8 @@ resource "google_dns_record_set" "a" {
 /***************************************/
 
 module "regular_service_perimeter_1" {
-  source         = "../../../modules/regular_service_perimeter"
+  source         = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
+  version        = "~> 5.0"
   policy         = var.access_policy_name
   perimeter_name = "regular_perimeter_1"
   description    = "VPC Service Controls perimeter"
