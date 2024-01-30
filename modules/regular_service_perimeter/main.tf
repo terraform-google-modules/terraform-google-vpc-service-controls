@@ -76,6 +76,13 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
         egress_from {
           identity_type = lookup(egress_policies.value["from"], "identity_type", null)
           identities    = lookup(egress_policies.value["from"], "identities", null)
+          dynamic "sources" {
+            for_each = { for k, v in lookup(ingress_policies.value["from"]["sources"], "access_levels", []) : v => "access_level" }
+            content {
+              access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
+            }
+          }
+          source_restriction = ingress_policies.value["from"]["sources"] != null ? "SOURCE_RESTRICTION_ENABLED" : null
         }
         egress_to {
           resources = lookup(egress_policies.value["to"], "resources", ["*"])
@@ -161,6 +168,13 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
           egress_from {
             identity_type = lookup(egress_policies.value["from"], "identity_type", null)
             identities    = lookup(egress_policies.value["from"], "identities", null)
+            dynamic "sources" {
+              for_each = { for k, v in lookup(ingress_policies.value["from"]["sources"], "access_levels", []) : v => "access_level" }
+              content {
+                access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
+              }
+            }
+            source_restriction = ingress_policies.value["from"]["sources"] != null ? "SOURCE_RESTRICTION_ENABLED" : null
           }
           egress_to {
             resources = lookup(egress_policies.value["to"], "resources", ["*"])
