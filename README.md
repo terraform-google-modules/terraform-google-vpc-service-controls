@@ -3,11 +3,14 @@
 This module handles opinionated VPC Service Controls and Access Context Manager configuration and deployments.
 
 ## Compatibility
-This module is meant for use with Terraform 0.13+ and tested using Terraform 1.0+. If you find incompatibilities using Terraform >=0.13, please open an issue.
- If you haven't
-[upgraded](https://www.terraform.io/upgrade-guides/0-13.html) and need a Terraform
-0.12.x-compatible version of this module, the last released version
-intended for Terraform 0.12.x is [v2.1.0](https://registry.terraform.io/modules/terraform-google-modules/-vpc-service-controls/google/v2.1.0).
+This module is meant for use with Terraform 1.3+ and tested using Terraform 1.3+. If you find incompatibilities using Terraform >=1.3, please open an issue.
+
+## Version
+
+Current version is 5.X. Upgrade guides:
+
+- [3.X -> 4.0.](/docs/upgrading_to_v4.0.md)
+- [4.X -> 6.0.](/docs/upgrading_to_v6.0.md)
 
 ## Usage
 The root module only handles the configuration of the [access_context_manager_policy resource](https://www.terraform.io/docs/providers/google/r/access_context_manager_access_policy.html). For examples on how to use the root module with along with other submodules to configure all of VPC Service Controls and Access Context Manager resources, see the [examples](./examples/) folder and the [modules](./modules/) folder
