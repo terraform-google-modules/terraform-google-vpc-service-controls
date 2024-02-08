@@ -36,6 +36,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
 
     dynamic "ingress_policies" {
       for_each = var.ingress_policies
+      iterator = ingress_policies
       content {
         ingress_from {
           dynamic "sources" {
@@ -73,17 +74,18 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
     }
     dynamic "egress_policies" {
       for_each = var.egress_policies
+      iterator = egress_policies
       content {
         egress_from {
           identity_type = lookup(egress_policies.value["from"], "identity_type", null)
           identities    = lookup(egress_policies.value["from"], "identities", null)
           dynamic "sources" {
-            for_each = { for k, v in lookup(ingress_policies.value["from"]["sources"], "access_levels", []) : v => "access_level" }
+            for_each = { for k, v in lookup(egress_policies.value["from"]["sources"], "access_levels", []) : v => "access_level" }
             content {
               access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
             }
           }
-          source_restriction = ingress_policies.value["from"]["sources"] != null ? "SOURCE_RESTRICTION_ENABLED" : null
+          source_restriction = egress_policies.value["from"]["sources"] != null ? "SOURCE_RESTRICTION_ENABLED" : null
         }
         egress_to {
           resources = lookup(egress_policies.value["to"], "resources", ["*"])
@@ -128,25 +130,26 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
 
       dynamic "ingress_policies" {
         for_each = var.ingress_policies_dry_run
+        iterator = ingress_policies_dry_run
         content {
           ingress_from {
             dynamic "sources" {
               for_each = merge(
-                { for k, v in lookup(ingress_policies.value["from"]["sources"], "resources", []) : v => "resource" },
-              { for k, v in lookup(ingress_policies.value["from"]["sources"], "access_levels", []) : v => "access_level" })
+                { for k, v in lookup(ingress_policies_dry_run.value["from"]["sources"], "resources", []) : v => "resource" },
+              { for k, v in lookup(ingress_policies_dry_run.value["from"]["sources"], "access_levels", []) : v => "access_level" })
               content {
                 resource     = sources.value == "resource" ? sources.key : null
                 access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
               }
             }
-            identity_type = lookup(ingress_policies.value["from"], "identity_type", null)
-            identities    = lookup(ingress_policies.value["from"], "identities", null)
+            identity_type = lookup(ingress_policies_dry_run.value["from"], "identity_type", null)
+            identities    = lookup(ingress_policies_dry_run.value["from"], "identities", null)
           }
 
           ingress_to {
-            resources = lookup(ingress_policies.value["to"], "resources", ["*"])
+            resources = lookup(ingress_policies_dry_run.value["to"], "resources", ["*"])
             dynamic "operations" {
-              for_each = ingress_policies.value["to"]["operations"]
+              for_each = ingress_policies_dry_run.value["to"]["operations"]
               content {
                 service_name = operations.key
                 dynamic "method_selectors" {
@@ -165,22 +168,23 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
       }
       dynamic "egress_policies" {
         for_each = var.egress_policies_dry_run
+        iterator = egress_policies_dry_run
         content {
           egress_from {
-            identity_type = lookup(egress_policies.value["from"], "identity_type", null)
-            identities    = lookup(egress_policies.value["from"], "identities", null)
+            identity_type = lookup(egress_policies_dry_run.value["from"], "identity_type", null)
+            identities    = lookup(egress_policies_dry_run.value["from"], "identities", null)
             dynamic "sources" {
-              for_each = { for k, v in lookup(ingress_policies.value["from"]["sources"], "access_levels", []) : v => "access_level" }
+              for_each = { for k, v in lookup(egress_policies_dry_run.value["from"]["sources"], "access_levels", []) : v => "access_level" }
               content {
                 access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
               }
             }
-            source_restriction = ingress_policies.value["from"]["sources"] != null ? "SOURCE_RESTRICTION_ENABLED" : null
+            source_restriction = egress_policies_dry_run.value["from"]["sources"] != null ? "SOURCE_RESTRICTION_ENABLED" : null
           }
           egress_to {
-            resources = lookup(egress_policies.value["to"], "resources", ["*"])
+            resources = lookup(egress_policies_dry_run.value["to"], "resources", ["*"])
             dynamic "operations" {
-              for_each = lookup(egress_policies.value["to"], "operations", [])
+              for_each = lookup(egress_policies_dry_run.value["to"], "operations", [])
               content {
                 service_name = operations.key
                 dynamic "method_selectors" {
