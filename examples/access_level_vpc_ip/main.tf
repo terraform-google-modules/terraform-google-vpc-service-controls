@@ -70,9 +70,9 @@ resource "google_compute_subnetwork" "network2_us_central1" {
 }
 
 module "access_level_vpc_ranges" {
-  source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "~> 5.0"
-
+  # source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
+  # version = "~> 5.0"
+  source      = "imrannayer/vpc-service-controls/google//modules/access_level"
   policy      = module.access_context_manager_policy.policy_id
   name        = "vpc_ip_address_policy"
   description = "access level for vpc ip addresses"
