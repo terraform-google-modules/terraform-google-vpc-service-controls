@@ -48,6 +48,16 @@ resource "google_access_context_manager_access_level" "access_level" {
           }
         }
       }
+
+      dynamic "vpc_network_sources" {
+        for_each = var.vpc_network_sources
+        content {
+          vpc_subnetwork {
+            network            = "//compute.googleapis.com/${vpc_network_sources.value.network_id}"
+            vpc_ip_subnetworks = vpc_network_sources.value.ip_address_ranges
+          }
+        }
+      }
     }
 
     combining_function = var.combining_function

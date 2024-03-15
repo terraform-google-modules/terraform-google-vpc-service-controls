@@ -42,6 +42,15 @@ variable "ip_subnetworks" {
   default     = []
 }
 
+variable "vpc_network_sources" {
+  description = "VPC network's id and list of subnet IP address prefixes . Empty ip_address_ranges means all subnets of the VPC. For on-prem IP address connected through VPN/Interconnect, provide the name of VPC which contains cloud router for the VPN/Interconnect and on-prem private IP address prefixes. Cannot specify this field together with ip_subnetworks"
+  type = map(object({
+    network_id        = string
+    ip_address_ranges = optional(list(string))
+  }))
+  default = {}
+}
+
 variable "required_access_levels" {
   description = "Condition - A list of other access levels defined in the same Policy, referenced by resource name. Referencing an AccessLevel which does not exist is an error. All access levels listed must be granted for the Condition to be true."
   type        = list(string)
