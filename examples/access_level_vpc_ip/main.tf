@@ -18,6 +18,14 @@ resource "random_id" "random_suffix" {
   byte_length = 2
 }
 
+module "access_context_manager_policy" {
+  source  = "terraform-google-modules/vpc-service-controls/google"
+  version = "~> 5.0"
+
+  parent_id   = var.parent_id
+  policy_name = "int_test_vpc_sc_policy_${random_id.random_suffix.hex}"
+}
+
 # Create Network with a subnetwork and private service access for both netapp.servicenetworking.goog and servicenetworking.googleapis.com
 
 resource "google_compute_network" "network1" {
