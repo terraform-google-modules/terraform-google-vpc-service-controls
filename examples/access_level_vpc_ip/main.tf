@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ module "access_context_manager_policy" {
   policy_name = "int_test_vpc_sc_policy_${random_id.random_suffix.hex}"
 }
 
-# Create Network with a subnetwork and private service access for both netapp.servicenetworking.goog and servicenetworking.googleapis.com
+#Create Network with a subnetwork and private service access for both netapp.servicenetworking.goog and servicenetworking.googleapis.com
 
 resource "google_compute_network" "network1" {
   name                    = "vpc-a"

@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -153,7 +153,7 @@ resource "google_compute_instance" "forward_proxy_instance" {
     device_name = "forward-proxy-instance"
 
     initialize_params {
-      image = "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/debian-9-stretch-v20190423"
+      image = "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/debian-9-stretch-v20240423"
       size  = "10"
       type  = "pd-standard"
     }
@@ -201,7 +201,7 @@ resource "google_compute_instance" "windows_jumphost" {
     device_name = "windows-jumphost"
 
     initialize_params {
-      image = "https://www.googleapis.com/compute/v1/projects/windows-cloud/global/images/windows-server-2019-dc-v20190411"
+      image = "https://www.googleapis.com/compute/v1/projects/windows-cloud/global/images/windows-server-2024-dc-v20240411"
       size  = "50"
       type  = "pd-ssd"
     }
