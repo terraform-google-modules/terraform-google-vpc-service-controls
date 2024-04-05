@@ -42,11 +42,13 @@ module "access_level_members" {
 | require\_corp\_owned | Condition - Whether the device needs to be corp owned. | `bool` | `false` | no |
 | require\_screen\_lock | Condition - Whether or not screenlock is required for the DevicePolicy to be true. | `bool` | `false` | no |
 | required\_access\_levels | Condition - A list of other access levels defined in the same Policy, referenced by resource name. Referencing an AccessLevel which does not exist is an error. All access levels listed must be granted for the Condition to be true. | `list(string)` | `[]` | no |
+| vpc\_network\_sources | VPC network's id and list of subnet IP address prefixes . Empty ip\_address\_ranges means all subnets of the VPC. For on-prem IP address connected through VPN/Interconnect, provide the name of VPC which contains cloud router for the VPN/Interconnect and on-prem private IP address prefixes. Cannot specify this field together with ip\_subnetworks | <pre>map(object({<br>    network_id        = string<br>    ip_address_ranges = optional(list(string))<br>  }))</pre> | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
+| access\_level | access\_level created |
 | name | Description of the AccessLevel and its use. Does not affect behavior. |
 | name\_id | The fully-qualified name of the Access Level. Format: accessPolicies/{policy\_id}/accessLevels/{name} |
 

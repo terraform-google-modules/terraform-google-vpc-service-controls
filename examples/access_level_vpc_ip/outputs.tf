@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-resource "google_access_context_manager_access_policy" "access_policy" {
-  provider = google
-  parent   = "organizations/${var.parent_id}"
-  title    = var.policy_name
+output "access_level" {
+  value = module.access_level_vpc_ranges.access_level
 }

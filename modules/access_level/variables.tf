@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,15 @@ variable "ip_subnetworks" {
   description = "Condition - A list of CIDR block IP subnetwork specification. May be IPv4 or IPv6. Note that for a CIDR IP address block, the specified IP address portion must be properly truncated (i.e. all the host bits must be zero) or the input is considered malformed. For example, \"192.0.2.0/24\" is accepted but \"192.0.2.1/24\" is not. Similarly, for IPv6, \"2001:db8::/32\" is accepted whereas \"2001:db8::1/32\" is not. The originating IP of a request must be in one of the listed subnets in order for this Condition to be true. If empty, all IP addresses are allowed."
   type        = list(string)
   default     = []
+}
+
+variable "vpc_network_sources" {
+  description = "VPC network's id and list of subnet IP address prefixes . Empty ip_address_ranges means all subnets of the VPC. For on-prem IP address connected through VPN/Interconnect, provide the name of VPC which contains cloud router for the VPN/Interconnect and on-prem private IP address prefixes. Cannot specify this field together with ip_subnetworks"
+  type = map(object({
+    network_id        = string
+    ip_address_ranges = optional(list(string))
+  }))
+  default = {}
 }
 
 variable "required_access_levels" {

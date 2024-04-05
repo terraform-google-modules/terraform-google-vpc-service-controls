@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,16 @@ resource "google_access_context_manager_access_level" "access_level" {
           os_constraints {
             minimum_version = var.minimum_version
             os_type         = var.os_type
+          }
+        }
+      }
+
+      dynamic "vpc_network_sources" {
+        for_each = var.vpc_network_sources
+        content {
+          vpc_subnetwork {
+            network            = "//compute.googleapis.com/${vpc_network_sources.value.network_id}"
+            vpc_ip_subnetworks = vpc_network_sources.value.ip_address_ranges
           }
         }
       }
