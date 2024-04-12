@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.0.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v5.2.1...v6.0.0) (2024-04-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **TPG>=5.4:** add vpc_network_sources in access level ([#133](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/133))
+* **TPG >= 4.68:** added missing features for egress policies ([#131](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/131))
+
+### Features
+
+* **TPG>=5.4:** add vpc_network_sources in access level ([#133](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/133)) ([de58006](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/de58006f7f9913568b2c6bede71f02b696d515e9))
+
+
+### Bug Fixes
+
+* **TPG >= 4.68:** added missing features for egress policies ([#131](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/131)) ([c6df326](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/c6df32651832ea4c9f82e432c8119216a027f1b0))
+
 ## [5.2.1](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v5.2.0...v5.2.1) (2023-10-20)
 
 
