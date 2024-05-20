@@ -16,7 +16,7 @@
 
 module "project_one" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 14.0"
+  version = "~> 15.0"
 
   name              = "vpcsc-test-one"
   random_project_id = true
@@ -26,7 +26,7 @@ module "project_one" {
 
 module "project_two" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 14.0"
+  version = "~> 15.0"
 
   name              = "vpcsc-test-two"
   random_project_id = true
@@ -36,7 +36,7 @@ module "project_two" {
 
 module "project_three" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 14.0"
+  version = "~> 15.0"
 
   name              = "vpcsc-test-two"
   random_project_id = true
