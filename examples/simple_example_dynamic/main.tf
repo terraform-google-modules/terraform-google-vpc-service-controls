@@ -16,7 +16,7 @@
 
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   parent_id   = var.parent_id
   policy_name = var.policy_name
@@ -24,7 +24,7 @@ module "access_context_manager_policy" {
 
 module "bridge" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/bridge_service_perimeter"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = "bridge_perimeter_1"
@@ -41,7 +41,7 @@ module "bridge" {
 
 module "regular_service_perimeter_1" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = "regular_perimeter_1"
@@ -57,7 +57,7 @@ module "regular_service_perimeter_1" {
 
 module "regular_service_perimeter_2" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = "regular_perimeter_2"
