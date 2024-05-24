@@ -16,7 +16,7 @@
 
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   parent_id   = var.parent_id
   policy_name = var.policy_name
