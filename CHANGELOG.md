@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.0.1](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v6.0.0...v6.0.1) (2024-05-28)
+
+
+### Bug Fixes
+
+* **variables:** fail gracefully if `sources` index does not exist ([#146](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/146)) ([49973a3](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/49973a3c4e2f9e57cf54b25aa83f4680980daca5))
+
 ## [6.0.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v5.2.1...v6.0.0) (2024-04-11)
 
 
