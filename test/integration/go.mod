@@ -1,10 +1,10 @@
 module github.com/GoogleCloudPlatform/terraform-google-vpc-service-controls/test/integration
 
-go 1.21
+go 1.22
 
-toolchain go1.21.10
+toolchain go1.22.4
 
-require github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.15.0
+require github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.15.1
 
 require (
 	cloud.google.com/go v0.110.7 // indirect
@@ -30,7 +30,7 @@ require (
 	github.com/google/uuid v1.3.1 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.2.5 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.0 // indirect
-	github.com/gruntwork-io/terratest v0.46.14 // indirect
+	github.com/gruntwork-io/terratest v0.46.15 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-getter v1.7.4 // indirect
@@ -78,6 +78,6 @@ require (
 	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20231010175941-2dd684a91f00 // indirect
-	sigs.k8s.io/kustomize/kyaml v0.17.0 // indirect
+	sigs.k8s.io/kustomize/kyaml v0.17.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
