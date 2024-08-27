@@ -20,7 +20,7 @@ terraform {
 
     google = {
       source  = "hashicorp/google"
-      version = ">= 3.50, < 6"
+      version = ">= 3.50, < 7"
     }
   }
 
