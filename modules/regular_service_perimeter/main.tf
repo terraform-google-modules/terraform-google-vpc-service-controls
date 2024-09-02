@@ -87,7 +87,8 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
           source_restriction = egress_policies.value["from"]["sources"] != null ? "SOURCE_RESTRICTION_ENABLED" : null
         }
         egress_to {
-          resources = lookup(egress_policies.value["to"], "resources", ["*"])
+          resources          = lookup(egress_policies.value["to"], "resources", ["*"])
+          external_resources = lookup(egress_policies.value["to"], "external_resources", [])
           dynamic "operations" {
             for_each = lookup(egress_policies.value["to"], "operations", [])
             content {
