@@ -20,7 +20,7 @@ resource "random_id" "random_suffix" {
 
 module "project-vpc-service-controls" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 15.0"
+  version = "~> 17.0"
 
   name              = "ci-vpc-sc"
   random_project_id = true
@@ -42,7 +42,7 @@ module "project-vpc-service-controls" {
 
 module "project-vpc-service-controls-policy-0" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 15.0"
+  version = "~> 17.0"
 
   name              = "ci-project-policy-test-0"
   random_project_id = true
@@ -58,7 +58,7 @@ module "project-vpc-service-controls-policy-0" {
 
 module "project-vpc-service-controls-policy-1" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 15.0"
+  version = "~> 17.0"
 
   name              = "ci-project-policy-test-1"
   random_project_id = true
