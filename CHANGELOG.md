@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.2.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v6.1.0...v6.2.0) (2024-10-08)
+
+
+### Features
+
+* Support external_resources for egress policies ([#162](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/162)) ([4bc0673](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/4bc0673294abb72682e70743f2704df3a153bf18))
+
 ## [6.1.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v6.0.0...v6.1.0) (2024-10-07)
 
 
