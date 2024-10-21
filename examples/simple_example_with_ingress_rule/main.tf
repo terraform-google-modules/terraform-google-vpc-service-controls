@@ -90,7 +90,7 @@ module "regular_service_perimeter_1" {
 
 module "gcs_buckets" {
   source           = "terraform-google-modules/cloud-storage/google"
-  version          = "~> 6.0"
+  version          = "~> 7.0"
   project_id       = var.protected_project_ids["id"]
   names            = var.buckets_names
   randomize_suffix = true
