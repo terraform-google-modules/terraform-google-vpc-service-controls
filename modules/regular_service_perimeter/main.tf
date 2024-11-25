@@ -84,7 +84,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
               access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
             }
           }
-          source_restriction = egress_policies.value["from"]["sources"] != null ? "SOURCE_RESTRICTION_ENABLED" : null
+          source_restriction = lookup(egress_policies.value["from"], "sources", null) != null ? "SOURCE_RESTRICTION_ENABLED" : null
         }
         egress_to {
           resources          = lookup(egress_policies.value["to"], "resources", ["*"])
@@ -179,7 +179,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
                 access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
               }
             }
-            source_restriction = egress_policies_dry_run.value["from"]["sources"] != null ? "SOURCE_RESTRICTION_ENABLED" : null
+            source_restriction = lookup(egress_policies_dry_run.value["from"], "sources", null) != null ? "SOURCE_RESTRICTION_ENABLED" : null
           }
           egress_to {
             resources = lookup(egress_policies_dry_run.value["to"], "resources", ["*"])
