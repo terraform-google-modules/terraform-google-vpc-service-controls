@@ -54,7 +54,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
         ingress_to {
           resources = lookup(ingress_policies.value["to"], "resources", ["*"])
           dynamic "operations" {
-            for_each = ingress_policies.value["to"]["operations"]
+            for_each = lookup(ingress_policies.value["to"], "operations", [])
             content {
               service_name = operations.key
               dynamic "method_selectors" {
@@ -149,7 +149,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
           ingress_to {
             resources = lookup(ingress_policies_dry_run.value["to"], "resources", ["*"])
             dynamic "operations" {
-              for_each = ingress_policies_dry_run.value["to"]["operations"]
+              for_each = lookup(ingress_policies_dry_run.value["to"], "operations", [])
               content {
                 service_name = operations.key
                 dynamic "method_selectors" {
