@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.2.1](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v6.2.0...v6.2.1) (2024-12-20)
+
+
+### Bug Fixes
+
+* fail gracefully if ingress.to.operations index does not exist ([#176](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/176)) ([6cc00f9](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/6cc00f955da77b88e1e666588274721c145c58a7))
+* fail gracefully if sources index does not exist ([#174](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/174)) ([a39c859](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/a39c859d79746464a475ca2f99a4f6386b78259f))
+
 ## [6.2.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v6.1.0...v6.2.0) (2024-10-08)
 
 
