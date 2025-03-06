@@ -16,7 +16,7 @@
 
 module "project1" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 17.0"
+  version = "~> 18.0"
 
   name              = "vpc-sc-demo-project-1"
   random_project_id = true
@@ -28,7 +28,7 @@ module "project1" {
 
 module "project2" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 17.0"
+  version = "~> 18.0"
 
   name              = "vpc-sc-demo-project-2"
   random_project_id = true
