@@ -89,8 +89,8 @@ The [project factory](https://github.com/terraform-google-modules/terraform-goog
 
 ### Software Dependencies
 ### Terraform
-- [Terraform](https://www.terraform.io/downloads.html) >= 0.13.0
-- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) >= v3.19.0
+- [Terraform](https://www.terraform.io/downloads.html) >= 1.3
+- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) >= v3.62.0
 
 ### Configure a Service Account
 
