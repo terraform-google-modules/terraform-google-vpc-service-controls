@@ -18,7 +18,7 @@ resource "google_access_context_manager_service_perimeter_ingress_policy" "ingre
   for_each = { for k, v in var.ingress_policies : k => v }
 
   perimeter = google_access_context_manager_service_perimeter.regular_service_perimeter.name
-  title     = "Ingress Policy ${k}"
+  title     = "Ingress Policy ${each.key}"
   ingress_from {
     dynamic "sources" {
       for_each = merge(
@@ -60,7 +60,7 @@ resource "google_access_context_manager_service_perimeter_egress_policy" "egress
   for_each = { for k, v in var.egress_policies : k => v }
 
   perimeter = google_access_context_manager_service_perimeter.regular_service_perimeter.name
-  title     = "Egress Policy ${k}"
+  title     = "Egress Policy ${each.key}"
 
   egress_from {
     identity_type = lookup(each.value["from"], "identity_type", null)
@@ -105,7 +105,7 @@ resource "google_access_context_manager_service_perimeter_dry_run_ingress_policy
   for_each = { for k, v in var.ingress_policies_dry_run : k => v }
 
   perimeter = google_access_context_manager_service_perimeter.regular_service_perimeter.name
-  title     = "Ingress Policy ${k}"
+  title     = "Ingress Policy ${each.key}"
   ingress_from {
     dynamic "sources" {
       for_each = merge(
@@ -147,7 +147,7 @@ resource "google_access_context_manager_service_perimeter_dry_run_egress_policy"
   for_each = { for k, v in var.egress_policies_dry_run : k => v }
 
   perimeter = google_access_context_manager_service_perimeter.regular_service_perimeter.name
-  title     = "Egress Policy ${k}"
+  title     = "Egress Policy ${each.key}"
 
   egress_from {
     identity_type = lookup(each.value["from"], "identity_type", null)
