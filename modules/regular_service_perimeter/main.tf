@@ -33,44 +33,6 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
       var.access_levels
     )
 
-    dynamic "ingress_policies" {
-      for_each = var.ingress_policies
-      iterator = ingress_policies
-      content {
-        ingress_from {
-          dynamic "sources" {
-            for_each = merge(
-              { for k, v in lookup(lookup(ingress_policies.value["from"], "sources", {}), "resources", []) : v => "resource" },
-            { for k, v in lookup(lookup(ingress_policies.value["from"], "sources", {}), "access_levels", []) : v => "access_level" })
-            content {
-              resource     = sources.value == "resource" ? sources.key : null
-              access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
-            }
-          }
-          identity_type = lookup(ingress_policies.value["from"], "identity_type", null)
-          identities    = lookup(ingress_policies.value["from"], "identities", null)
-        }
-
-        ingress_to {
-          resources = lookup(ingress_policies.value["to"], "resources", ["*"])
-          dynamic "operations" {
-            for_each = lookup(ingress_policies.value["to"], "operations", [])
-            content {
-              service_name = operations.key
-              dynamic "method_selectors" {
-                for_each = operations.key != "*" ? merge(
-                  { for v in lookup(operations.value, "methods", []) : v => "method" },
-                { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
-                content {
-                  method     = method_selectors.value == "method" ? method_selectors.key : null
-                  permission = method_selectors.value == "permission" ? method_selectors.key : null
-                }
-              }
-            }
-          }
-        }
-      }
-    }
     dynamic "egress_policies" {
       for_each = var.egress_policies
       iterator = egress_policies
@@ -214,7 +176,11 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
   use_explicit_dry_run_spec = local.dry_run
 
   lifecycle {
-    ignore_changes = [status[0].resources]
+    ignore_changes = [
+      status[0].resources,
+      status[0].ingress_policies, # Allows ingress policies to be managed by google_access_context_manager_service_perimeter_ingress_policy resources
+      status[0].egress_policies   # Allows egress policies to be managed by google_access_context_manager_service_perimeter_egress_policy resources
+    ]
   }
 }
 
@@ -230,4 +196,88 @@ resource "google_access_context_manager_service_perimeter_resource" "service_per
   for_each       = local.resources
   perimeter_name = google_access_context_manager_service_perimeter.regular_service_perimeter.name
   resource       = can(regex("global/networks", each.value)) ? "//compute.googleapis.com/${each.value}" : "projects/${each.value}"
+}
+
+resource "google_access_context_manager_service_perimeter_ingress_policy" "ingress_policies" {
+  for_each = { for k, v in var.ingress_policies : k => v }
+
+  perimeter = google_access_context_manager_service_perimeter.regular_service_perimeter.name
+  title     = "Ingress Policy ${k}"
+  ingress_from {
+    dynamic "sources" {
+      for_each = merge(
+        { for k, v in lookup(lookup(each.value["from"], "sources", {}), "resources", []) : v => "resource" },
+      { for k, v in lookup(lookup(each.value["from"], "sources", {}), "access_levels", []) : v => "access_level" })
+      content {
+        resource     = sources.value == "resource" ? sources.key : null
+        access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
+      }
+    }
+    identity_type = lookup(each.value["from"], "identity_type", null)
+    identities    = lookup(each.value["from"], "identities", null)
+  }
+
+  ingress_to {
+    resources = lookup(each.value["to"], "resources", ["*"])
+    dynamic "operations" {
+      for_each = lookup(each.value["to"], "operations", [])
+      content {
+        service_name = operations.key
+        dynamic "method_selectors" {
+          for_each = operations.key != "*" ? merge(
+            { for v in lookup(operations.value, "methods", []) : v => "method" },
+          { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
+          content {
+            method     = method_selectors.value == "method" ? method_selectors.key : null
+            permission = method_selectors.value == "permission" ? method_selectors.key : null
+          }
+        }
+      }
+    }
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "google_access_context_manager_service_perimeter_dry_run_ingress_policy" "ingress_policies" {
+  for_each = { for k, v in var.ingress_policies_dry_run : k => v }
+
+  perimeter = google_access_context_manager_service_perimeter.regular_service_perimeter.name
+  title     = "Ingress Policy ${k}"
+  ingress_from {
+    dynamic "sources" {
+      for_each = merge(
+        { for k, v in lookup(lookup(each.value["from"], "sources", {}), "resources", []) : v => "resource" },
+      { for k, v in lookup(lookup(each.value["from"], "sources", {}), "access_levels", []) : v => "access_level" })
+      content {
+        resource     = sources.value == "resource" ? sources.key : null
+        access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
+      }
+    }
+    identity_type = lookup(each.value["from"], "identity_type", null)
+    identities    = lookup(each.value["from"], "identities", null)
+  }
+
+  ingress_to {
+    resources = lookup(each.value["to"], "resources", ["*"])
+    dynamic "operations" {
+      for_each = lookup(each.value["to"], "operations", [])
+      content {
+        service_name = operations.key
+        dynamic "method_selectors" {
+          for_each = operations.key != "*" ? merge(
+            { for v in lookup(operations.value, "methods", []) : v => "method" },
+          { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
+          content {
+            method     = method_selectors.value == "method" ? method_selectors.key : null
+            permission = method_selectors.value == "permission" ? method_selectors.key : null
+          }
+        }
+      }
+    }
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
