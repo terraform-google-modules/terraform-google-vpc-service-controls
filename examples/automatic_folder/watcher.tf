@@ -16,7 +16,7 @@
 
 module "event_folder_log_entry" {
   source  = "terraform-google-modules/event-function/google//modules/event-folder-log-entry"
-  version = "~> 4.1"
+  version = "~> 4.0"
 
   filter     = <<EOF
 resource.type="project" AND
