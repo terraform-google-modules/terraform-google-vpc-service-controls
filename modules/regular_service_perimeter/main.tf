@@ -33,80 +33,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
       var.access_levels
     )
 
-    dynamic "ingress_policies" {
-      for_each = var.ingress_policies
-      iterator = ingress_policies
-      content {
-        ingress_from {
-          dynamic "sources" {
-            for_each = merge(
-              { for k, v in lookup(lookup(ingress_policies.value["from"], "sources", {}), "resources", []) : v => "resource" },
-            { for k, v in lookup(lookup(ingress_policies.value["from"], "sources", {}), "access_levels", []) : v => "access_level" })
-            content {
-              resource     = sources.value == "resource" ? sources.key : null
-              access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
-            }
-          }
-          identity_type = lookup(ingress_policies.value["from"], "identity_type", null)
-          identities    = lookup(ingress_policies.value["from"], "identities", null)
-        }
 
-        ingress_to {
-          resources = lookup(ingress_policies.value["to"], "resources", ["*"])
-          dynamic "operations" {
-            for_each = lookup(ingress_policies.value["to"], "operations", [])
-            content {
-              service_name = operations.key
-              dynamic "method_selectors" {
-                for_each = operations.key != "*" ? merge(
-                  { for v in lookup(operations.value, "methods", []) : v => "method" },
-                { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
-                content {
-                  method     = method_selectors.value == "method" ? method_selectors.key : null
-                  permission = method_selectors.value == "permission" ? method_selectors.key : null
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    dynamic "egress_policies" {
-      for_each = var.egress_policies
-      iterator = egress_policies
-      content {
-        egress_from {
-          identity_type = lookup(egress_policies.value["from"], "identity_type", null)
-          identities    = lookup(egress_policies.value["from"], "identities", null)
-          dynamic "sources" {
-            for_each = { for k, v in lookup(lookup(egress_policies.value["from"], "sources", {}), "access_levels", []) : v => "access_level" }
-            content {
-              access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
-            }
-          }
-          source_restriction = lookup(egress_policies.value["from"], "sources", null) != null ? "SOURCE_RESTRICTION_ENABLED" : null
-        }
-        egress_to {
-          resources          = lookup(egress_policies.value["to"], "resources", ["*"])
-          external_resources = lookup(egress_policies.value["to"], "external_resources", [])
-          dynamic "operations" {
-            for_each = lookup(egress_policies.value["to"], "operations", [])
-            content {
-              service_name = operations.key
-              dynamic "method_selectors" {
-                for_each = operations.key != "*" ? merge(
-                  { for v in lookup(operations.value, "methods", []) : v => "method" },
-                { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
-                content {
-                  method     = method_selectors.value == "method" ? method_selectors.key : null
-                  permission = method_selectors.value == "permission" ? method_selectors.key : null
-                }
-              }
-            }
-          }
-        }
-      }
-    }
 
     dynamic "vpc_accessible_services" {
       for_each = contains(var.vpc_accessible_services, "*") ? [] : [var.vpc_accessible_services]
@@ -128,79 +55,7 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
         var.access_levels_dry_run
       )
 
-      dynamic "ingress_policies" {
-        for_each = var.ingress_policies_dry_run
-        iterator = ingress_policies_dry_run
-        content {
-          ingress_from {
-            dynamic "sources" {
-              for_each = merge(
-                { for k, v in lookup(lookup(ingress_policies_dry_run.value["from"], "sources", {}), "resources", []) : v => "resource" },
-              { for k, v in lookup(lookup(ingress_policies_dry_run.value["from"], "sources", {}), "access_levels", []) : v => "access_level" })
-              content {
-                resource     = sources.value == "resource" ? sources.key : null
-                access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
-              }
-            }
-            identity_type = lookup(ingress_policies_dry_run.value["from"], "identity_type", null)
-            identities    = lookup(ingress_policies_dry_run.value["from"], "identities", null)
-          }
 
-          ingress_to {
-            resources = lookup(ingress_policies_dry_run.value["to"], "resources", ["*"])
-            dynamic "operations" {
-              for_each = lookup(ingress_policies_dry_run.value["to"], "operations", [])
-              content {
-                service_name = operations.key
-                dynamic "method_selectors" {
-                  for_each = operations.key != "*" ? merge(
-                    { for v in lookup(operations.value, "methods", []) : v => "method" },
-                  { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
-                  content {
-                    method     = method_selectors.value == "method" ? method_selectors.key : null
-                    permission = method_selectors.value == "permission" ? method_selectors.key : null
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      dynamic "egress_policies" {
-        for_each = var.egress_policies_dry_run
-        iterator = egress_policies_dry_run
-        content {
-          egress_from {
-            identity_type = lookup(egress_policies_dry_run.value["from"], "identity_type", null)
-            identities    = lookup(egress_policies_dry_run.value["from"], "identities", null)
-            dynamic "sources" {
-              for_each = { for k, v in lookup(lookup(egress_policies_dry_run.value["from"], "sources", {}), "access_levels", []) : v => "access_level" }
-              content {
-                access_level = sources.value == "access_level" ? sources.key != "*" ? "accessPolicies/${var.policy}/accessLevels/${sources.key}" : "*" : null
-              }
-            }
-            source_restriction = lookup(egress_policies_dry_run.value["from"], "sources", null) != null ? "SOURCE_RESTRICTION_ENABLED" : null
-          }
-          egress_to {
-            resources = lookup(egress_policies_dry_run.value["to"], "resources", ["*"])
-            dynamic "operations" {
-              for_each = lookup(egress_policies_dry_run.value["to"], "operations", [])
-              content {
-                service_name = operations.key
-                dynamic "method_selectors" {
-                  for_each = operations.key != "*" ? merge(
-                    { for v in lookup(operations.value, "methods", []) : v => "method" },
-                  { for v in lookup(operations.value, "permissions", []) : v => "permission" }) : {}
-                  content {
-                    method     = method_selectors.value == "method" ? method_selectors.key : null
-                    permission = method_selectors.value == "permission" ? method_selectors.key : null
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
 
       dynamic "vpc_accessible_services" {
         for_each = contains(var.vpc_accessible_services_dry_run, "*") ? [] : [var.vpc_accessible_services_dry_run]
@@ -214,7 +69,11 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
   use_explicit_dry_run_spec = local.dry_run
 
   lifecycle {
-    ignore_changes = [status[0].resources]
+    ignore_changes = [
+      status[0].resources,
+      status[0].ingress_policies, # Allows ingress policies to be managed by google_access_context_manager_service_perimeter_ingress_policy resources
+      status[0].egress_policies   # Allows egress policies to be managed by google_access_context_manager_service_perimeter_egress_policy resources
+    ]
   }
 }
 
