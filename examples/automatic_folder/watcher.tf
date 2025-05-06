@@ -16,7 +16,7 @@
 
 module "event_folder_log_entry" {
   source  = "terraform-google-modules/event-function/google//modules/event-folder-log-entry"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   filter     = <<EOF
 resource.type="project" AND
@@ -37,7 +37,7 @@ resource "google_service_account" "watcher" {
 
 module "localhost_function" {
   source  = "terraform-google-modules/event-function/google"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   description = "Adds projects to VPC service permiterer."
   entry_point = "handler"
