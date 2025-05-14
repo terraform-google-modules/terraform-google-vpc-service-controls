@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [7.0.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v6.2.1...v7.0.0) (2025-05-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* support for externally managed egress/ingress policies ([#193](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/193))
+* **deps:** bump Terraform v1.3+ ([#177](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/177))
+
+### Features
+
+* support for externally managed egress/ingress policies ([#193](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/193)) ([029cd98](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/029cd986d3c3ec2d50dff7921244cc5c8763c1c9))
+
+
+### Bug Fixes
+
+* **deps:** bump Terraform v1.3+ ([#177](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/177)) ([bc114b8](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/bc114b87258883f023737a7bad79c039d5845d32))
+
 ## [6.2.1](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v6.2.0...v6.2.1) (2025-01-29)
 
 
