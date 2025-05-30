@@ -54,44 +54,18 @@ module "regular_service_perimeter_1" {
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
-  ingress_policies = [
+  egress_policies = [
     {
-      title = "Allow Access from everywhere"
+      title = "Read outside buckets from project"
       from = {
         sources = {
-          access_levels = ["*"] # Allow Access from everywhere
-        },
-        identities = var.read_bucket_identities
-
-      }
-      to = {
-        resources = [
-          "*"
-        ]
-        operations = {
-          "storage.googleapis.com" = {
-            methods = [
-              "google.storage.objects.get",
-              "google.storage.objects.list"
-            ]
-          }
-        }
-      }
-    },
-
-
-    {
-      title = "Allow Access from project"
-      from = {
-        sources = {
-          resources = ["projects/${var.public_project_ids["number"]}"] # Allow Access from project
+          resources = ["projects/${var.protected_project_ids["number"]}"]
         },
         identity_type = "ANY_SERVICE_ACCOUNT"
-
       }
       to = {
         resources = [
-          "*"
+          "projects/${var.public_project_ids["number"]}"
         ]
         operations = {
           "storage.googleapis.com" = {
@@ -104,24 +78,32 @@ module "regular_service_perimeter_1" {
       }
     },
     {
-      title = "without from source"
+      title = "Use permissions for Big Query access" # See https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions
       from = {
-        identities = var.read_bucket_identities
+        sources = {
+          resources = ["projects/${var.protected_project_ids["number"]}"]
+        },
+        identity_type = "ANY_SERVICE_ACCOUNT"
       }
       to = {
         resources = [
-          "projects/${var.protected_project_ids["number"]}"
+          "projects/${var.public_project_ids["number"]}"
         ]
         operations = {
-          "storage.googleapis.com" = {
-            methods = [
-              "google.storage.objects.get",
-              "google.storage.objects.list"
+          "bigquery.googleapis.com" = {
+            permissions = [
+              "bigquery.datasets.get",
+              "bigquery.models.getData",
+              "bigquery.models.getMetadata",
+              "bigquery.models.list",
+              "bigquery.tables.get",
+              "bigquery.tables.getData",
+              "bigquery.tables.list"
             ]
           }
         }
       }
-    }
+    },
   ]
 
   shared_resources = {
@@ -133,11 +115,10 @@ module "regular_service_perimeter_1" {
   ]
 }
 
-
 module "gcs_buckets" {
   source           = "terraform-google-modules/cloud-storage/google"
   version          = "~> 10.0"
-  project_id       = var.protected_project_ids["id"]
+  project_id       = var.public_project_ids["id"]
   names            = var.buckets_names
   randomize_suffix = true
   prefix           = var.buckets_prefix

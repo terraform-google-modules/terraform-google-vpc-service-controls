@@ -48,29 +48,23 @@ variable "regions" {
 variable "perimeter_name" {
   description = "Perimeter name of the Access Policy.."
   type        = string
-  default     = "regular_perimeter_1"
+  default     = "regular_perimeter_e"
 }
 
 variable "access_level_name" {
   description = "Access level name of the Access Policy."
   type        = string
-  default     = "terraform_members"
-}
-
-variable "read_bucket_identities" {
-  description = "List of all identities should get read access on bucket"
-  type        = list(string)
-  default     = []
+  default     = "terraform_members_e"
 }
 
 variable "buckets_prefix" {
   description = "Bucket Prefix"
   type        = string
-  default     = "test-bucket"
+  default     = "test-bucket-e"
 }
 
 variable "buckets_names" {
   description = "Buckets Names as list of strings"
   type        = list(string)
-  default     = ["bucket1", "bucket2"]
+  default     = ["bucket1-e", "bucket2-e"]
 }
