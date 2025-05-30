@@ -20,7 +20,7 @@ resource "random_id" "random_suffix" {
 
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
   parent_id   = var.parent_id
   policy_name = "int_test_vpc_sc_policy_${random_id.random_suffix.hex}"
@@ -71,7 +71,7 @@ resource "google_compute_subnetwork" "network2_us_central1" {
 
 module "access_level_vpc_ranges" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
   policy      = module.access_context_manager_policy.policy_id
   name        = "vpc_ip_address_policy"

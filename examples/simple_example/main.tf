@@ -16,7 +16,7 @@
 
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
   parent_id   = var.parent_id
   policy_name = var.policy_name
@@ -24,7 +24,7 @@ module "access_context_manager_policy" {
 
 module "access_level_members" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
   description = "Simple Example Access Level"
   policy      = module.access_context_manager_policy.policy_id
@@ -43,7 +43,7 @@ resource "null_resource" "wait_for_members" {
 
 module "regular_service_perimeter_1" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name
