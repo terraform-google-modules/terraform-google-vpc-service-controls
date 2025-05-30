@@ -29,6 +29,11 @@ variable "protected_project_ids" {
   type        = object({ id = string, number = number })
 }
 
+variable "public_project_ids" {
+  description = "Project id and number of the project OUTSIDE the regular service perimeter. This map variable expects an \"id\" for the project id and \"number\" key for the project number."
+  type        = object({ id = string, number = number })
+}
+
 variable "members" {
   description = "An allowed list of members (users, service accounts). The signed-in identity originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, etc.). Formats: user:{emailid}, serviceAccount:{emailid}"
   type        = list(string)
