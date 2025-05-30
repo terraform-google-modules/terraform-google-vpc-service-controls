@@ -29,7 +29,6 @@ You may use the following gcloud commands:
 | policy\_name | The policy's name. | `string` | n/a | yes |
 | protected\_project\_ids | Project id and number of the project INSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | `object({ id = string, number = number })` | n/a | yes |
 | public\_project\_ids | Project id and number of the project OUTSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | `object({ id = string, number = number })` | n/a | yes |
-| read\_bucket\_identities | List of all identities should get read access on bucket | `list(string)` | `[]` | no |
 | regions | The request must originate from one of the provided countries/regions. Format: A valid ISO 3166-1 alpha-2 code. | `list(string)` | `[]` | no |
 
 ## Outputs

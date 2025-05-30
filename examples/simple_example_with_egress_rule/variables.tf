@@ -57,12 +57,6 @@ variable "access_level_name" {
   default     = "terraform_members_e"
 }
 
-variable "read_bucket_identities" {
-  description = "List of all identities should get read access on bucket"
-  type        = list(string)
-  default     = []
-}
-
 variable "buckets_prefix" {
   description = "Bucket Prefix"
   type        = string
