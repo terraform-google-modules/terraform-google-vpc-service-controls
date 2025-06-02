@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 Google LLC
+ * Copyright 2025 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,4 +67,10 @@ variable "buckets_names" {
   description = "Buckets Names as list of strings"
   type        = list(string)
   default     = ["bucket1-e", "bucket2-e"]
+}
+
+variable "scopes" {
+  description = "Folder or project on which this policy is applicable. Format: 'folders/FOLDER_ID' or 'projects/PROJECT_NUMBER'"
+  type        = list(string)
+  default     = []
 }

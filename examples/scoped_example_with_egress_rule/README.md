@@ -1,6 +1,6 @@
-# Simple Example with Egress Rule
+# Scoped Example with Egress Rule
 
-This example illustrates how to use the `vpc-service-controls` module to configure an org policy, a regular perimeter and external storage buckets that can be access in it from inside read only via egress rule.
+This example illustrates how to use the `vpc-service-controls` module to configure a scoped org policy, a regular perimeter and external storage buckets that can be access in it from inside read only via egress rule.
 
 # Requirements
 
@@ -30,6 +30,7 @@ You may use the following gcloud commands:
 | protected\_project\_ids | Project id and number of the project INSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | `object({ id = string, number = number })` | n/a | yes |
 | public\_project\_ids | Project id and number of the project OUTSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | `object({ id = string, number = number })` | n/a | yes |
 | regions | The request must originate from one of the provided countries/regions. Format: A valid ISO 3166-1 alpha-2 code. | `list(string)` | `[]` | no |
+| scopes | Folder or project on which this policy is applicable. Format: 'folders/FOLDER\_ID' or 'projects/PROJECT\_NUMBER' | `list(string)` | `[]` | no |
 
 ## Outputs
 
@@ -38,6 +39,7 @@ You may use the following gcloud commands:
 | policy\_id | Resource name of the AccessPolicy. |
 | policy\_name | Name of the parent policy |
 | protected\_project\_id | Project id of the project INSIDE the regular service perimeter |
+| service\_perimeter\_name | Service perimeter name |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

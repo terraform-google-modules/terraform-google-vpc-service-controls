@@ -74,3 +74,9 @@ variable "buckets_names" {
   type        = list(string)
   default     = ["bucket1", "bucket2"]
 }
+
+variable "scopes" {
+  description = "Folder or project on which this policy is applicable. Format: 'folders/FOLDER_ID' or 'projects/PROJECT_NUMBER'"
+  type        = list(string)
+  default     = []
+}

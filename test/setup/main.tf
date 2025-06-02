@@ -52,7 +52,8 @@ module "project-vpc-service-controls-policy-0" {
 
   activate_apis = [
     "bigquery.googleapis.com",
-    "bigquerystorage.googleapis.com"
+    "bigquerystorage.googleapis.com",
+    "storage.googleapis.com",
   ]
 }
 
@@ -68,6 +69,7 @@ module "project-vpc-service-controls-policy-1" {
 
   activate_apis = [
     "bigquery.googleapis.com",
-    "bigquerystorage.googleapis.com"
+    "bigquerystorage.googleapis.com",
+    "storage.googleapis.com",
   ]
 }

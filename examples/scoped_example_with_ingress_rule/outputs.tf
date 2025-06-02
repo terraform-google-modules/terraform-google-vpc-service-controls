@@ -24,6 +24,10 @@ output "policy_name" {
   value       = var.policy_name
 }
 
+output "service_perimeter_name" {
+  description = "Service perimeter name"
+  value       = module.regular_service_perimeter_1.perimeter_name
+}
 
 output "protected_project_id" {
   description = "Project id of the project INSIDE the regular service perimeter"

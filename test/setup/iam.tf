@@ -55,6 +55,18 @@ resource "google_project_iam_member" "bq_roles_1" {
   member  = "serviceAccount:${google_service_account.int_test.email}"
 }
 
+resource "google_project_iam_member" "storage_roles_0" {
+  project = module.project-vpc-service-controls-policy-0.project_id
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.int_test.email}"
+}
+
+resource "google_project_iam_member" "storage_roles_1" {
+  project = module.project-vpc-service-controls-policy-1.project_id
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.int_test.email}"
+}
+
 resource "google_service_account_key" "int_test" {
   service_account_id = google_service_account.int_test.id
 }
