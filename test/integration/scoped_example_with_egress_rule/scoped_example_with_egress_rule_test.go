@@ -67,7 +67,7 @@ func TestScopedExampleWithEgressRule(t *testing.T) {
 	publicProjectNumber := terraform.OutputMap(t, setup.GetTFOptions(), "public_project_ids")["number"]
 
 	bpt := tft.NewTFBlueprintTest(t,
-		tft.WithRetryableTerraformErrors(RetryableTransientErrors, 3, 1*time.Minute),
+		tft.WithRetryableTerraformErrors(RetryableTransientErrors, 10, 2*time.Minute),
 	)
 
 	bpt.DefineVerify(func(assert *assert.Assertions) {
