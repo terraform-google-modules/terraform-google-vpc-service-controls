@@ -21,6 +21,8 @@ module "access_context_manager_policy" {
   parent_id   = var.parent_id
   policy_name = var.policy_name
   scopes      = var.scopes
+
+  depends_on = [module.gcs_buckets]
 }
 
 module "access_level_members" {

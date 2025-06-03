@@ -14,6 +14,17 @@
  * limitations under the License.
  */
 
+module "gcs_buckets" {
+  source           = "terraform-google-modules/cloud-storage/google"
+  version          = "~> 10.0"
+  project_id       = var.protected_project_ids["id"]
+  names            = var.buckets_names
+  randomize_suffix = true
+  prefix           = var.buckets_prefix
+  set_admin_roles  = true
+  admins           = var.members
+}
+
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
   version = "~> 7.0"
@@ -21,6 +32,8 @@ module "access_context_manager_policy" {
   parent_id   = var.parent_id
   policy_name = var.policy_name
   scopes      = var.scopes
+
+  depends_on = [module.gcs_buckets]
 }
 
 module "access_level_members" {
@@ -134,11 +147,10 @@ module "regular_service_perimeter_1" {
   ]
 }
 
-
 module "gcs_buckets" {
   source           = "terraform-google-modules/cloud-storage/google"
   version          = "~> 10.0"
-  project_id       = var.protected_project_ids["id"]
+  project_id       = var.public_project_ids["id"]
   names            = var.buckets_names
   randomize_suffix = true
   prefix           = var.buckets_prefix
