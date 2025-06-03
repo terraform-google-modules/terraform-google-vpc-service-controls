@@ -52,3 +52,7 @@ output "members" {
     "serviceAccount:${google_service_account.test_policy[1].email}"
   ]
 }
+
+output "scopes" {
+  value = ["projects/${module.project-vpc-service-controls-policy-0.project_number}"]
+}

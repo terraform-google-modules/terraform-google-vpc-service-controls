@@ -67,6 +67,7 @@ You can add a delay using terraform's [`null_resource`](https://www.terraform.io
 |------|-------------|------|---------|:--------:|
 | parent\_id | The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent. | `string` | n/a | yes |
 | policy\_name | The policy's name. | `string` | n/a | yes |
+| scopes | Folder or project on which this policy is applicable. Format: 'folders/FOLDER\_ID' or 'projects/PROJECT\_NUMBER' | `list(string)` | `[]` | no |
 
 ## Outputs
 

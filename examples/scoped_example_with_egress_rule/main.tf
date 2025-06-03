@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 Google LLC
+ * Copyright 2025 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,18 @@
 
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
-  version = "~> 7.0"
+  version = "~> 7.1"
 
   parent_id   = var.parent_id
   policy_name = var.policy_name
+  scopes      = var.scopes
+
+  depends_on = [module.gcs_buckets]
 }
 
 module "access_level_members" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "~> 7.0"
+  version = "~> 7.1"
 
   description = "Simple Example Access Level"
   policy      = module.access_context_manager_policy.policy_id
@@ -33,17 +36,17 @@ module "access_level_members" {
   regions     = var.regions
 }
 
-resource "null_resource" "wait_for_members" {
-  provisioner "local-exec" {
-    command = "sleep 60"
-  }
+resource "time_sleep" "wait_for_members" {
+  create_duration  = "90s"
+  destroy_duration = "90s"
 
   depends_on = [module.access_level_members]
 }
 
 module "regular_service_perimeter_1" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version = "~> 7.0"
+  version = "~> 7.1"
+
 
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name
@@ -54,23 +57,51 @@ module "regular_service_perimeter_1" {
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
-  ingress_policies = [
+  egress_policies = [
     {
-      "from" = {
-        "sources" = {
-          access_levels = ["*"] # Allow Access from everywhere
+      title = "Read outside buckets from project"
+      from = {
+        sources = {
+          resources = ["projects/${var.protected_project_ids["number"]}"]
         },
-        "identities" = var.read_bucket_identities
+        identity_type = "ANY_SERVICE_ACCOUNT"
       }
-      "to" = {
-        "resources" = [
-          "*"
+      to = {
+        resources = [
+          "projects/${var.public_project_ids["number"]}"
         ]
-        "operations" = {
+        operations = {
           "storage.googleapis.com" = {
-            "methods" = [
+            methods = [
               "google.storage.objects.get",
               "google.storage.objects.list"
+            ]
+          }
+        }
+      }
+    },
+    {
+      title = "Use permissions for Big Query access" # See https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions
+      from = {
+        sources = {
+          resources = ["projects/${var.protected_project_ids["number"]}"]
+        },
+        identity_type = "ANY_SERVICE_ACCOUNT"
+      }
+      to = {
+        resources = [
+          "projects/${var.public_project_ids["number"]}"
+        ]
+        operations = {
+          "bigquery.googleapis.com" = {
+            permissions = [
+              "bigquery.datasets.get",
+              "bigquery.models.getData",
+              "bigquery.models.getMetadata",
+              "bigquery.models.list",
+              "bigquery.tables.get",
+              "bigquery.tables.getData",
+              "bigquery.tables.list"
             ]
           }
         }
@@ -83,15 +114,15 @@ module "regular_service_perimeter_1" {
   }
 
   depends_on = [
-    module.gcs_buckets
+    module.gcs_buckets,
+    time_sleep.wait_for_members
   ]
 }
-
 
 module "gcs_buckets" {
   source           = "terraform-google-modules/cloud-storage/google"
   version          = "~> 10.0"
-  project_id       = var.protected_project_ids["id"]
+  project_id       = var.public_project_ids["id"]
   names            = var.buckets_names
   randomize_suffix = true
   prefix           = var.buckets_prefix

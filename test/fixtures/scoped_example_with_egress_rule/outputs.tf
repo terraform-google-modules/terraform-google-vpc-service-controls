@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 Google LLC
+ * Copyright 2025 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-variable "parent_id" {
-  description = "The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent."
-  type        = string
+output "policy_id" {
+  description = "Resource name of the AccessPolicy."
+  value       = module.example.policy_id
 }
 
-variable "policy_name" {
-  description = "The policy's name."
-  type        = string
+output "policy_name" {
+  description = "Name of the parent policy"
+  value       = module.example.policy_name
 }
 
-variable "scopes" {
-  description = "Folder or project on which this policy is applicable. Format: 'folders/FOLDER_ID' or 'projects/PROJECT_NUMBER'"
-  type        = list(string)
-  default     = []
+
+output "protected_project_id" {
+  description = "Project id of the project INSIDE the regular service perimeter"
+  value       = module.example.protected_project_id
+}
+
+output "service_perimeter_name" {
+  description = "Service perimeter name"
+  value       = module.example.service_perimeter_name
 }

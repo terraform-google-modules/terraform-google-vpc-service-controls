@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 Google LLC
+ * Copyright 2025 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,4 +28,9 @@ output "policy_name" {
 output "protected_project_id" {
   description = "Project id of the project INSIDE the regular service perimeter"
   value       = var.protected_project_ids["id"]
+}
+
+output "service_perimeter_name" {
+  description = "Service perimeter name"
+  value       = module.regular_service_perimeter_1.perimeter_name
 }

@@ -1,5 +1,7 @@
 # Simple Example with Ingress Rule
-This example illustrates how to use the `vpc-service-controls` module to configure an org policy, a regular perimeter with storage buckets that can be access in it from outside read only via ingress rule.
+
+This example illustrates how to use the `vpc-service-controls` module to configure a scoped org policy, a regular perimeter with storage buckets that can be access in it from outside read only via ingress rule.
+
 # Requirements
 
 1. Make sure you've gone through the root [Requirement Section](../../README.md#requirements) on any project in your organization.
@@ -26,8 +28,10 @@ You may use the following gcloud commands:
 | perimeter\_name | Perimeter name of the Access Policy.. | `string` | `"regular_perimeter_1"` | no |
 | policy\_name | The policy's name. | `string` | n/a | yes |
 | protected\_project\_ids | Project id and number of the project INSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | `object({ id = string, number = number })` | n/a | yes |
+| public\_project\_ids | Project id and number of the project OUTSIDE the regular service perimeter. This map variable expects an "id" for the project id and "number" key for the project number. | `object({ id = string, number = number })` | n/a | yes |
 | read\_bucket\_identities | List of all identities should get read access on bucket | `list(string)` | `[]` | no |
 | regions | The request must originate from one of the provided countries/regions. Format: A valid ISO 3166-1 alpha-2 code. | `list(string)` | `[]` | no |
+| scopes | Folder or project on which this policy is applicable. Format: 'folders/FOLDER\_ID' or 'projects/PROJECT\_NUMBER' | `list(string)` | `[]` | no |
 
 ## Outputs
 
@@ -36,6 +40,7 @@ You may use the following gcloud commands:
 | policy\_id | Resource name of the AccessPolicy. |
 | policy\_name | Name of the parent policy |
 | protected\_project\_id | Project id of the project INSIDE the regular service perimeter |
+| service\_perimeter\_name | Service perimeter name |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

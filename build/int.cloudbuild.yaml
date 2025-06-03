@@ -73,6 +73,54 @@ steps:
     - verify-simple-example-bridge-local
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy simple-example-bridge-local']
+# scoped example with ingress rule
+- id: init-scoped-example-with-ingress-rule
+  waitFor:
+    - destroy-simple-example-bridge-local
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleWithIngressRule --stage init --verbose']
+
+- id: apply-scoped-example-with-ingress-rule
+  waitFor:
+    - init-scoped-example-with-ingress-rule
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleWithIngressRule --stage apply --verbose']
+
+- id: verify-scoped-example-with-ingress-rule
+  waitFor:
+    - apply-scoped-example-with-ingress-rule
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleWithIngressRule --stage verify --verbose']
+
+- id: destroy-scoped-example-with-ingress-rule
+  waitFor:
+    - verify-scoped-example-with-ingress-rule
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleWithIngressRule --stage destroy --verbose']
+# scoped example with egress rule
+- id: init-scoped-example-with-egress-rule
+  waitFor:
+    - destroy-scoped-example-with-ingress-rule
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleWithEgressRule --stage init --verbose']
+
+- id: apply-scoped-example-with-egress-rule
+  waitFor:
+    - init-scoped-example-with-egress-rule
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleWithEgressRule --stage apply --verbose']
+
+- id: verify-scoped-example-with-egress-rule
+  waitFor:
+    - apply-scoped-example-with-egress-rule
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleWithEgressRule --stage verify --verbose']
+
+- id: destroy-scoped-example-with-egress-rule
+  waitFor:
+    - verify-scoped-example-with-egress-rule
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleWithEgressRule --stage destroy --verbose']
 tags:
 - 'ci'
 - 'integration'

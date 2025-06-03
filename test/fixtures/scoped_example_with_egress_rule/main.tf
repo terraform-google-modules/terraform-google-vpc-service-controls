@@ -1,5 +1,6 @@
+
 /**
- * Copyright 2024 Google LLC
+ * Copyright 2025 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +15,24 @@
  * limitations under the License.
  */
 
-variable "parent_id" {
-  description = "The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organization are accepted as parent."
-  type        = string
+resource "random_string" "suffix" {
+  length  = 6
+  special = false
+  upper   = false
 }
 
-variable "policy_name" {
-  description = "The policy's name."
-  type        = string
-}
+module "example" {
+  source = "../../../examples/scoped_example_with_egress_rule"
 
-variable "scopes" {
-  description = "Folder or project on which this policy is applicable. Format: 'folders/FOLDER_ID' or 'projects/PROJECT_NUMBER'"
-  type        = list(string)
-  default     = []
+  parent_id   = var.parent_id
+  policy_name = "int_test_vpc_sc_rules_e_${random_string.suffix.result}"
+  scopes      = var.scopes
+
+  protected_project_ids = var.protected_project_ids
+  public_project_ids    = var.public_project_ids
+  members               = var.members
+
+  buckets_prefix = "egress"
+  buckets_names  = ["directional-rules"]
+  regions        = ["US"]
 }

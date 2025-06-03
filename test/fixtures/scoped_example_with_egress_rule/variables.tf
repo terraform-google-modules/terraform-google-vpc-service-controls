@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 Google LLC
+ * Copyright 2025 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,19 @@ variable "parent_id" {
   type        = string
 }
 
-variable "policy_name" {
-  description = "The policy's name."
-  type        = string
+variable "protected_project_ids" {
+  description = "Project id and number of the project INSIDE the regular service perimeter. This map variable expects an \"id\" for the project id and \"number\" key for the project number."
+  type        = object({ id = string, number = number })
+}
+
+variable "public_project_ids" {
+  description = "Project id and number of the project OUTSIDE the regular service perimeter. This map variable expects an \"id\" for the project id and \"number\" key for the project number."
+  type        = object({ id = string, number = number })
+}
+
+variable "members" {
+  description = "An allowed list of members (users, service accounts). The signed-in identity originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, etc.). Formats: user:{emailid}, serviceAccount:{emailid}"
+  type        = list(string)
 }
 
 variable "scopes" {

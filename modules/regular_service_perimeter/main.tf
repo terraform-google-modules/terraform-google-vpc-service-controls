@@ -72,7 +72,10 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
     ignore_changes = [
       status[0].resources,
       status[0].ingress_policies, # Allows ingress policies to be managed by google_access_context_manager_service_perimeter_ingress_policy resources
-      status[0].egress_policies   # Allows egress policies to be managed by google_access_context_manager_service_perimeter_egress_policy resources
+      status[0].egress_policies,  # Allows egress policies to be managed by google_access_context_manager_service_perimeter_egress_policy resources
+      spec[0].resources,
+      spec[0].ingress_policies, # Allows dry-run ingress policies to be managed by google_access_context_manager_service_perimeter_ingress_policy resources
+      spec[0].egress_policies   # Allows dry-run egress policies to be managed by google_access_context_manager_service_perimeter_egress_policy resources
     ]
   }
 }

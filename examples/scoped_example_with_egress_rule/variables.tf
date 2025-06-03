@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 Google LLC
+ * Copyright 2025 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,11 @@ variable "protected_project_ids" {
   type        = object({ id = string, number = number })
 }
 
+variable "public_project_ids" {
+  description = "Project id and number of the project OUTSIDE the regular service perimeter. This map variable expects an \"id\" for the project id and \"number\" key for the project number."
+  type        = object({ id = string, number = number })
+}
+
 variable "members" {
   description = "An allowed list of members (users, service accounts). The signed-in identity originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, etc.). Formats: user:{emailid}, serviceAccount:{emailid}"
   type        = list(string)
@@ -43,29 +48,29 @@ variable "regions" {
 variable "perimeter_name" {
   description = "Perimeter name of the Access Policy.."
   type        = string
-  default     = "regular_perimeter_1"
+  default     = "regular_perimeter_e"
 }
 
 variable "access_level_name" {
   description = "Access level name of the Access Policy."
   type        = string
-  default     = "terraform_members"
-}
-
-variable "read_bucket_identities" {
-  description = "List of all identities should get read access on bucket"
-  type        = list(string)
-  default     = []
+  default     = "terraform_members_e"
 }
 
 variable "buckets_prefix" {
   description = "Bucket Prefix"
   type        = string
-  default     = "test-bucket"
+  default     = "test-bucket-e"
 }
 
 variable "buckets_names" {
   description = "Buckets Names as list of strings"
   type        = list(string)
-  default     = ["bucket1", "bucket2"]
+  default     = ["bucket1-e", "bucket2-e"]
+}
+
+variable "scopes" {
+  description = "Folder or project on which this policy is applicable. Format: 'folders/FOLDER_ID' or 'projects/PROJECT_NUMBER'"
+  type        = list(string)
+  default     = []
 }
