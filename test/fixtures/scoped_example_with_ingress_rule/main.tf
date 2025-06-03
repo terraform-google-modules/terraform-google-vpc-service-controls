@@ -34,6 +34,6 @@ module "example" {
 
   read_bucket_identities = var.members
   buckets_prefix         = "ingress"
-  buckets_names          = ["directional-rules-${random_string.suffix.result}"]
+  buckets_names          = ["directional-rules"]
   regions                = ["US"]
 }

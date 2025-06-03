@@ -33,6 +33,6 @@ module "example" {
   members               = var.members
 
   buckets_prefix = "egress"
-  buckets_names  = ["directional-rules-${random_string.suffix.result}"]
+  buckets_names  = ["directional-rules"]
   regions        = ["US"]
 }
