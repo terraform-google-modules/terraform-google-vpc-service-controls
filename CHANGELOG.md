@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [7.1.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v7.0.0...v7.1.0) (2025-06-03)
+
+
+### Features
+
+* Add scopes, update directional rules variable definition and dry-run lifecycle `ignore_changes` ([#199](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/199)) ([8b14973](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/8b14973fd700a4237944b25eedb1e2d0c292e3c3))
+
 ## [7.0.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v6.2.1...v7.0.0) (2025-05-14)
 
 
