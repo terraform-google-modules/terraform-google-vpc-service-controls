@@ -74,7 +74,7 @@ func TestScopedExampleWithEgressRule(t *testing.T) {
 		bpt.DefaultVerify(assert)
 
 		policyID := bpt.GetStringOutput("policy_id")
-        scopedPolicy := gcloud.Runf(t, "access-context-manager policies describe %s", policyID)
+		scopedPolicy := gcloud.Runf(t, "access-context-manager policies describe %s", policyID)
 		assert.Equal(fmt.Sprintf("projects/%s", protectedProjectNumber), scopedPolicy.Get("scopes").Array()[0].String(), "scoped project should be %s", protectedProjectNumber)
 
 		servicePerimeterLink := fmt.Sprintf("accessPolicies/%s/servicePerimeters/%s", policyID, bpt.GetStringOutput("service_perimeter_name"))
@@ -97,7 +97,7 @@ func TestScopedExampleWithEgressRule(t *testing.T) {
 				for _, expected := range expectedMethods {
 					assert.Contains(methods, expected)
 				}
-				assert.Equal("Use permissions for Big Query access", rule.Get("title").String(), "check title")
+				assert.Equal("Read outside buckets from project", rule.Get("title").String(), "check title")
 			}
 
 			if operation.Get("serviceName").String() == "bigquery.googleapis.com" {
@@ -105,7 +105,7 @@ func TestScopedExampleWithEgressRule(t *testing.T) {
 				for _, expected := range expectedPermissions {
 					assert.Contains(permissions, expected)
 				}
-				assert.Equal("Read outside buckets from project", rule.Get("title").String(), "check title")
+				assert.Equal("Use permissions for Big Query access", rule.Get("title").String(), "check title")
 			}
 		}
 	})
