@@ -121,6 +121,30 @@ steps:
     - verify-scoped-example-with-egress-rule
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestScopedExampleWithEgressRule --stage destroy --verbose']
+# scoped example with access level dry-run
+- id: init-scoped-example-access-level-dry-run
+  waitFor:
+    - destroy-scoped-example-with-egress-rule
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleAccessLevelDryRun --stage init --verbose']
+
+- id: apply-scoped-example-access-level-dry-run
+  waitFor:
+    - init-scoped-example-access-level-dry-run
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleAccessLevelDryRun --stage apply --verbose']
+
+- id: verify-scoped-example-access-level-dry-run
+  waitFor:
+    - apply-scoped-example-access-level-dry-run
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleAccessLevelDryRun --stage verify --verbose']
+
+- id: destroy-scoped-example-access-level-dry-run
+  waitFor:
+    - verify-scoped-example-access-level-dry-run
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestScopedExampleAccessLevelDryRun --stage destroy --verbose']
 tags:
 - 'ci'
 - 'integration'

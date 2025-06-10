@@ -65,6 +65,12 @@ variable "resources_dry_run" {
   default     = []
 }
 
+variable "resource_keys_dry_run" {
+  description = "A list of keys to use for the Terraform state. The order should correspond to var.resources_dry_run and the keys must not be dynamically computed. If `null`, var.resources_dry_run will be used as keys."
+  type        = list(string)
+  default     = null
+}
+
 variable "access_levels_dry_run" {
   description = "(Dry-run) A list of AccessLevel resource names that allow resources within the ServicePerimeter to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel is a syntax error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via GCP calls with request origins within the perimeter. Example: 'accessPolicies/MY_POLICY/accessLevels/MY_LEVEL'. For Service Perimeter Bridge, must be empty. If set, a dry-run policy will be set."
   type        = list(string)
@@ -77,7 +83,6 @@ variable "shared_resources" {
   default     = { all = [] }
 }
 
-## Have to solve it like this don't want use optional flag because is still experimental
 variable "egress_policies" {
   description = "A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress_from and egress_to.\n\nExample: `[{ from={ identities=[], identity_type=\"ID_TYPE\" }, to={ resources=[], operations={ \"SRV_NAME\"={ OP_TYPE=[] }}}}]`\n\nValid Values:\n`ID_TYPE` = `null` or `IDENTITY_TYPE_UNSPECIFIED` (only allow indentities from list); `ANY_IDENTITY`; `ANY_USER_ACCOUNT`; `ANY_SERVICE_ACCOUNT`\n`SRV_NAME` = \"`*`\" (allow all services) or [Specific Services](https://cloud.google.com/vpc-service-controls/docs/supported-products#supported_products)\n`OP_TYPE` = [methods](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions) or [permissions](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions)"
   type = list(object({
@@ -103,8 +108,7 @@ variable "egress_policies" {
   default = []
 }
 
-## Have to solve it like this don't want use optional flag because is still experimental
-variable "ingress_policies" { # TODO
+variable "ingress_policies" {
   description = "A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress_from and ingress_to.\n\nExample: `[{ from={ sources={ resources=[], access_levels=[] }, identities=[], identity_type=\"ID_TYPE\" }, to={ resources=[], operations={ \"SRV_NAME\"={ OP_TYPE=[] }}}}]`\n\nValid Values:\n`ID_TYPE` = `null` or `IDENTITY_TYPE_UNSPECIFIED` (only allow indentities from list); `ANY_IDENTITY`; `ANY_USER_ACCOUNT`; `ANY_SERVICE_ACCOUNT`\n`SRV_NAME` = \"`*`\" (allow all services) or [Specific Services](https://cloud.google.com/vpc-service-controls/docs/supported-products#supported_products)\n`OP_TYPE` = [methods](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions) or [permissions](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions)"
   type = list(object({
     title = optional(string, null)
@@ -128,7 +132,6 @@ variable "ingress_policies" { # TODO
   default = []
 }
 
-## Have to solve it like this don't want use optional flag because is still experimental
 variable "egress_policies_dry_run" {
   description = "A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress_from and egress_to. Use same formatting as `egress_policies`."
   type = list(object({
@@ -154,7 +157,6 @@ variable "egress_policies_dry_run" {
   default = []
 }
 
-## Have to solve it like this don't want use optional flag because is still experimental
 variable "ingress_policies_dry_run" {
   description = "A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress_from and ingress_to. Use same formatting as `ingress_policies`."
   type = list(object({
