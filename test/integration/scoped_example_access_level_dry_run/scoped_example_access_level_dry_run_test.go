@@ -23,6 +23,7 @@ import (
 
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/gcloud"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/tft"
+	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -44,6 +45,11 @@ func GetResultFieldStrSlice(rs []gjson.Result, field string) []string {
 
 func TestScopedExampleAccessLevelDryRun(t *testing.T) {
 
+	setup := tft.NewTFBlueprintTest(t,
+		tft.WithTFDir("../../setup"),
+	)
+	protectedProjectNumber := terraform.OutputMap(t, setup.GetTFOptions(), "protected_project_ids")["number"]
+
 	bpt := tft.NewTFBlueprintTest(t,
 		tft.WithRetryableTerraformErrors(RetryableTransientErrors, 6, 2*time.Minute),
 	)
@@ -51,7 +57,6 @@ func TestScopedExampleAccessLevelDryRun(t *testing.T) {
 	bpt.DefineVerify(func(assert *assert.Assertions) {
 		bpt.DefaultVerify(assert)
 
-		protectedProjectNumber := bpt.GetStringOutput("protected_project_number")
 		policyID := bpt.GetStringOutput("policy_id")
 		scopedPolicy := gcloud.Runf(t, "access-context-manager policies describe %s", policyID)
 		assert.Equal(fmt.Sprintf("projects/%s", protectedProjectNumber), scopedPolicy.Get("scopes").Array()[0].String(), "scoped project should be %s", protectedProjectNumber)
@@ -75,7 +80,7 @@ func TestScopedExampleAccessLevelDryRun(t *testing.T) {
 		//Restricted Services
 		restrictedServicesDryRun := servicePerimeter.Get("spec.restrictedServices").Array()
 		assert.Equal(1, len(restrictedServicesDryRun), "should have only one service protected in Dry-run")
-		assert.Equal(fmt.Sprintf("projects/%s", protectedProjectNumber), restrictedServicesDryRun[0].String(), "service 'storage.googleapis.com' should be protected in Dry-run")
+		assert.Equal("storage.googleapis.com", restrictedServicesDryRun[0].String(), "service 'storage.googleapis.com' should be protected in Dry-run")
 	})
 	bpt.Test()
 }
