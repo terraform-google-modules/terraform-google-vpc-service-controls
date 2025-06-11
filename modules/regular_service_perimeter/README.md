@@ -105,6 +105,7 @@ module "regular_service_perimeter_1" {
 | perimeter\_name | Name of the perimeter. Should be one unified string. Must only be letters, numbers and underscores | `string` | n/a | yes |
 | policy | Name of the parent policy | `string` | n/a | yes |
 | resource\_keys | A list of keys to use for the Terraform state. The order should correspond to var.resources and the keys must not be dynamically computed. If `null`, var.resources will be used as keys. | `list(string)` | `null` | no |
+| resource\_keys\_dry\_run | A list of keys to use for the Terraform state. The order should correspond to var.resources\_dry\_run and the keys must not be dynamically computed. If `null`, var.resources\_dry\_run will be used as keys. | `list(string)` | `null` | no |
 | resources | A list of GCP resources that are inside of the service perimeter. Currently only projects and VPC networks are allowed. | `list(string)` | `[]` | no |
 | resources\_dry\_run | (Dry-run) A list of GCP resources that are inside of the service perimeter. Currently only projects and VPC networks are allowed. If set, a dry-run policy will be set. | `list(string)` | `[]` | no |
 | restricted\_services | GCP services that are subject to the Service Perimeter restrictions. Must contain a list of services. For example, if storage.googleapis.com is specified, access to the storage buckets inside the perimeter must meet the perimeter's access restrictions. | `list(string)` | `[]` | no |

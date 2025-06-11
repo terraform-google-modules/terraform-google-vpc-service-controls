@@ -49,7 +49,6 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
     for_each = local.dry_run ? ["dry-run"] : []
     content {
       restricted_services = var.restricted_services_dry_run
-      resources           = [for item in var.resources_dry_run : can(regex("global/networks", item)) ? format("//compute.googleapis.com/%s", item) : format("projects/%s", item)]
       access_levels = formatlist(
         "accessPolicies/${var.policy}/accessLevels/%s",
         var.access_levels_dry_run
@@ -86,10 +85,23 @@ locals {
     for rk in local.resource_keys :
     rk => var.resources[index(local.resource_keys, rk)]
   }
+
+  #dry-run
+  resource_keys_dry_run = var.resource_keys_dry_run != null ? var.resource_keys_dry_run : var.resources_dry_run
+  resources_dry_run = {
+    for rk in local.resource_keys_dry_run :
+    rk => var.resources_dry_run[index(local.resource_keys_dry_run, rk)]
+  }
 }
 
 resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_resource" {
   for_each       = local.resources
+  perimeter_name = google_access_context_manager_service_perimeter.regular_service_perimeter.name
+  resource       = can(regex("global/networks", each.value)) ? "//compute.googleapis.com/${each.value}" : "projects/${each.value}"
+}
+
+resource "google_access_context_manager_service_perimeter_dry_run_resource" "dry_run_service_perimeter_resource" {
+  for_each       = local.resources_dry_run
   perimeter_name = google_access_context_manager_service_perimeter.regular_service_perimeter.name
   resource       = can(regex("global/networks", each.value)) ? "//compute.googleapis.com/${each.value}" : "projects/${each.value}"
 }
