@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Delete any exisiting oragization AccessPolicy
+# Delete any existing organization AccessPolicy
 # shellcheck disable=SC2154
 remove_gcloud_org_accesspolicy() {
   source_test_env
@@ -22,8 +22,10 @@ remove_gcloud_org_accesspolicy() {
 
   local policy
   policy=$(gcloud access-context-manager policies list --organization="${TF_VAR_org_id}" | grep "${TF_VAR_org_id}" | awk '{print $1}')
-  if [[ -n "${policy}" ]]; then
-    echo "Removing Access Policy ${policy}"
-    gcloud access-context-manager policies delete "${policy}" --quiet
-  fi
+  # shellcheck disable=SC2068
+  for i in ${policy[@]}
+  do
+    echo "Removing Access Policy ${i}"
+    gcloud access-context-manager policies delete "accessPolicies/${i}" --quiet
+  done
 }
