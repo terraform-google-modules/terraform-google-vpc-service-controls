@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [7.1.1](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v7.1.0...v7.1.1) (2025-06-11)
+
+
+### Bug Fixes
+
+* use dry run resource to add resources to the perimeter ([#204](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/204)) ([afa9c35](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/afa9c35daa3dd468017e486cc1e03e90d1c8352f))
+
 ## [7.1.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v7.0.0...v7.1.0) (2025-06-03)
 
 
