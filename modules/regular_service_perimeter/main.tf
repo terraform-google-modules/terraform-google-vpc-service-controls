@@ -49,7 +49,6 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
     for_each = local.dry_run ? ["dry-run"] : []
     content {
       restricted_services = var.restricted_services_dry_run
-      resources           = [for item in var.resources_dry_run : can(regex("global/networks", item)) ? format("//compute.googleapis.com/%s", item) : format("projects/%s", item)]
       access_levels = formatlist(
         "accessPolicies/${var.policy}/accessLevels/%s",
         var.access_levels_dry_run
