@@ -15,7 +15,7 @@
  */
 
 locals {
-  dry_run = (length(var.restricted_services_dry_run) > 0 || length(var.resources_dry_run) > 0 || length(var.access_levels_dry_run) > 0 || !contains(var.vpc_accessible_services_dry_run, "*"))
+  dry_run = (length(var.restricted_services_dry_run) > 0 || length(var.resources_dry_run) > 0 || length(var.access_levels_dry_run) > 0 || length(var.egress_policies_dry_run) > 0 || length(var.ingress_policies_dry_run) > 0 || !contains(var.vpc_accessible_services_dry_run, "*"))
 }
 
 resource "google_access_context_manager_service_perimeter" "regular_service_perimeter" {
@@ -80,13 +80,14 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
 }
 
 locals {
+  # enforced
   resource_keys = var.resource_keys != null ? var.resource_keys : var.resources
   resources = {
     for rk in local.resource_keys :
     rk => var.resources[index(local.resource_keys, rk)]
   }
 
-  #dry-run
+  # dry-run
   resource_keys_dry_run = var.resource_keys_dry_run != null ? var.resource_keys_dry_run : var.resources_dry_run
   resources_dry_run = {
     for rk in local.resource_keys_dry_run :

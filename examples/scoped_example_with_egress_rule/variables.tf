@@ -57,6 +57,12 @@ variable "access_level_name" {
   default     = "terraform_members_e"
 }
 
+variable "access_level_name_dry_run" {
+  description = "Access level name of the Access Policy in Dry-run mode."
+  type        = string
+  default     = "terraform_members_e_dry_run"
+}
+
 variable "buckets_prefix" {
   description = "Bucket Prefix"
   type        = string
@@ -74,3 +80,4 @@ variable "scopes" {
   type        = list(string)
   default     = []
 }
+
