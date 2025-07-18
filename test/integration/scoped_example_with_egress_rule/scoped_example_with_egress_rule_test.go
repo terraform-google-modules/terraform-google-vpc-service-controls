@@ -60,6 +60,11 @@ func TestScopedExampleWithEgressRule(t *testing.T) {
 		"google.storage.objects.list",
 	}
 
+	dryRunServices := []string{
+		"cloudfunctions.googleapis.com",
+		"cloudresourcemanager.googleapis.com",
+	}
+
 	setup := tft.NewTFBlueprintTest(t,
 		tft.WithTFDir("../../setup"),
 	)
@@ -79,6 +84,21 @@ func TestScopedExampleWithEgressRule(t *testing.T) {
 
 		servicePerimeterLink := fmt.Sprintf("accessPolicies/%s/servicePerimeters/%s", policyID, bpt.GetStringOutput("service_perimeter_name"))
 		servicePerimeter := gcloud.Runf(t, "access-context-manager perimeters describe %s --policy %s", servicePerimeterLink, policyID)
+
+		egressPoliciesDryRun := servicePerimeter.Get("spec.egressPolicies").Array()
+		for _, ruleDryRun := range egressPoliciesDryRun {
+			from := ruleDryRun.Get("egressFrom")
+			assert.Equal("ANY_SERVICE_ACCOUNT", from.Get("identityType").String(), "identityType should be ANY_SERVICE_ACCOUNT")
+			assert.Equal("SOURCE_RESTRICTION_ENABLED", from.Get("sourceRestriction").String(), "source restriction should be enabled")
+			assert.Equal(fmt.Sprintf("accessPolicies/%s/accessLevels/terraform_members_e_dry_run", policyID), from.Get("sources").Array()[0].Get("accessLevel").String(), "source accessLevel should be terraform_members_e_dry_run")
+
+			to := ruleDryRun.Get("egressTo")
+			resource := to.Get("resources").Array()[0]
+			assert.Equal(fmt.Sprintf("projects/%s", publicProjectNumber), resource.String(), "to public project should be %s", publicProjectNumber)
+			operation := to.Get("operations").Array()[0]
+			assert.Contains(dryRunServices, operation.Get("serviceName").String())
+			assert.Equal("*",operation.Get("methodSelectors").Array()[0].Get("method").String())
+		}
 
 		egressPolicies := servicePerimeter.Get("status.egressPolicies").Array()
 		for _, rule := range egressPolicies {

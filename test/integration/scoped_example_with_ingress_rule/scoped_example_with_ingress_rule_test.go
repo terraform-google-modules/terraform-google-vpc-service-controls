@@ -71,6 +71,24 @@ func TestScopedExampleWithIngressRule(t *testing.T) {
 		servicePerimeterLink := fmt.Sprintf("accessPolicies/%s/servicePerimeters/%s", policyID, bpt.GetStringOutput("service_perimeter_name"))
 		servicePerimeter := gcloud.Runf(t, "access-context-manager perimeters describe %s --policy %s", servicePerimeterLink, policyID)
 
+		ingressPoliciesDryRun := servicePerimeter.Get("spec.ingressPolicies").Array()
+		for _, ruleDryRun := range ingressPoliciesDryRun {
+
+			from := ruleDryRun.Get("ingressFrom")
+			assert.NotEmpty(from.Get("identities").Array())
+			assert.Equal(fmt.Sprintf("accessPolicies/%s/accessLevels/terraform_members_dry_run", policyID), from.Get("sources").Array()[0].Get("accessLevel").String(), "accessLevel should be 'terraform_members_dry_run'")
+
+			to := ruleDryRun.Get("ingressTo")
+			operation := to.Get("operations").Array()[0]
+			assert.Equal("storage.googleapis.com", operation.Get("serviceName").String(), "service should be storage.googleapis.com")
+			methods := GetResultFieldStrSlice(operation.Get("methodSelectors").Array(), "method")
+			for _, expected := range expectedMethods {
+				assert.Contains(methods, expected)
+			}
+			resource := to.Get("resources").Array()[0]
+			assert.Equal("*", resource.String(), "should be all projects *")
+		}
+
 		ingressPolicies := servicePerimeter.Get("status.ingressPolicies").Array()
 		for _, rule := range ingressPolicies {
 
@@ -79,8 +97,9 @@ func TestScopedExampleWithIngressRule(t *testing.T) {
 			if rule.Get("title").String() == "Allow Access from everywhere" {
 				assert.Equal("*", from.Get("sources").Array()[0].Get("accessLevel").String(), "accessLevel should be '*'")
 			}
-			if rule.Get("title").String() == "without from source" {
+			if rule.Get("title").String() == "from bucket read identity" {
 				assert.NotEmpty(from.Get("identities").Array())
+				assert.Equal(fmt.Sprintf("projects/%s", publicProjectNumber), from.Get("sources").Array()[0].Get("resource").String(), "source project should be %s", publicProjectNumber)
 			}
 			if rule.Get("title").String() == "Allow Access from project" {
 				assert.Equal("ANY_SERVICE_ACCOUNT", from.Get("identityType").String(), "identityType should be ANY_SERVICE_ACCOUNT")
@@ -99,7 +118,7 @@ func TestScopedExampleWithIngressRule(t *testing.T) {
 			if rule.Get("title").String() == "Allow Access from everywhere" {
 				assert.Equal("*", resource.String(), "should be all projects '*'")
 			}
-			if rule.Get("title").String() == "without from source" {
+			if rule.Get("title").String() == "from bucket read identity" {
 				assert.Equal(fmt.Sprintf("projects/%s", protectedProjectNumber), resource.String(), "to protected project should be %s", protectedProjectNumber)
 			}
 			if rule.Get("title").String() == "Allow Access from project" {
