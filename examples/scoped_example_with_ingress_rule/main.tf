@@ -149,7 +149,7 @@ module "regular_service_perimeter_1" {
       title = "from bucket read identity"
       from = {
         identities = var.read_bucket_identities
-        source = {
+        sources = {
           resources = ["projects/${var.public_project_ids["number"]}"]
         }
       }
