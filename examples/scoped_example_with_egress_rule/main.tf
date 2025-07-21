@@ -88,7 +88,7 @@ resource "time_sleep" "wait_for_members" {
 
 module "regular_service_perimeter_1" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version = "~> 7.1.1"
+  version = "~> 7.1"
 
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name
@@ -165,14 +165,6 @@ module "regular_service_perimeter_1" {
     module.gcs_buckets,
     time_sleep.wait_for_members
   ]
-}
-
-resource "random_string" "pn" {
-  length  = 8
-  numeric = true
-  special = false
-  upper   = false
-  lower   = false
 }
 
 module "gcs_buckets" {
