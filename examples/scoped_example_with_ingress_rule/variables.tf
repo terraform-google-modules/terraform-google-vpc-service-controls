@@ -57,6 +57,12 @@ variable "access_level_name" {
   default     = "terraform_members"
 }
 
+variable "access_level_name_dry_run" {
+  description = "Access level name of the Access Policy in Dry-run mode."
+  type        = string
+  default     = "terraform_members_dry_run"
+}
+
 variable "read_bucket_identities" {
   description = "List of all identities should get read access on bucket"
   type        = list(string)

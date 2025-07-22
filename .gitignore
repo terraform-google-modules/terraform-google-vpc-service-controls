@@ -58,3 +58,4 @@ yarn.lock
 
 # tf lock file
 .terraform.lock.hcl
+.terraform.lock

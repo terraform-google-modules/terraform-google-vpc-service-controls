@@ -21,6 +21,7 @@ You may use the following gcloud commands:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | access\_level\_name | Access level name of the Access Policy. | `string` | `"terraform_members"` | no |
+| access\_level\_name\_dry\_run | Access level name of the Access Policy in Dry-run mode. | `string` | `"terraform_members_dry_run"` | no |
 | buckets\_names | Buckets Names as list of strings | `list(string)` | <pre>[<br>  "bucket1",<br>  "bucket2"<br>]</pre> | no |
 | buckets\_prefix | Bucket Prefix | `string` | `"test-bucket"` | no |
 | members | An allowed list of members (users, service accounts). The signed-in identity originating the request must be a part of one of the provided members. If not specified, a request may come from any user (logged in/not logged in, etc.). Formats: user:{emailid}, serviceAccount:{emailid} | `list(string)` | n/a | yes |

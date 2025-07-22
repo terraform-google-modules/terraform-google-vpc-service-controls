@@ -14,6 +14,33 @@
  * limitations under the License.
  */
 
+locals {
+  ingress_policies_dry_run = [
+    {
+      title = "dry-run"
+      from = {
+        identities = var.read_bucket_identities
+        sources = {
+          access_levels = [module.access_level_members_dry_run.name]
+        },
+      }
+      to = {
+        resources = [
+          "*"
+        ]
+        operations = {
+          "storage.googleapis.com" = {
+            methods = [
+              "google.storage.objects.get",
+              "google.storage.objects.list"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
+
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
   version = "~> 7.1"
@@ -36,11 +63,25 @@ module "access_level_members" {
   regions     = var.regions
 }
 
+module "access_level_members_dry_run" {
+  source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
+  version = "~> 7.1"
+
+  description = "Simple Example Access Level dry-run"
+  policy      = module.access_context_manager_policy.policy_id
+  name        = var.access_level_name_dry_run
+  members     = var.members
+  regions     = var.regions
+}
+
 resource "time_sleep" "wait_for_members" {
   create_duration  = "90s"
   destroy_duration = "90s"
 
-  depends_on = [module.access_level_members]
+  depends_on = [
+    module.access_level_members,
+    module.access_level_members_dry_run
+  ]
 }
 
 module "regular_service_perimeter_1" {
@@ -50,9 +91,11 @@ module "regular_service_perimeter_1" {
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name
 
-  description   = "Perimeter shielding bigquery project"
-  resources     = [var.protected_project_ids["number"]]
-  access_levels = [module.access_level_members.name]
+  description           = "Perimeter shielding bigquery project"
+  resources             = [var.protected_project_ids["number"]]
+  resources_dry_run     = [var.protected_project_ids["number"]]
+  access_levels         = [module.access_level_members.name]
+  access_levels_dry_run = [module.access_level_members_dry_run.name]
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
@@ -60,11 +103,10 @@ module "regular_service_perimeter_1" {
     {
       title = "Allow Access from everywhere"
       from = {
+        identities = var.read_bucket_identities
         sources = {
           access_levels = ["*"] # Allow Access from everywhere
         },
-        identities = var.read_bucket_identities
-
       }
       to = {
         resources = [
@@ -80,8 +122,6 @@ module "regular_service_perimeter_1" {
         }
       }
     },
-
-
     {
       title = "Allow Access from project"
       from = {
@@ -106,9 +146,12 @@ module "regular_service_perimeter_1" {
       }
     },
     {
-      title = "without from source"
+      title = "from bucket read identity"
       from = {
         identities = var.read_bucket_identities
+        sources = {
+          resources = ["projects/${var.public_project_ids["number"]}"]
+        }
       }
       to = {
         resources = [
@@ -125,6 +168,10 @@ module "regular_service_perimeter_1" {
       }
     }
   ]
+
+  ingress_policies_dry_run      = distinct(tolist(local.ingress_policies_dry_run))
+  ingress_policies_keys_dry_run = ["rule_one"]
+
 
   shared_resources = {
     all = [var.protected_project_ids["number"]]

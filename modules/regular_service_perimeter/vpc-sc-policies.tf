@@ -14,8 +14,42 @@
  * limitations under the License.
  */
 
+
+
+locals {
+  # enforced
+  # ingress_rules
+  ingress_policies_keys = var.ingress_policies_keys != null ? var.ingress_policies_keys : [for k, v in var.ingress_policies : tostring(k)]
+  ingress_policies = {
+    for ipk in local.ingress_policies_keys :
+    ipk => var.ingress_policies[index(local.ingress_policies_keys, ipk)]
+  }
+
+  # egress_rules
+  egress_policies_keys = var.egress_policies_keys != null ? var.egress_policies_keys : [for k, v in var.egress_policies : tostring(k)]
+  egress_policies = {
+    for epk in local.egress_policies_keys :
+    epk => var.egress_policies[index(local.egress_policies_keys, epk)]
+  }
+
+  # dry-run
+  # ingress_rules
+  ingress_policies_keys_dry_run = var.ingress_policies_keys_dry_run != null ? var.ingress_policies_keys_dry_run : [for k, v in var.ingress_policies_dry_run : tostring(k)]
+  ingress_policies_dry_run = {
+    for ipk in local.ingress_policies_keys_dry_run :
+    ipk => var.ingress_policies_dry_run[index(local.ingress_policies_keys_dry_run, ipk)]
+  }
+
+  # egress_rules
+  egress_policies_keys_dry_run = var.egress_policies_keys_dry_run != null ? var.egress_policies_keys_dry_run : [for k, v in var.egress_policies_dry_run : tostring(k)]
+  egress_policies_dry_run = {
+    for epk in local.egress_policies_keys_dry_run :
+    epk => var.egress_policies_dry_run[index(local.egress_policies_keys_dry_run, epk)]
+  }
+}
+
 resource "google_access_context_manager_service_perimeter_ingress_policy" "ingress_policies" {
-  for_each = { for k, v in var.ingress_policies : k => v }
+  for_each = local.ingress_policies
 
   perimeter = google_access_context_manager_service_perimeter.regular_service_perimeter.name
   title     = coalesce(each.value["title"], "Ingress Policy ${each.key}")
@@ -59,7 +93,7 @@ resource "google_access_context_manager_service_perimeter_ingress_policy" "ingre
 }
 
 resource "google_access_context_manager_service_perimeter_egress_policy" "egress_policies" {
-  for_each = { for k, v in var.egress_policies : k => v }
+  for_each = local.egress_policies
 
   perimeter = google_access_context_manager_service_perimeter.regular_service_perimeter.name
   title     = coalesce(each.value["title"], "Egress Policy ${each.key}")
@@ -109,7 +143,7 @@ resource "google_access_context_manager_service_perimeter_egress_policy" "egress
 ############################################
 
 resource "google_access_context_manager_service_perimeter_dry_run_ingress_policy" "ingress_policies" {
-  for_each = { for k, v in var.ingress_policies_dry_run : k => v }
+  for_each = local.ingress_policies_dry_run
 
   perimeter = google_access_context_manager_service_perimeter.regular_service_perimeter.name
   title     = coalesce(each.value["title"], "Ingress Policy ${each.key}")
@@ -153,7 +187,7 @@ resource "google_access_context_manager_service_perimeter_dry_run_ingress_policy
 }
 
 resource "google_access_context_manager_service_perimeter_dry_run_egress_policy" "egress_policies" {
-  for_each = { for k, v in var.egress_policies_dry_run : k => v }
+  for_each = local.egress_policies_dry_run
 
   perimeter = google_access_context_manager_service_perimeter.regular_service_perimeter.name
   title     = coalesce(each.value["title"], "Egress Policy ${each.key}")
