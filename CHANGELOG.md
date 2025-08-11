@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [7.1.3](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v7.1.2...v7.1.3) (2025-08-07)
+
+
+### Bug Fixes
+
+* Add depends_on in ingress policies resources ([#213](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/213)) ([afa2f87](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/afa2f8790c20c03a66017c0fcaaeded740d036b9))
+
 ## [7.1.2](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v7.1.1...v7.1.2) (2025-07-22)
 
 
