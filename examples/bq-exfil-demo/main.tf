@@ -36,7 +36,7 @@ module "bastion" {
 
 module "vpc" {
   source  = "terraform-google-modules/network/google"
-  version = "~> 11.0"
+  version = "~> 12.0"
 
   project_id              = module.project1.project_id
   network_name            = "test-network"
