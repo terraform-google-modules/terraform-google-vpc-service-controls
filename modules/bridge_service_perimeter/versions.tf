@@ -25,7 +25,7 @@ terraform {
   }
 
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-vpc-service-controls:bridge_service_perimeter/v7.1.3"
+    module_name = "blueprints/terraform/terraform-google-vpc-service-controls:bridge_service_perimeter/v7.2.0"
   }
 
 }
