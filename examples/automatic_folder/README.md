@@ -43,7 +43,7 @@ Terraform is used to set up a new service perimeter and to deploy a Cloud Functi
 3. Create a Google Cloud Storage bucket to hold Terraform state.
 
     ```sh
-    gsutil mb -p YOUR_PROJECT gs://YOUR_BUCKET_NAME
+    gcloud storage buckets create --project YOUR_PROJECT gs://YOUR_BUCKET_NAME
     ```
 
 4. Copy `backend.tf.sample` to `backend.tf` and change the bucket to match your own on line 5.
