@@ -87,9 +87,6 @@ resource "google_access_context_manager_service_perimeter_ingress_policy" "ingre
       }
     }
   }
-  lifecycle {
-    create_before_destroy = true
-  }
 
   depends_on = [google_access_context_manager_service_perimeter_resource.service_perimeter_resource]
 }
@@ -134,9 +131,6 @@ resource "google_access_context_manager_service_perimeter_egress_policy" "egress
         }
       }
     }
-  }
-  lifecycle {
-    create_before_destroy = true
   }
 }
 
@@ -183,9 +177,6 @@ resource "google_access_context_manager_service_perimeter_dry_run_ingress_policy
       }
     }
   }
-  lifecycle {
-    create_before_destroy = true
-  }
 
   depends_on = [google_access_context_manager_service_perimeter_dry_run_resource.dry_run_service_perimeter_resource]
 }
@@ -230,8 +221,5 @@ resource "google_access_context_manager_service_perimeter_dry_run_egress_policy"
         }
       }
     }
-  }
-  lifecycle {
-    create_before_destroy = true
   }
 }
