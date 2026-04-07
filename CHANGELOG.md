@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [8.0.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v7.2.0...v8.0.0) (2026-04-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove create before destroy lifecycle rule from service perimeter policy resources ([#227](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/227))
+
+### Bug Fixes
+
+* remove create before destroy lifecycle rule from service perimeter policy resources ([#227](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/227)) ([fa6ec8c](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/fa6ec8c1650927a9039c9e63eeaa69f685baa8f9))
+
 ## [7.2.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v7.1.3...v7.2.0) (2025-09-16)
 
 
