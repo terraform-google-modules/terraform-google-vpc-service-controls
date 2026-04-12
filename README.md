@@ -7,10 +7,11 @@ This module is meant for use with Terraform 1.3+ and tested using Terraform 1.3+
 
 ## Version
 
-Current version is 5.X. Upgrade guides:
+Current version is 8.X. Upgrade guides:
 
 - [3.X -> 4.0.](/docs/upgrading_to_v4.0.md)
 - [4.X -> 6.0.](/docs/upgrading_to_v6.0.md)
+- [7.X -> 8.0.](/docs/upgrading_to_v8.0.md)
 
 ## Usage
 The root module only handles the configuration of the [access_context_manager_policy resource](https://www.terraform.io/docs/providers/google/r/access_context_manager_access_policy.html). For examples on how to use the root module with along with other submodules to configure all of VPC Service Controls and Access Context Manager resources, see the [examples](./examples/) folder and the [modules](./modules/) folder
