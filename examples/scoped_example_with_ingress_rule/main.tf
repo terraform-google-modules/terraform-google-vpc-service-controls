@@ -43,7 +43,7 @@ locals {
 
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
-  version = "~> 7.1"
+  version = "~> 8.0"
 
   parent_id   = var.parent_id
   policy_name = var.policy_name
@@ -54,7 +54,7 @@ module "access_context_manager_policy" {
 
 module "access_level_members" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "~> 7.1"
+  version = "~> 8.0"
 
   description = "Simple Example Access Level"
   policy      = module.access_context_manager_policy.policy_id
@@ -65,7 +65,7 @@ module "access_level_members" {
 
 module "access_level_members_dry_run" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "~> 7.1"
+  version = "~> 8.0"
 
   description = "Simple Example Access Level dry-run"
   policy      = module.access_context_manager_policy.policy_id
@@ -86,7 +86,7 @@ resource "time_sleep" "wait_for_members" {
 
 module "regular_service_perimeter_1" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version = "~> 7.1"
+  version = "~> 8.0"
 
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name
