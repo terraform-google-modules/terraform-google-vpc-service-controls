@@ -15,8 +15,8 @@
  */
 
 locals {
-  ingress_policies_dry_run = [
-    {
+  ingress_policies_dry_run = {
+    "dry-run" = {
       title = "dry-run"
       from = {
         identities = var.read_bucket_identities
@@ -38,7 +38,7 @@ locals {
         }
       }
     }
-  ]
+  }
 }
 
 module "access_context_manager_policy" {
@@ -99,8 +99,8 @@ module "regular_service_perimeter_1" {
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
-  ingress_policies = [
-    {
+  ingress_policies_map = {
+    "Allow Access from everywhere" = {
       title = "Allow Access from everywhere"
       from = {
         identities = var.read_bucket_identities
@@ -122,7 +122,7 @@ module "regular_service_perimeter_1" {
         }
       }
     },
-    {
+    "Allow Access from project" = {
       title = "Allow Access from project"
       from = {
         sources = {
@@ -145,7 +145,7 @@ module "regular_service_perimeter_1" {
         }
       }
     },
-    {
+    "from bucket read identity" = {
       title = "from bucket read identity"
       from = {
         identities = var.read_bucket_identities
@@ -167,11 +167,9 @@ module "regular_service_perimeter_1" {
         }
       }
     }
-  ]
+  }
 
-  ingress_policies_dry_run      = distinct(tolist(local.ingress_policies_dry_run))
-  ingress_policies_keys_dry_run = ["rule_one"]
-
+  ingress_policies_dry_run_map = local.ingress_policies_dry_run
 
   shared_resources = {
     all = [var.protected_project_ids["number"]]
