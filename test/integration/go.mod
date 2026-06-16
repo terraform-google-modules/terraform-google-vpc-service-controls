@@ -2,13 +2,13 @@ module github.com/GoogleCloudPlatform/terraform-google-vpc-service-controls/test
 
 go 1.23.0
 
-toolchain go1.24.7
+toolchain go1.24.13
 
 require (
 	github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.17.9
 	github.com/gruntwork-io/terratest v0.50.0
 	github.com/stretchr/testify v1.11.1
-	github.com/tidwall/gjson v1.18.0
+	github.com/tidwall/gjson v1.19.0
 )
 
 require (
