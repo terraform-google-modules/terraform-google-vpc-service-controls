@@ -72,25 +72,25 @@ variable "resource_keys_dry_run" {
 }
 
 variable "ingress_policies_keys" {
-  description = "A list of keys to use for the Terraform state. The order should correspond to var.ingress_policies and the keys must not be dynamically computed. If `null`, var.ingress_policies will be used as keys."
+  description = "[DEPRECATED] Please use `ingress_policies_map`. A list of keys to use for the Terraform state. The order should correspond to var.ingress_policies and the keys must not be dynamically computed. If `null`, var.ingress_policies will be used as keys."
   type        = list(string)
   default     = null
 }
 
 variable "egress_policies_keys" {
-  description = "A list of keys to use for the Terraform state. The order should correspond to var.egress_policies and the keys must not be dynamically computed. If `null`, var.egress_policies will be used as keys."
+  description = "[DEPRECATED] Please use `egress_policies_map`. A list of keys to use for the Terraform state. The order should correspond to var.egress_policies and the keys must not be dynamically computed. If `null`, var.egress_policies will be used as keys."
   type        = list(string)
   default     = null
 }
 
 variable "ingress_policies_keys_dry_run" {
-  description = "(Dry-run) A list of keys to use for the Terraform state. The order should correspond to var.ingress_policies_dry_run and the keys must not be dynamically computed. If `null`, var.ingress_policies_dry_run will be used as keys."
+  description = "[DEPRECATED] Please use `ingress_policies_map`. (Dry-run) A list of keys to use for the Terraform state. The order should correspond to var.ingress_policies_dry_run and the keys must not be dynamically computed. If `null`, var.ingress_policies_dry_run will be used as keys."
   type        = list(string)
   default     = null
 }
 
 variable "egress_policies_keys_dry_run" {
-  description = "(Dry-run) A list of keys to use for the Terraform state. The order should correspond to var.egress_policies_dry_run and the keys must not be dynamically computed. If `null`, var.egress_policies_dry_run will be used as keys."
+  description = "[DEPRECATED] Please use `egress_policies_map`. (Dry-run) A list of keys to use for the Terraform state. The order should correspond to var.egress_policies_dry_run and the keys must not be dynamically computed. If `null`, var.egress_policies_dry_run will be used as keys."
   type        = list(string)
   default     = null
 }
@@ -108,7 +108,7 @@ variable "shared_resources" {
 }
 
 variable "egress_policies" {
-  description = "A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress_from and egress_to.\n\nExample: `[{ from={ identities=[], identity_type=\"ID_TYPE\" }, to={ resources=[], operations={ \"SRV_NAME\"={ OP_TYPE=[] }}}}]`\n\nValid Values:\n`ID_TYPE` = `null` or `IDENTITY_TYPE_UNSPECIFIED` (only allow indentities from list); `ANY_IDENTITY`; `ANY_USER_ACCOUNT`; `ANY_SERVICE_ACCOUNT`\n`SRV_NAME` = \"`*`\" (allow all services) or [Specific Services](https://cloud.google.com/vpc-service-controls/docs/supported-products#supported_products)\n`OP_TYPE` = [methods](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions) or [permissions](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions)"
+  description = "[DEPRECATED] Please use `egress_policies_map`. A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress_from and egress_to.\n\nExample: `[{ from={ identities=[], identity_type=\"ID_TYPE\" }, to={ resources=[], operations={ \"SRV_NAME\"={ OP_TYPE=[] }}}}]`\n\nValid Values:\n`ID_TYPE` = `null` or `IDENTITY_TYPE_UNSPECIFIED` (only allow indentities from list); `ANY_IDENTITY`; `ANY_USER_ACCOUNT`; `ANY_SERVICE_ACCOUNT`\n`SRV_NAME` = \"`*`\" (allow all services) or [Specific Services](https://cloud.google.com/vpc-service-controls/docs/supported-products#supported_products)\n`OP_TYPE` = [methods](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions) or [permissions](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions)"
   type = list(object({
     title = optional(string, null)
     from = object({
@@ -133,7 +133,7 @@ variable "egress_policies" {
 }
 
 variable "ingress_policies" {
-  description = "A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress_from and ingress_to.\n\nExample: `[{ from={ sources={ resources=[], access_levels=[] }, identities=[], identity_type=\"ID_TYPE\" }, to={ resources=[], operations={ \"SRV_NAME\"={ OP_TYPE=[] }}}}]`\n\nValid Values:\n`ID_TYPE` = `null` or `IDENTITY_TYPE_UNSPECIFIED` (only allow indentities from list); `ANY_IDENTITY`; `ANY_USER_ACCOUNT`; `ANY_SERVICE_ACCOUNT`\n`SRV_NAME` = \"`*`\" (allow all services) or [Specific Services](https://cloud.google.com/vpc-service-controls/docs/supported-products#supported_products)\n`OP_TYPE` = [methods](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions) or [permissions](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions)"
+  description = "[DEPRECATED] Please use `ingress_policies_map`. A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress_from and ingress_to.\n\nExample: `[{ from={ sources={ resources=[], access_levels=[] }, identities=[], identity_type=\"ID_TYPE\" }, to={ resources=[], operations={ \"SRV_NAME\"={ OP_TYPE=[] }}}}]`\n\nValid Values:\n`ID_TYPE` = `null` or `IDENTITY_TYPE_UNSPECIFIED` (only allow indentities from list); `ANY_IDENTITY`; `ANY_USER_ACCOUNT`; `ANY_SERVICE_ACCOUNT`\n`SRV_NAME` = \"`*`\" (allow all services) or [Specific Services](https://cloud.google.com/vpc-service-controls/docs/supported-products#supported_products)\n`OP_TYPE` = [methods](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions) or [permissions](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions)"
   type = list(object({
     title = optional(string, null)
     from = object({
@@ -157,7 +157,7 @@ variable "ingress_policies" {
 }
 
 variable "egress_policies_dry_run" {
-  description = "A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress_from and egress_to. Use same formatting as `egress_policies`."
+  description = "[DEPRECATED] Please use `egress_policies_dry_run_map`. A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress_from and egress_to. Use same formatting as `egress_policies`."
   type = list(object({
     title = optional(string, null)
     from = object({
@@ -182,7 +182,7 @@ variable "egress_policies_dry_run" {
 }
 
 variable "ingress_policies_dry_run" {
-  description = "A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress_from and ingress_to. Use same formatting as `ingress_policies`."
+  description = "[DEPRECATED] Please use `ingress_policies_dry_run_map`. A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress_from and ingress_to. Use same formatting as `ingress_policies`."
   type = list(object({
     title = optional(string, null)
     from = object({
@@ -215,4 +215,102 @@ variable "vpc_accessible_services_dry_run" {
   description = "(Dry-run) A list of [VPC Accessible Services](https://cloud.google.com/vpc-service-controls/docs/vpc-accessible-services) that will be restricted within the VPC Network. Use [\"*\"] to allow any service (disable VPC Accessible Services); Use [\"RESTRICTED-SERVICES\"] to match the restricted services list; Use [] to not allow any service."
   type        = list(string)
   default     = ["*"]
+}
+
+variable "ingress_policies_map" {
+  description = "A map of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference). The map key acts as the policy identifier. Each object has a `from` and `to` value that describes ingress_from and ingress_to.\n\nExample: ` { \"my_policy\" = { from={ sources={ resources=[], access_levels=[] }, identities=[], identity_type=\"ID_TYPE\" }, to={ resources=[], operations={ \"SRV_NAME\"={ OP_TYPE=[] }}}} }`\n\nValid Values:\n`ID_TYPE` = `null` or `IDENTITY_TYPE_UNSPECIFIED` (only allow indentities from list); `ANY_IDENTITY`; `ANY_USER_ACCOUNT`; `ANY_SERVICE_ACCOUNT`\n`SRV_NAME` = \"`*`\" (allow all services) or [Specific Services](https://cloud.google.com/vpc-service-controls/docs/supported-products#supported_products)\n`OP_TYPE` = [methods](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions) or [permissions](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions)"
+  type = map(object({
+    title = optional(string, null)
+    from = object({
+      sources = optional(object({
+        resources     = optional(list(string), [])
+        access_levels = optional(list(string), [])
+      }), {}),
+      identity_type = optional(string, null)
+      identities    = optional(list(string), null)
+    })
+    to = object({
+      operations = optional(map(object({
+        methods     = optional(list(string), [])
+        permissions = optional(list(string), [])
+      })), {}),
+      roles     = optional(list(string), null)
+      resources = optional(list(string), ["*"])
+    })
+  }))
+  default = {}
+}
+
+variable "ingress_policies_dry_run_map" {
+  description = "A map of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference). The map key acts as the policy identifier. Each object has a `from` and `to` value that describes ingress_from and ingress_to. Use same formatting as `ingress_policies_map`."
+  type = map(object({
+    title = optional(string, null)
+    from = object({
+      sources = optional(object({
+        resources     = optional(list(string), [])
+        access_levels = optional(list(string), [])
+      }), {}),
+      identity_type = optional(string, null)
+      identities    = optional(list(string), null)
+    })
+    to = object({
+      operations = optional(map(object({
+        methods     = optional(list(string), [])
+        permissions = optional(list(string), [])
+      })), {}),
+      roles     = optional(list(string), null)
+      resources = optional(list(string), ["*"])
+    })
+  }))
+  default = {}
+}
+
+variable "egress_policies_map" {
+  description = "A map of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference). The map key acts as the policy identifier. Each object has a `from` and `to` value that describes egress_from and egress_to.\n\nExample: `[{ from={ identities=[], identity_type=\"ID_TYPE\" }, to={ resources=[], operations={ \"SRV_NAME\"={ OP_TYPE=[] }}}}]`\n\nValid Values:\n`ID_TYPE` = `null` or `IDENTITY_TYPE_UNSPECIFIED` (only allow indentities from list); `ANY_IDENTITY`; `ANY_USER_ACCOUNT`; `ANY_SERVICE_ACCOUNT`\n`SRV_NAME` = \"`*`\" (allow all services) or [Specific Services](https://cloud.google.com/vpc-service-controls/docs/supported-products#supported_products)\n`OP_TYPE` = [methods](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions) or [permissions](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions)"
+  type = map(object({
+    title = optional(string, null)
+    from = object({
+      sources = optional(object({
+        resources     = optional(list(string), [])
+        access_levels = optional(list(string), [])
+      }), {}),
+      identity_type = optional(string, null)
+      identities    = optional(list(string), null)
+    })
+    to = object({
+      operations = optional(map(object({
+        methods     = optional(list(string), [])
+        permissions = optional(list(string), [])
+      })), {}),
+      roles              = optional(list(string), null)
+      resources          = optional(list(string), ["*"])
+      external_resources = optional(list(string), [])
+    })
+  }))
+  default = {}
+}
+
+variable "egress_policies_dry_run_map" {
+  description = "A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference). The map key acts as the policy identifier. Each object has a `from` and `to` value that describes egress_from and egress_to. Use same formatting as `egress_policies`."
+  type = map(object({
+    title = optional(string, null)
+    from = object({
+      sources = optional(object({
+        resources     = optional(list(string), [])
+        access_levels = optional(list(string), [])
+      }), {}),
+      identity_type = optional(string, null)
+      identities    = optional(list(string), null)
+    })
+    to = object({
+      operations = optional(map(object({
+        methods     = optional(list(string), [])
+        permissions = optional(list(string), [])
+      })), {}),
+      roles              = optional(list(string), null)
+      resources          = optional(list(string), ["*"])
+      external_resources = optional(list(string), [])
+    })
+  }))
+  default = {}
 }

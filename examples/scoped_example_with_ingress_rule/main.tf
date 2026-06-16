@@ -15,8 +15,8 @@
  */
 
 locals {
-  ingress_policies_dry_run = [
-    {
+  ingress_policies_dry_run = {
+    "dry-run" = {
       title = "dry-run"
       from = {
         identities = var.read_bucket_identities
@@ -38,12 +38,12 @@ locals {
         }
       }
     }
-  ]
+  }
 }
 
 module "access_context_manager_policy" {
   source  = "terraform-google-modules/vpc-service-controls/google"
-  version = "~> 7.1"
+  version = "~> 8.0"
 
   parent_id   = var.parent_id
   policy_name = var.policy_name
@@ -54,7 +54,7 @@ module "access_context_manager_policy" {
 
 module "access_level_members" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "~> 7.1"
+  version = "~> 8.0"
 
   description = "Simple Example Access Level"
   policy      = module.access_context_manager_policy.policy_id
@@ -65,7 +65,7 @@ module "access_level_members" {
 
 module "access_level_members_dry_run" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-  version = "~> 7.1"
+  version = "~> 8.0"
 
   description = "Simple Example Access Level dry-run"
   policy      = module.access_context_manager_policy.policy_id
@@ -86,7 +86,7 @@ resource "time_sleep" "wait_for_members" {
 
 module "regular_service_perimeter_1" {
   source  = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version = "~> 7.1"
+  version = "~> 8.0"
 
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name
@@ -99,8 +99,8 @@ module "regular_service_perimeter_1" {
 
   restricted_services = ["bigquery.googleapis.com", "storage.googleapis.com"]
 
-  ingress_policies = [
-    {
+  ingress_policies_map = {
+    "Allow Access from everywhere" = {
       title = "Allow Access from everywhere"
       from = {
         identities = var.read_bucket_identities
@@ -122,7 +122,7 @@ module "regular_service_perimeter_1" {
         }
       }
     },
-    {
+    "Allow Access from project" = {
       title = "Allow Access from project"
       from = {
         sources = {
@@ -145,7 +145,7 @@ module "regular_service_perimeter_1" {
         }
       }
     },
-    {
+    "from bucket read identity" = {
       title = "from bucket read identity"
       from = {
         identities = var.read_bucket_identities
@@ -167,11 +167,9 @@ module "regular_service_perimeter_1" {
         }
       }
     }
-  ]
+  }
 
-  ingress_policies_dry_run      = distinct(tolist(local.ingress_policies_dry_run))
-  ingress_policies_keys_dry_run = ["rule_one"]
-
+  ingress_policies_dry_run_map = local.ingress_policies_dry_run
 
   shared_resources = {
     all = [var.protected_project_ids["number"]]
