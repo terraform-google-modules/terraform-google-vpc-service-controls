@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [8.1.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v8.0.0...v8.1.0) (2026-06-17)
+
+
+### Features
+
+* migrate VPC-SC policies to map structures and deprecate list variables ([#242](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/242)) ([606c3bc](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/606c3bc086066eee33c0b759a84483530d8e5f57))
+
 ## [8.0.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v7.2.0...v8.0.0) (2026-04-06)
 
 
