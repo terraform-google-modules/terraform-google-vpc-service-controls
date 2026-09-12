@@ -16,6 +16,22 @@
 
 locals {
   dry_run = (length(var.restricted_services_dry_run) > 0 || length(var.resources_dry_run) > 0 || length(var.access_levels_dry_run) > 0 || length(var.egress_policies_dry_run) > 0 || length(var.ingress_policies_dry_run) > 0 || !contains(var.vpc_accessible_services_dry_run, "*"))
+
+  # Mirror of local.dry_run for the enforced side, so that `status` is only
+  # rendered when the caller has actually asked for enforced configuration.
+  #
+  # Without this, a dry-run-only perimeter emits an empty `status {}`. The API
+  # does not store an empty status, so it is absent from every subsequent read
+  # and the resource never converges: `terraform plan` reports `+ status {}`
+  # immediately after a clean apply, forever.
+  #
+  # The first three inputs are the ones the `status` block below actually
+  # carries. `resources` and the ingress/egress policies are managed by their
+  # own resources rather than by this block, but they are included here
+  # deliberately: gating on them too keeps `status` rendering for every
+  # configuration that renders it today except the genuinely-empty one, which
+  # keeps the behaviour change as small as possible.
+  enforced = (length(var.restricted_services) > 0 || length(var.access_levels) > 0 || !contains(var.vpc_accessible_services, "*") || length(var.resources) > 0 || length(var.egress_policies) > 0 || length(var.ingress_policies) > 0 || length(var.egress_policies_map) > 0 || length(var.ingress_policies_map) > 0)
 }
 
 resource "google_access_context_manager_service_perimeter" "regular_service_perimeter" {
@@ -26,20 +42,23 @@ resource "google_access_context_manager_service_perimeter" "regular_service_peri
   title          = var.perimeter_name
   description    = var.description
 
-  status {
-    restricted_services = var.restricted_services
-    access_levels = formatlist(
-      "accessPolicies/${var.policy}/accessLevels/%s",
-      var.access_levels
-    )
+  dynamic "status" {
+    for_each = local.enforced ? ["enforced"] : []
+    content {
+      restricted_services = var.restricted_services
+      access_levels = formatlist(
+        "accessPolicies/${var.policy}/accessLevels/%s",
+        var.access_levels
+      )
 
 
 
-    dynamic "vpc_accessible_services" {
-      for_each = contains(var.vpc_accessible_services, "*") ? [] : [var.vpc_accessible_services]
-      content {
-        enable_restriction = true
-        allowed_services   = vpc_accessible_services.value
+      dynamic "vpc_accessible_services" {
+        for_each = contains(var.vpc_accessible_services, "*") ? [] : [var.vpc_accessible_services]
+        content {
+          enable_restriction = true
+          allowed_services   = vpc_accessible_services.value
+        }
       }
     }
   }
