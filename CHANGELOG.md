@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [8.2.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v8.1.0...v8.2.0) (2026-09-09)
+
+
+### Features
+
+* **deps:** Update Terraform google to v8 ([#248](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/issues/248)) ([ba9db06](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/commit/ba9db065aff57c5432a62838e8f75d06502e1362))
+
 ## [8.1.0](https://github.com/terraform-google-modules/terraform-google-vpc-service-controls/compare/v8.0.0...v8.1.0) (2026-07-27)
 
 
