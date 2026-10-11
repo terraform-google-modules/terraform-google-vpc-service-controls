@@ -145,6 +145,31 @@ steps:
     - verify-scoped-example-access-level-dry-run
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestScopedExampleAccessLevelDryRun --stage destroy --verbose']
+
+# dry-run-only perimeter (no enforced configuration)
+- id: init-simple-example-dry-run-only
+  waitFor:
+    - destroy-scoped-example-access-level-dry-run
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestSimpleExampleDryRunOnly --stage init --verbose']
+
+- id: apply-simple-example-dry-run-only
+  waitFor:
+    - init-simple-example-dry-run-only
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestSimpleExampleDryRunOnly --stage apply --verbose']
+
+- id: verify-simple-example-dry-run-only
+  waitFor:
+    - apply-simple-example-dry-run-only
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestSimpleExampleDryRunOnly --stage verify --verbose']
+
+- id: destroy-simple-example-dry-run-only
+  waitFor:
+    - verify-simple-example-dry-run-only
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestSimpleExampleDryRunOnly --stage destroy --verbose']
 tags:
 - 'ci'
 - 'integration'
